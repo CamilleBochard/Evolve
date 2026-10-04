@@ -13,9 +13,12 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# environment variables
+# environment variables and secrets
 .env
-.env.production
+.env.*
+!.env.example
+*.pem
+*.key
 
 # macOS-specific files
 .DS_Store
@@ -23,4 +26,19 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+
+
+inspi_portfolio
+
+# design mockups (contain personal data)
+maquettes/
+
+# Claude Code, agents IA et documents produits par les skills
+.claude/
 CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+docs/conception.md
+docs/roadmap.md
+docs/ressources-architecture.txt
+docs/reprise.md
