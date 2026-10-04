@@ -1,46 +1,33 @@
-# Astro Starter Kit: Basics
+# Evolve
+
+Portfolio de Camille Bochard, développeur. Onze ans de couvreur-zingueur, puis un changement de classe vers le développement web : le site raconte ce parcours sous la forme d'une interface de RPG.
+
+Site : _à venir_
+
+## Stack
+
+- [Astro](https://astro.build) en sortie statique, avec des islands [React](https://react.dev) en TypeScript pour les parties interactives.
+- Image Docker servie derrière Traefik sur un VPS.
+- CI/CD avec GitHub Actions.
+
+## Lancer le projet en local
+
+Prérequis : Node 22 (la version est fixée dans `.nvmrc`).
 
 ```sh
-npm create astro@latest -- --template basics
+nvm use
+npm ci
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Le site est alors disponible sur `http://localhost:4321`.
 
-## 🚀 Project Structure
+| Commande          | Action                                         |
+| :---------------- | :--------------------------------------------- |
+| `npm run dev`     | Serveur de développement                       |
+| `npm run build`   | Construction du site statique dans `dist/`     |
+| `npm run preview` | Prévisualisation du build                      |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Licence
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Le code est sous licence MIT. Le contenu (textes, images, design) reste sous tous droits réservés. Le détail est dans [LICENSE](LICENSE).
