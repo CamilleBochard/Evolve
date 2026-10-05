@@ -32,13 +32,3 @@ inspi_portfolio
 
 # design mockups (contain personal data)
 maquettes/
-
-# Claude Code, agents IA et documents produits par les skills
-.claude/
-CLAUDE.md
-CLAUDE.local.md
-AGENTS.md
-docs/conception.md
-docs/roadmap.md
-docs/ressources-architecture.txt
-docs/reprise.md
