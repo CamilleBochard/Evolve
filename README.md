@@ -1,33 +1,39 @@
-# Evolve
+<div align="center">
 
-Portfolio de Camille Bochard, développeur. Onze ans de couvreur-zingueur, puis un changement de classe vers le développement web : le site raconte ce parcours sous la forme d'une interface de RPG.
+# ▸ EVOLVE
 
-Site : _à venir_
+**Un portfolio qui se parcourt comme un menu de jeu vidéo.**
 
-## Stack
+<br>
 
-- [Astro](https://astro.build) en sortie statique, avec des islands [React](https://react.dev) en TypeScript pour les parties interactives.
-- Image Docker servie derrière Traefik sur un VPS.
-- CI/CD avec GitHub Actions.
+![Astro](https://img.shields.io/badge/Astro-1b1b1b?style=for-the-badge&logo=astro&logoColor=ff3d1f)
+![React](https://img.shields.io/badge/React-1b1b1b?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-1b1b1b?style=for-the-badge&logo=typescript&logoColor=3178C6)
+![Docker](https://img.shields.io/badge/Docker-1b1b1b?style=for-the-badge&logo=docker&logoColor=2496ED)
 
-## Lancer le projet en local
+![Licence](https://img.shields.io/badge/code-MIT-ff3d1f?style=flat-square&labelColor=1b1b1b)
+![Visiteurs](https://visitor-badge.laobi.icu/badge?page_id=CamilleBochard.Evolve&left_text=visiteurs&left_color=%231b1b1b&right_color=%23ff3d1f)
 
-Prérequis : Node 22 (la version est fixée dans `.nvmrc`).
+</div>
 
-```sh
-nvm use
-npm ci
-npm run dev
-```
+---
 
-Le site est alors disponible sur `http://localhost:4321`.
+## ◆ Le concept
 
-| Commande          | Action                                         |
-| :---------------- | :--------------------------------------------- |
-| `npm run dev`     | Serveur de développement                       |
-| `npm run build`   | Construction du site statique dans `dist/`     |
-| `npm run preview` | Prévisualisation du build                      |
+Pas de page « à propos » classique : le site emprunte les codes des RPG. On y navigue entre des écrans comme dans un menu pause, on consulte une fiche de personnage, un arbre de compétences, un journal de quêtes.
 
-## Licence
+Le design mêle brutalisme technique et HUD de jeu, avec un thème jour et un thème nuit.
 
-Le code est sous licence MIT. Le contenu (textes, images, design) reste sous tous droits réservés. Le détail est dans [LICENSE](LICENSE).
+## ◆ La stack
+
+**Astro** génère un site statique : chaque écran est une vraie page, servie en HTML sans JavaScript par défaut.
+
+**React** n'intervient que là où il faut de l'interactivité, sous forme d'islands hydratées à la demande. Le reste de la page reste léger.
+
+Le tout est écrit en **TypeScript**, empaqueté dans une image **Docker** et servi derrière Traefik.
+
+---
+
+<div align="center">
+<sub>Code sous licence MIT · contenu et design tous droits réservés (voir <a href="LICENSE">LICENSE</a>)</sub>
+</div>
