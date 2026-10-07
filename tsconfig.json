@@ -5,7 +5,9 @@
     "**/*"
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "maquettes",
+    "inspi_portfolio"
   ],
   "compilerOptions": {
     "jsx": "react-jsx",
