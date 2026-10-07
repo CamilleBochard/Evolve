@@ -44,7 +44,9 @@ export default defineConfig({
           {
             weight: '200 800',
             style: 'italic',
-            src: [`${FONTS_DIRECTORY}/PlusJakartaSans-Italic-VariableFont_wght.woff2`],
+            src: [
+              `${FONTS_DIRECTORY}/PlusJakartaSans-Italic-VariableFont_wght.woff2`,
+            ],
           },
         ],
       },

@@ -1,14 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [
-    ".astro/types.d.ts",
-    "**/*"
-  ],
-  "exclude": [
-    "dist",
-    "maquettes",
-    "inspi_portfolio"
-  ],
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "maquettes", "inspi_portfolio"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "react"
