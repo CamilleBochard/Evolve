@@ -4,5 +4,19 @@ import Layout from '../layouts/Layout.astro';
 
 ---
 <Layout>
-    <h1>Journal</h1>
+
+    <div class="name-container">
+        <span>Bochard</span>
+        <span>Camille</span>
+    </div>
+    <style>
+        .name-container {
+            display: flex;
+            flex-direction: column;
+            font-family: var(--font-syne);
+            font-size: 100px;
+            font-weight:700 ;
+            background-color: lavender;
+        }
+    </style>
 </Layout>
