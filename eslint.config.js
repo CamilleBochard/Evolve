@@ -12,8 +12,8 @@ import typescriptEslint from 'typescript-eslint';
 // `import` ESM du même plugin ici vide ses règles d'accessibilité pour les
 // fichiers .astro (constaté avec eslint-plugin-astro 3.2.1 et
 // eslint-plugin-jsx-a11y-x 0.2.0). On le charge donc de la même façon.
-const require = createRequire(import.meta.url);
-const jsxA11yModule = require('eslint-plugin-jsx-a11y-x');
+const requireFromConfig = createRequire(import.meta.url);
+const jsxA11yModule = requireFromConfig('eslint-plugin-jsx-a11y-x');
 const jsxA11y = jsxA11yModule.default;
 
 export default defineConfig([
