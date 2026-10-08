@@ -1,0 +1,51 @@
+# Mises à jour automatiques des dépendances.
+# L'écosystème Docker sera ajouté avec le Dockerfile (phase 3).
+version: 2
+
+updates:
+  # Dépendances npm (package.json)
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Paris
+    # Attendre avant de proposer une version toute neuve : une version
+    # publiée par un compte compromis est en général retirée en quelques
+    # jours. Ne s'applique pas aux mises à jour de sécurité.
+    cooldown:
+      default-days: 5
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3
+    # Mineures et correctifs regroupés dans une seule pull request par
+    # semaine ; chaque version majeure arrive seule, pour être relue.
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+    # Titres conformes au contrôle Conventional Commits :
+    # « chore(deps): … » et « chore(deps-dev): … ».
+    commit-message:
+      prefix: chore
+      prefix-development: chore
+      include: scope
+
+  # Actions GitHub des workflows (épinglées par SHA, mises à jour avec
+  # leur commentaire de version)
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Paris
+    cooldown:
+      default-days: 7
+    groups:
+      github-actions:
+        patterns: ['*']
+    # Titres : « ci(deps): … »
+    commit-message:
+      prefix: ci
+      include: scope
