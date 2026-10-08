@@ -1,0 +1,12 @@
+# Liste blanche : tout est exclu, puis seul ce qui sert au build est admis.
+# Un fichier local oublié (secrets, maquettes, notes) ne peut pas entrer
+# dans l'image par accident.
+*
+
+!package.json
+!package-lock.json
+!astro.config.mjs
+!tsconfig.json
+!public/
+!src/
+!docker/
