@@ -1,0 +1,55 @@
+# Contrôles qualité sur chaque pull request et sur master.
+# La CI n'appelle que les scripts npm du projet : local et CI font la même chose.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+# Lecture seule : la CI n'a besoin de rien écrire dans le dépôt.
+permissions:
+  contents: read
+
+# Un nouveau push sur une pull request annule l'exécution précédente,
+# devenue obsolète. Sur master, chaque exécution va au bout.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  quality:
+    name: Quality checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      # Actions épinglées par SHA de commit : un tag peut être déplacé, pas un SHA.
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
