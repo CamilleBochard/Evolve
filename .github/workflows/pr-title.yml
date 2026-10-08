@@ -1,0 +1,36 @@
+# Vérifie que le titre de chaque pull request suit Conventional Commits.
+# Avec le merge squash, ce titre devient le message du commit sur master.
+name: PR title
+
+on:
+  pull_request:
+    # « edited » relance le contrôle quand le titre change ; « synchronize »
+    # le relance à chaque nouveau commit, pour qu'il couvre le dernier commit.
+    types: [opened, edited, reopened, synchronize]
+
+# Aucun droit : le contrôle lit seulement le titre fourni par l'événement.
+permissions: {}
+
+concurrency:
+  group: pr-title-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  conventional-title:
+    name: Conventional title
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: .github/scripts
+
+      # Le titre passe par une variable d'environnement, jamais directement
+      # dans le script : un titre piégé ne peut pas injecter de commande.
+      - name: Check title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: .github/scripts/check-pr-title.sh
