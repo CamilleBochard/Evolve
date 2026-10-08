@@ -1,0 +1,22 @@
+---
+// Surface hachurée en diagonale. Taille et position données par le parent.
+// Les autres attributs sont transmis à l'élément racine (voir Crosshair).
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'span'>;
+
+const { class: className, ...attributes } = Astro.props;
+---
+
+<span
+  class:list={['hatch-block', className]}
+  aria-hidden="true"
+  {...attributes}
+></span>
+
+<style>
+  .hatch-block {
+    display: block;
+    background: var(--hatch);
+  }
+</style>

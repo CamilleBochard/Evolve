@@ -1,0 +1,34 @@
+---
+// Barre du haut du cadre : logo et statut du site.
+import Brand from '../atoms/Brand.astro';
+import BracketLabel from '../atoms/BracketLabel.astro';
+---
+
+<header class="top-bar">
+  <Brand href="/" />
+  <span class="top-bar-status">
+    <BracketLabel text="Statut" /> Portfolio en construction
+  </span>
+</header>
+
+<style>
+  .top-bar {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--color-paper);
+    border-bottom: var(--line);
+  }
+
+  @media (max-width: 720px) {
+    .top-bar {
+      justify-content: space-between;
+      gap: 14px;
+      padding: 0 16px;
+      font-size: 11px;
+    }
+  }
+</style>

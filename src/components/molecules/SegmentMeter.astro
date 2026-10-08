@@ -1,0 +1,82 @@
+---
+// Jauge segmentée : nom, segments allumés selon le pourcentage, valeur.
+// Sans valeur (null), tous les segments restent éteints et la valeur vaut « -- ».
+interface Props {
+  label: string;
+  percent: number | null;
+}
+
+const { label, percent } = Astro.props;
+
+const SEGMENT_COUNT = 20;
+const HIGH_LOAD_PERCENT = 80;
+
+let litSegmentCount = 0;
+let valueText = '--';
+let isHighLoad = false;
+
+if (percent !== null) {
+  litSegmentCount = Math.round((percent / 100) * SEGMENT_COUNT);
+  valueText = `${Math.round(percent)} %`;
+  isHighLoad = percent >= HIGH_LOAD_PERCENT;
+}
+
+const segments: boolean[] = [];
+for (let index = 0; index < SEGMENT_COUNT; index++) {
+  const isLit = index < litSegmentCount;
+  segments.push(isLit);
+}
+---
+
+<div class:list={['segment-meter', { 'segment-meter--high': isHighLoad }]}>
+  <span class="segment-meter-label">{label}</span>
+  <span class="segment-meter-segments" aria-hidden="true">
+    {segments.map((isLit) => (
+      <i class:list={['segment', { 'segment--lit': isLit }]} />
+    ))}
+  </span>
+  <span class="segment-meter-value">{valueText}</span>
+</div>
+
+<style>
+  .segment-meter {
+    display: grid;
+    grid-template-columns: 74px 1fr 44px;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .segment-meter-segments {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 2px;
+  }
+
+  .segment {
+    height: 12px;
+    border: 1px solid var(--color-ink-faint);
+  }
+
+  .segment--lit {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+
+  .segment-meter--high .segment--lit {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .segment-meter-value {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 720px) {
+    .segment-meter {
+      grid-template-columns: 64px 1fr 40px;
+    }
+  }
+</style>

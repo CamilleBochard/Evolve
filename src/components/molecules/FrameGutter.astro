@@ -1,0 +1,56 @@
+---
+// Gouttière latérale du cadre : bande hachurée et texte vertical.
+import HatchBlock from '../atoms/HatchBlock.astro';
+
+type Side = 'left' | 'right';
+
+interface Props {
+  side: Side;
+  text: string;
+}
+
+const { side, text } = Astro.props;
+---
+
+<div class:list={['frame-gutter', `frame-gutter--${side}`]} aria-hidden="true">
+  <HatchBlock class="frame-gutter-hatch" />
+  <span class="frame-gutter-text">{text}</span>
+</div>
+
+<style>
+  .frame-gutter {
+    position: relative;
+    background: var(--color-paper);
+  }
+
+  .frame-gutter--left {
+    border-right: var(--line);
+  }
+
+  .frame-gutter--right {
+    border-left: var(--line);
+  }
+
+  .frame-gutter-hatch {
+    position: absolute;
+    top: 40%;
+    right: 10px;
+    left: 10px;
+    height: 120px;
+    opacity: 0.5;
+  }
+
+  /* Texte vertical, lu de bas en haut */
+  .frame-gutter-text {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    white-space: nowrap;
+    color: var(--color-ink-soft);
+  }
+</style>

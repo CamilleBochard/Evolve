@@ -1,0 +1,31 @@
+---
+// Coins de repérage façon impression : en haut à gauche et en bas à droite.
+// Le parent doit être positionné (position: relative).
+---
+
+<span class="corner-mark corner-mark--top-left" aria-hidden="true"></span>
+<span class="corner-mark corner-mark--bottom-right" aria-hidden="true"></span>
+
+<style>
+  .corner-mark {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 0 solid var(--color-ink);
+    pointer-events: none;
+  }
+
+  .corner-mark--top-left {
+    top: 8px;
+    left: 8px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .corner-mark--bottom-right {
+    right: 8px;
+    bottom: 8px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+  }
+</style>

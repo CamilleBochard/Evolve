@@ -1,0 +1,32 @@
+---
+// Panneau de contact : adresse email.
+import PanelHeader from '../molecules/PanelHeader.astro';
+
+interface Props {
+  email: string;
+}
+
+const { email } = Astro.props;
+
+const mailtoHref = `mailto:${email}`;
+---
+
+<section class="contact-panel" aria-label="Contact">
+  <PanelHeader label="Contact">
+    <a class="contact-panel-email" href={mailtoHref}>
+      {email}
+    </a>
+  </PanelHeader>
+</section>
+
+<style>
+  .contact-panel-email {
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .contact-panel-email:hover,
+  .contact-panel-email:focus-visible {
+    color: var(--color-accent);
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+// Panneau d'identité : nom en grand et classe du personnage.
+import type { Profile } from '../../data/profile';
+import CornerMarks from '../atoms/CornerMarks.astro';
+import Tag from '../atoms/Tag.astro';
+import PanelHeader from '../molecules/PanelHeader.astro';
+
+interface Props {
+  profile: Profile;
+}
+
+const { profile } = Astro.props;
+---
+
+<section class="identity-panel" aria-labelledby="identity-name">
+  <CornerMarks />
+  <PanelHeader label="Identité" reference="CB-2011-2026 // REV.04" />
+
+  <h1 class="identity-name" id="identity-name">
+    <span class="identity-name-line">{profile.lastName}</span>
+    <span class="identity-name-line">
+      {profile.firstName}
+      <span class="identity-name-dot">.</span>
+    </span>
+  </h1>
+
+  <Tag>
+    {profile.className} · niveau {profile.level}
+  </Tag>
+</section>
+
+<style>
+  .identity-panel {
+    position: relative;
+  }
+
+  .identity-name {
+    margin: clamp(14px, 2.6vh, 28px) 0 clamp(12px, 2.2vh, 24px);
+    font-family: var(--font-title);
+    font-weight: 800;
+    /* Syne 800 est très large : la taille suit la largeur de la colonne
+       (cqi) et la hauteur de l'écran (vh), la plus petite des deux. */
+    font-size: clamp(36px, min(10.5cqi, 9vh), 112px);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .identity-name-line {
+    display: block;
+  }
+
+  .identity-name-dot {
+    color: var(--color-accent);
+  }
+</style>

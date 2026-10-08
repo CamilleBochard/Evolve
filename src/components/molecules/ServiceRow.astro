@@ -1,0 +1,23 @@
+---
+// État d'un service : nom, puce et libellé. La puce passe en accent si le
+// service est arrêté ; le libellé reste lisible sans la couleur.
+import type { VpsService } from '../../data/vps-status';
+import OctagonDot from '../atoms/OctagonDot.astro';
+import DataRow from './DataRow.astro';
+
+interface Props {
+  service: VpsService;
+}
+
+const { service } = Astro.props;
+
+let dotTone: 'ink' | 'accent' = 'ink';
+if (service.state === 'down') {
+  dotTone = 'accent';
+}
+---
+
+<DataRow term={service.name}>
+  <OctagonDot tone={dotTone} />
+  {service.detail}
+</DataRow>

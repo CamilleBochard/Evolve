@@ -1,0 +1,18 @@
+---
+// Étiquette pleine, texte clair sur fond encre.
+---
+
+<span class="tag">
+  <slot />
+</span>
+
+<style>
+  .tag {
+    display: inline-block;
+    padding: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--color-paper);
+    background: var(--color-ink);
+  }
+</style>

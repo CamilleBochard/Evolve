@@ -1,0 +1,25 @@
+---
+// Logo texte « CB//15 ».
+interface Props {
+  href: string;
+}
+
+const { href } = Astro.props;
+---
+
+<a class="brand" href={href}>
+  CB<span class="brand-slash">//</span>15
+</a>
+
+<style>
+  .brand {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .brand-slash {
+    color: var(--color-accent);
+  }
+</style>

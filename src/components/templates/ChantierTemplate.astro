@@ -1,0 +1,73 @@
+---
+// Gabarit de la page temporaire : deux colonnes dans le cadre V4.
+// - slot « panels » : les panneaux empilés de la colonne de gauche ;
+// - slot « stage » : la colonne de droite.
+import FrameTemplate from './FrameTemplate.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<FrameTemplate title={title} description={description}>
+  <div class="chantier">
+    <div class="chantier-panels">
+      <slot name="panels" />
+    </div>
+    <slot name="stage" />
+  </div>
+</FrameTemplate>
+
+<style>
+  .chantier {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    height: 100%;
+  }
+
+  /*
+   * Colonne de gauche : identité en haut, statut au milieu (prend la place
+   * restante), contact en bas. Les panneaux sont séparés par un trait.
+   * container-type permet aux panneaux de se dimensionner sur sa largeur.
+   */
+  .chantier-panels {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-width: 0;
+    min-height: 0;
+    border-right: var(--line);
+    container-type: inline-size;
+  }
+
+  .chantier-panels > :global(*) {
+    min-width: 0;
+    min-height: 0;
+    padding: clamp(16px, 2.8vh, 28px) 32px;
+    border-bottom: var(--line);
+  }
+
+  .chantier-panels > :global(*:last-child) {
+    border-bottom: 0;
+  }
+
+  @media (max-width: 980px) {
+    .chantier {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+
+    .chantier-panels {
+      border-right: 0;
+      border-bottom: var(--line);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .chantier-panels > :global(*) {
+      padding: 22px 16px;
+    }
+  }
+</style>
