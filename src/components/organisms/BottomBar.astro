@@ -1,0 +1,60 @@
+---
+// Barre du bas du cadre : liens de contact et mention de la page.
+import type { SocialLink } from '../../data/profile';
+
+interface Props {
+  links: SocialLink[];
+  email: string;
+}
+
+const { links, email } = Astro.props;
+
+const mailtoHref = `mailto:${email}`;
+---
+
+<footer class="bottom-bar">
+  <nav class="bottom-bar-links" aria-label="Contact">
+    {links.map((link) => (
+      <a href={link.href}>{link.label}</a>
+    ))}
+    <a class="bottom-bar-email" href={mailtoHref}>
+      {email}
+    </a>
+  </nav>
+  <span>Page temporaire</span>
+</footer>
+
+<style>
+  .bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 28px;
+    padding: 0 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--color-paper);
+    border-top: var(--line);
+  }
+
+  .bottom-bar-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .bottom-bar-links a:hover,
+  .bottom-bar-links a:focus-visible {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 720px) {
+    .bottom-bar {
+      padding: 0 16px;
+      font-size: 11px;
+    }
+
+    .bottom-bar-email {
+      display: none;
+    }
+  }
+</style>

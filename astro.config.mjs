@@ -11,26 +11,6 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.local(),
-      name: 'Epilogue',
-      cssVariable: '--font-epilogue',
-      fallbacks: ['sans-serif'],
-      options: {
-        variants: [
-          {
-            weight: '100 900',
-            style: 'normal',
-            src: [`${FONTS_DIRECTORY}/Epilogue-VariableFont_wght.woff2`],
-          },
-          {
-            weight: '100 900',
-            style: 'italic',
-            src: [`${FONTS_DIRECTORY}/Epilogue-Italic-VariableFont_wght.woff2`],
-          },
-        ],
-      },
-    },
-    {
-      provider: fontProviders.local(),
       name: 'Plus Jakarta Sans',
       cssVariable: '--font-plus-jakarta-sans',
       fallbacks: ['sans-serif'],
@@ -65,6 +45,17 @@ export default defineConfig({
           },
         ],
       },
+    },
+    // Police mono des étiquettes et des données. Téléchargée au build puis
+    // servie par le site : aucune requête vers Google côté visiteur.
+    {
+      provider: fontProviders.google(),
+      name: 'Space Mono',
+      cssVariable: '--font-space-mono',
+      weights: [400, 700],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['monospace'],
     },
   ],
 });

@@ -1,0 +1,37 @@
+---
+// Micro-texte technique en capitales (« SYS.STATUS », « REV.04 »).
+// Les autres attributs sont transmis à l'élément racine (voir Crosshair).
+import type { HTMLAttributes } from 'astro/types';
+
+type Tone = 'soft' | 'accent';
+
+interface Props extends HTMLAttributes<'span'> {
+  tone?: Tone;
+}
+
+const { tone = 'soft', class: className, ...attributes } = Astro.props;
+---
+
+<span
+  class:list={['micro-text', `micro-text--${tone}`, className]}
+  {...attributes}
+>
+  <slot />
+</span>
+
+<style>
+  .micro-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .micro-text--soft {
+    color: var(--color-ink-soft);
+  }
+
+  .micro-text--accent {
+    color: var(--color-accent);
+  }
+</style>

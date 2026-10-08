@@ -1,0 +1,27 @@
+---
+// En-tête de panneau : étiquette à gauche, référence technique à droite.
+import BracketLabel from '../atoms/BracketLabel.astro';
+import MicroText from '../atoms/MicroText.astro';
+
+interface Props {
+  label: string;
+  reference?: string;
+}
+
+const { label, reference } = Astro.props;
+---
+
+<div class="panel-header">
+  <BracketLabel text={label} />
+  {reference && <MicroText>{reference}</MicroText>}
+  <slot />
+</div>
+
+<style>
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+</style>

@@ -1,20 +1,22 @@
 ---
-import Layout from '../layouts/Layout.astro';
+// Page d'accueil temporaire, le temps que le portfolio soit construit.
+import ContactPanel from '../components/organisms/ContactPanel.astro';
+import IdentityPanel from '../components/organisms/IdentityPanel.astro';
+import ServerStage from '../components/organisms/ServerStage.astro';
+import StatusPanel from '../components/organisms/StatusPanel.astro';
+import ChantierTemplate from '../components/templates/ChantierTemplate.astro';
+import { PROFILE, SOCIAL_LINKS } from '../data/profile';
+import { PENDING_VPS_STATUS } from '../data/vps-status';
+
+const pageTitle = `${PROFILE.firstName} ${PROFILE.lastName} · Portfolio en construction`;
+const pageDescription = `Portfolio de ${PROFILE.firstName} ${PROFILE.lastName}, ${PROFILE.className.toLowerCase()}. Site en construction.`;
+const portraitAlt = `Portrait de ${PROFILE.firstName} ${PROFILE.lastName}`;
 ---
 
-<Layout>
-  <div class="name-container">
-    <span>Bochard</span>
-    <span>Camille</span>
-  </div>
-  <style>
-    .name-container {
-      display: flex;
-      flex-direction: column;
-      font-family: var(--font-syne);
-      font-size: 100px;
-      font-weight: 700;
-      background-color: lavender;
-    }
-  </style>
-</Layout>
+<ChantierTemplate title={pageTitle} description={pageDescription}>
+  <IdentityPanel slot="panels" profile={PROFILE} />
+  <StatusPanel slot="panels" links={SOCIAL_LINKS} portraitAlt={portraitAlt} />
+  <ContactPanel slot="panels" email={PROFILE.email} />
+
+  <ServerStage slot="stage" status={PENDING_VPS_STATUS} />
+</ChantierTemplate>

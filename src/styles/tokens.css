@@ -1,0 +1,54 @@
+/*
+ * Design tokens du thème V4 (jour).
+ * Toutes les couleurs passent par ces variables : c'est ce qui permettra
+ * plus tard la bascule jour / nuit.
+ */
+
+:root {
+  /* Couleurs */
+  --color-paper: #e4e2dc;
+  --color-paper-deep: #d9d6ce;
+  --color-paper-light: #efede8;
+  --color-ink: #1b1b1b;
+  --color-ink-soft: rgba(27, 27, 27, 0.62);
+  --color-ink-faint: rgba(27, 27, 27, 0.26);
+  --color-accent: #ff3d1f;
+  --color-screen: #0e0e0e;
+
+  /* Polices (variables fournies par l'API Fonts d'Astro) */
+  --font-title: var(--font-syne);
+  --font-body: var(--font-plus-jakarta-sans);
+  --font-mono: var(--font-space-mono);
+
+  /* Traits et motifs */
+  --line: 1px solid var(--color-ink);
+  --hatch: repeating-linear-gradient(
+    -45deg,
+    var(--color-ink) 0 2px,
+    transparent 2px 7px
+  );
+  --octagon: polygon(
+    29% 0,
+    71% 0,
+    100% 29%,
+    100% 71%,
+    71% 100%,
+    29% 100%,
+    0 71%,
+    0 29%
+  );
+  --chamfer-size: 8px;
+  --chamfer: polygon(
+    var(--chamfer-size) 0,
+    100% 0,
+    100% calc(100% - var(--chamfer-size)),
+    calc(100% - var(--chamfer-size)) 100%,
+    0 100%,
+    0 var(--chamfer-size)
+  );
+
+  /* Cadre global */
+  --frame-gutter-width: 36px;
+  --frame-topbar-height: 48px;
+  --frame-bottombar-height: 44px;
+}

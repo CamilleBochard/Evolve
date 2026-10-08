@@ -1,0 +1,17 @@
+---
+// Étiquette mono entre crochets : « [Identité] ».
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<span class="bracket-label">[{text}]</span>
+
+<style>
+  .bracket-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+</style>

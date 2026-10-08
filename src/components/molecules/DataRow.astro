@@ -1,0 +1,40 @@
+---
+// Ligne « intitulé : valeur » d'une liste de définitions (<dl>).
+// La valeur passe par le slot pour accepter du texte, un lien ou une puce.
+interface Props {
+  term: string;
+  isDashed?: boolean;
+}
+
+const { term, isDashed = false } = Astro.props;
+---
+
+<div class:list={['data-row', { 'data-row--dashed': isDashed }]}>
+  <dt>{term}</dt>
+  <dd>
+    <slot />
+  </dd>
+</div>
+
+<style>
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .data-row--dashed {
+    padding-bottom: clamp(4px, 0.6vh, 6px);
+    border-bottom: 1px dashed var(--color-ink-faint);
+  }
+
+  dd {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    text-align: right;
+  }
+</style>

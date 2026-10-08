@@ -1,0 +1,22 @@
+---
+// Notification façon jeu : pastille accent suivie d'un texte.
+import OctagonDot from '../atoms/OctagonDot.astro';
+---
+
+<p class="checkpoint">
+  <OctagonDot tone="accent" size="medium" />
+  <slot />
+</p>
+
+<style>
+  .checkpoint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>

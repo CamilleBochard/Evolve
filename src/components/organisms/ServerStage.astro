@@ -1,0 +1,116 @@
+---
+// Colonne serveur : décor (lignes, repères) autour de la fenêtre vps.status.
+import type { VpsStatus } from '../../data/vps-status';
+import BracketLabel from '../atoms/BracketLabel.astro';
+import Crosshair from '../atoms/Crosshair.astro';
+import HatchBlock from '../atoms/HatchBlock.astro';
+import MicroText from '../atoms/MicroText.astro';
+import VpsWindow from './VpsWindow.astro';
+
+interface Props {
+  status: VpsStatus;
+}
+
+const { status } = Astro.props;
+---
+
+<section class="server-stage" aria-label="Serveur">
+  <svg
+    class="server-stage-lines"
+    viewBox="0 0 600 700"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <line x1="600" y1="110" x2="470" y2="240" stroke="currentColor"></line>
+    <circle cx="470" cy="240" r="3" fill="currentColor"></circle>
+    <line x1="0" y1="640" x2="110" y2="530" stroke="currentColor"></line>
+    <circle class="server-stage-accent-dot" cx="110" cy="530" r="3"></circle>
+  </svg>
+
+  <span class="server-stage-label">
+    <BracketLabel text="Serveur" />
+  </span>
+  <span class="server-stage-reference">
+    <MicroText>SYS.MONITOR V0.1</MicroText>
+    <MicroText>Rafraîchi / 30 s</MicroText>
+  </span>
+  <Crosshair class="server-stage-crosshair" />
+
+  <VpsWindow status={status} />
+
+  <div class="server-stage-footer" aria-hidden="true">
+    <MicroText>SECTOR 02 // SERVEUR</MicroText>
+    <HatchBlock class="server-stage-band" />
+    <MicroText class="server-stage-scale">GRID 24 // SCALE 1:1</MicroText>
+  </div>
+</section>
+
+<style>
+  .server-stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    padding: clamp(44px, 6vh, 56px) 32px clamp(44px, 6.4vh, 64px);
+    overflow: hidden;
+  }
+
+  .server-stage-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--color-ink);
+    pointer-events: none;
+  }
+
+  .server-stage-accent-dot {
+    fill: var(--color-accent);
+  }
+
+  .server-stage-label {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+  }
+
+  .server-stage-reference {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    display: grid;
+    justify-items: end;
+  }
+
+  .server-stage-crosshair {
+    bottom: 48px;
+    left: 24px;
+  }
+
+  .server-stage-footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px 14px;
+  }
+
+  .server-stage-band {
+    flex: 1;
+    height: 10px;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 720px) {
+    .server-stage {
+      padding: 52px 16px 60px;
+    }
+
+    .server-stage-scale {
+      display: none;
+    }
+  }
+</style>

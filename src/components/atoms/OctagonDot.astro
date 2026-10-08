@@ -1,0 +1,43 @@
+---
+// Pastille octogonale, utilisée comme puce d'état.
+type Tone = 'ink' | 'accent';
+type Size = 'small' | 'medium';
+
+interface Props {
+  tone?: Tone;
+  size?: Size;
+}
+
+const { tone = 'ink', size = 'small' } = Astro.props;
+---
+
+<span
+  class:list={['octagon-dot', `octagon-dot--${tone}`, `octagon-dot--${size}`]}
+  aria-hidden="true"
+></span>
+
+<style>
+  .octagon-dot {
+    display: inline-block;
+    flex-shrink: 0;
+    clip-path: var(--octagon);
+  }
+
+  .octagon-dot--ink {
+    background: var(--color-ink);
+  }
+
+  .octagon-dot--accent {
+    background: var(--color-accent);
+  }
+
+  .octagon-dot--small {
+    width: 8px;
+    height: 8px;
+  }
+
+  .octagon-dot--medium {
+    width: 12px;
+    height: 12px;
+  }
+</style>

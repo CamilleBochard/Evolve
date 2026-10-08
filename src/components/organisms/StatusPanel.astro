@@ -1,0 +1,131 @@
+---
+// Panneau de statut : message de chantier, liens et portrait analysé.
+import type { SocialLink } from '../../data/profile';
+import BracketLabel from '../atoms/BracketLabel.astro';
+import Crosshair from '../atoms/Crosshair.astro';
+import HatchBlock from '../atoms/HatchBlock.astro';
+import Checkpoint from '../molecules/Checkpoint.astro';
+import GameButton from '../molecules/GameButton.astro';
+import ScannedPortrait from '../molecules/ScannedPortrait.astro';
+
+interface Props {
+  links: SocialLink[];
+  portraitAlt: string;
+}
+
+const { links, portraitAlt } = Astro.props;
+---
+
+<section class="status-panel" aria-labelledby="status-title">
+  <Crosshair class="status-panel-crosshair" />
+
+  <div class="status-panel-copy">
+    <BracketLabel text="Statut" />
+    <h2 class="status-panel-title" id="status-title">
+      Work in progress
+      <span class="status-panel-cursor" aria-hidden="true">
+        _
+      </span>
+    </h2>
+    <Checkpoint>Checkpoint atteint</Checkpoint>
+    <div class="status-panel-actions">
+      {links.map((link) => (
+        <GameButton href={link.href} label={link.label} />
+      ))}
+    </div>
+  </div>
+
+  <div class="status-panel-portrait">
+    <ScannedPortrait class="status-panel-photo" alt={portraitAlt} />
+    <HatchBlock class="status-panel-fill" />
+  </div>
+</section>
+
+<style>
+  .status-panel {
+    position: relative;
+    display: grid;
+    align-items: center;
+  }
+
+  .status-panel-crosshair {
+    top: 18px;
+    right: 22px;
+  }
+
+  .status-panel-copy {
+    display: grid;
+    gap: clamp(12px, 2vh, 18px);
+    max-width: 340px;
+  }
+
+  .status-panel-title {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .status-panel-cursor {
+    color: var(--color-accent);
+  }
+
+  .status-panel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  /*
+   * Desktop : le portrait est posé à droite du panneau. Sa hauteur suit la
+   * place disponible, sa largeur vient du ratio de l'image. Il rétrécit
+   * aussi quand la colonne est étroite, pour ne pas couvrir le texte.
+   * Le conteneur n'a pas de boîte propre (display: contents).
+   */
+  .status-panel-portrait {
+    display: contents;
+  }
+
+  .status-panel-photo {
+    position: absolute;
+    top: 50%;
+    right: 32px;
+    transform: translateY(-50%);
+    height: min(calc(100% - 48px), 440px, calc((100cqi - 430px) * 1.4));
+    aspect-ratio: 3 / 4.35;
+  }
+
+  .status-panel-fill {
+    display: none;
+  }
+
+  /*
+   * Mobile : portrait aligné à gauche sous les boutons, et des hachures
+   * comblent l'espace jusqu'à la marge droite.
+   */
+  @media (max-width: 980px) {
+    .status-panel {
+      gap: 24px;
+    }
+
+    .status-panel-portrait {
+      display: grid;
+      grid-template-columns: 64% 1fr;
+      column-gap: 12px;
+    }
+
+    .status-panel-photo {
+      position: static;
+      transform: none;
+      height: auto;
+      aspect-ratio: auto;
+    }
+
+    .status-panel-fill {
+      display: block;
+      margin-bottom: 34px;
+      opacity: 0.55;
+    }
+  }
+</style>

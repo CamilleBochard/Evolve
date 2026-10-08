@@ -1,0 +1,33 @@
+---
+// Document HTML commun : métadonnées, polices et styles globaux.
+import { Font } from 'astro:assets';
+
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <Font cssVariable="--font-syne" preload />
+    <Font cssVariable="--font-plus-jakarta-sans" />
+    <Font cssVariable="--font-space-mono" preload />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>

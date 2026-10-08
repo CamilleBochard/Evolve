@@ -1,0 +1,101 @@
+---
+// Historique de charge CPU : une barre par minute, ancrée en bas.
+import MicroText from '../atoms/MicroText.astro';
+
+interface Props {
+  values: number[];
+}
+
+const { values } = Astro.props;
+
+const MINIMUM_BAR_PERCENT = 3;
+
+const hasValues = values.length > 0;
+
+let maximumText = '--';
+if (hasValues) {
+  const maximum = Math.max(...values);
+  maximumText = `${Math.round(maximum)} %`;
+}
+
+interface Bar {
+  heightPercent: number;
+  description: string;
+}
+
+const bars: Bar[] = values.map((value, index) => {
+  const minutesAgo = values.length - 1 - index;
+  const heightPercent = Math.max(value, MINIMUM_BAR_PERCENT);
+  const description = `il y a ${minutesAgo} min : ${Math.round(value)} %`;
+  const bar = { heightPercent, description };
+  return bar;
+});
+---
+
+<div class="cpu-history">
+  <div class="cpu-history-header">
+    <MicroText>Charge CPU · 30 dernières minutes</MicroText>
+    <MicroText>max {maximumText}</MicroText>
+  </div>
+
+  {hasValues && (
+    <div class="cpu-history-plot" aria-hidden="true">
+      {bars.map((bar) => (
+        <i
+          class="cpu-history-bar"
+          style={`height: ${bar.heightPercent}%`}
+          title={bar.description}
+        />
+      ))}
+    </div>
+  )}
+
+  {!hasValues && (
+    <div class="cpu-history-plot cpu-history-plot--empty">
+      <MicroText>Aucune donnée pour l'instant</MicroText>
+    </div>
+  )}
+</div>
+
+<style>
+  .cpu-history {
+    display: grid;
+    gap: 8px;
+  }
+
+  .cpu-history-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cpu-history-plot {
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    align-items: end;
+    gap: 2px;
+    height: clamp(36px, 5.6vh, 56px);
+    border-bottom: var(--line);
+    background-image: linear-gradient(
+      var(--color-ink-faint) 1px,
+      transparent 1px
+    );
+    background-size: 100% 50%;
+  }
+
+  .cpu-history-plot--empty {
+    grid-template-columns: 1fr;
+    place-items: center;
+    background-image: none;
+  }
+
+  .cpu-history-bar {
+    display: block;
+    min-height: 2px;
+    background: var(--color-ink);
+    border-radius: 2px 2px 0 0;
+  }
+
+  .cpu-history-bar:hover {
+    background: var(--color-accent);
+  }
+</style>

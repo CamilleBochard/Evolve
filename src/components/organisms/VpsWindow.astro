@@ -1,0 +1,242 @@
+---
+// Fenêtre « vps.status » : état public du serveur.
+import type { VpsStatus } from '../../data/vps-status';
+import MicroText from '../atoms/MicroText.astro';
+import OctagonDot from '../atoms/OctagonDot.astro';
+import CpuHistory from '../molecules/CpuHistory.astro';
+import DataRow from '../molecules/DataRow.astro';
+import SegmentMeter from '../molecules/SegmentMeter.astro';
+import ServiceRow from '../molecules/ServiceRow.astro';
+
+interface Props {
+  status: VpsStatus;
+}
+
+const { status } = Astro.props;
+
+const REPOSITORY_URL = 'https://github.com/CamilleBochard/Evolve';
+const MISSING_VALUE = '--';
+
+let systemState = 'EN ATTENTE';
+if (status.isAvailable) {
+  systemState = 'NOMINAL';
+}
+
+let siteUptime = MISSING_VALUE;
+if (status.siteUptime !== null) {
+  siteUptime = status.siteUptime;
+}
+
+let lastDeployment = MISSING_VALUE;
+if (status.lastDeployment !== null) {
+  lastDeployment = status.lastDeployment;
+}
+
+let commitUrl: string | null = null;
+if (status.commitSha !== null) {
+  commitUrl = `${REPOSITORY_URL}/commit/${status.commitSha}`;
+}
+---
+
+<article class="vps-window" aria-labelledby="vps-window-title">
+  <div class="vps-window-bar">
+    <h2 class="vps-window-title" id="vps-window-title">
+      vps.status
+    </h2>
+    <span class="vps-window-buttons" aria-hidden="true">
+      <i></i>
+      <i></i>
+      <i></i>
+    </span>
+  </div>
+
+  <div class="vps-window-body">
+    <section class="vps-window-state">
+      <p class="vps-window-system">
+        <span
+          class:list={[
+            'vps-window-pulse',
+            { 'vps-window-pulse--live': status.isAvailable },
+          ]}
+        >
+          <OctagonDot size="medium" />
+        </span>
+        SYS.STATUS : {systemState}
+      </p>
+      {!status.isAvailable && <MicroText>Données indisponibles</MicroText>}
+    </section>
+
+    <section class="vps-window-meters" aria-label="Ressources">
+      <SegmentMeter label="CPU" percent={status.cpuPercent} />
+      <SegmentMeter label="Mémoire" percent={status.memoryPercent} />
+      <SegmentMeter label="Disque" percent={status.diskPercent} />
+    </section>
+
+    <section class="vps-window-history" aria-label="Historique CPU">
+      <CpuHistory values={status.cpuHistory} />
+    </section>
+
+    <section aria-label="Services">
+      <dl class="vps-window-list">
+        {status.services.map((service) => (
+          <ServiceRow service={service} />
+        ))}
+      </dl>
+    </section>
+
+    <section aria-label="Déploiement">
+      <dl class="vps-window-list">
+        <DataRow term="Site en ligne depuis" isDashed>
+          {siteUptime}
+        </DataRow>
+        <DataRow term="Dernier déploiement" isDashed>
+          {lastDeployment}
+        </DataRow>
+        <DataRow term="Commit" isDashed>
+          {commitUrl === null && MISSING_VALUE}
+          {commitUrl !== null && (
+            <a class="vps-window-commit" href={commitUrl}>
+              {status.commitSha}
+            </a>
+          )}
+        </DataRow>
+      </dl>
+    </section>
+  </div>
+
+  <footer class="vps-window-footer">
+    <MicroText>Données publiques</MicroText>
+    <MicroText>Aucune IP · version · hôte</MicroText>
+  </footer>
+</article>
+
+<style>
+  .vps-window {
+    position: relative;
+    width: min(460px, 100%);
+    background: var(--color-paper-light);
+    border: var(--line);
+    box-shadow: 8px 8px 0 var(--color-ink);
+  }
+
+  /* Barre de titre */
+  .vps-window-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    color: var(--color-paper);
+    background: var(--color-ink);
+  }
+
+  .vps-window-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .vps-window-buttons {
+    display: flex;
+    gap: 5px;
+  }
+
+  .vps-window-buttons i {
+    width: 9px;
+    height: 9px;
+    border: 1px solid var(--color-paper);
+  }
+
+  .vps-window-buttons i:first-child {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  /* Corps : sections séparées par des pointillés */
+  .vps-window-body {
+    display: grid;
+    gap: clamp(10px, 1.8vh, 18px);
+    padding: clamp(12px, 1.8vh, 18px) 20px clamp(12px, 2vh, 20px);
+  }
+
+  .vps-window-body > section + section {
+    padding-top: clamp(8px, 1.6vh, 16px);
+    border-top: 1px dashed var(--color-ink-faint);
+  }
+
+  .vps-window-state {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px 12px;
+  }
+
+  .vps-window-system {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .vps-window-pulse {
+    display: flex;
+    opacity: 0.35;
+  }
+
+  .vps-window-pulse--live {
+    opacity: 1;
+    animation: vps-window-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes vps-window-pulse {
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vps-window-pulse--live {
+      animation: none;
+    }
+  }
+
+  .vps-window-meters {
+    display: grid;
+    gap: clamp(7px, 1.2vh, 12px);
+  }
+
+  .vps-window-list {
+    display: grid;
+    gap: clamp(5px, 0.8vh, 8px);
+    margin: 0;
+  }
+
+  .vps-window-commit {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .vps-window-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 12px;
+    padding: 10px 20px;
+    border-top: var(--line);
+  }
+
+  /* Écran très bas : l'historique est masqué pour que tout tienne. */
+  @media (min-width: 981px) and (max-height: 700px) {
+    .vps-window-history {
+      display: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .vps-window {
+      box-shadow: 5px 5px 0 var(--color-ink);
+    }
+  }
+</style>

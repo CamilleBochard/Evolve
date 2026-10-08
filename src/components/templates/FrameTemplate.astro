@@ -1,0 +1,118 @@
+---
+// Cadre V4 commun aux pages : coins, barres du haut et du bas, gouttières.
+// Le contenu de la page va dans le slot, à l'intérieur de <main>.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PROFILE, SOCIAL_LINKS } from '../../data/profile';
+import FrameGutter from '../molecules/FrameGutter.astro';
+import BottomBar from '../organisms/BottomBar.astro';
+import TopBar from '../organisms/TopBar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="frame">
+    <span class="frame-corner frame-corner--top-left" aria-hidden="true">
+      +
+    </span>
+    <TopBar />
+    <span class="frame-corner frame-corner--top-right" aria-hidden="true">
+      +
+    </span>
+
+    <FrameGutter side="left" text="SECTOR 01 // CHANTIER" />
+    <main class="frame-content">
+      <slot />
+    </main>
+    <FrameGutter side="right" text="SECTOR 02 // CHANTIER" />
+
+    <span class="frame-corner frame-corner--bottom-left" aria-hidden="true">
+      +
+    </span>
+    <BottomBar links={SOCIAL_LINKS} email={PROFILE.email} />
+    <span class="frame-corner frame-corner--bottom-right" aria-hidden="true">
+      +
+    </span>
+  </div>
+</BaseLayout>
+
+<style>
+  .frame {
+    display: grid;
+    grid-template-columns: var(--frame-gutter-width) 1fr var(
+        --frame-gutter-width
+      );
+    grid-template-rows: var(--frame-topbar-height) 1fr var(
+        --frame-bottombar-height
+      );
+    min-height: 100vh;
+  }
+
+  .frame-content {
+    min-width: 0;
+  }
+
+  /* Coins « + » aux quatre angles du cadre */
+  .frame-corner {
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    background: var(--color-paper);
+  }
+
+  .frame-corner--top-left {
+    border-right: var(--line);
+    border-bottom: var(--line);
+  }
+
+  .frame-corner--top-right {
+    border-bottom: var(--line);
+    border-left: var(--line);
+  }
+
+  .frame-corner--bottom-left {
+    border-top: var(--line);
+    border-right: var(--line);
+  }
+
+  .frame-corner--bottom-right {
+    border-top: var(--line);
+    border-left: var(--line);
+  }
+
+  /* Desktop : la page tient dans la hauteur de l'écran, sans défilement. */
+  @media (min-width: 981px) {
+    .frame {
+      grid-template-rows: var(--frame-topbar-height) minmax(0, 1fr) var(
+          --frame-bottombar-height
+        );
+      height: 100vh;
+      height: 100dvh;
+      min-height: 0;
+    }
+
+    .frame-content {
+      min-height: 0;
+    }
+  }
+
+  /* Mobile : le cadre se réduit aux barres, sans coins ni gouttières. */
+  @media (max-width: 720px) {
+    .frame {
+      grid-template-columns: 0 1fr 0;
+    }
+
+    .frame > .frame-corner,
+    .frame > :global(.frame-gutter) {
+      visibility: hidden;
+      overflow: hidden;
+      border: 0;
+    }
+  }
+</style>
