@@ -7,6 +7,8 @@ interface Props {
 
 const { label, percent } = Astro.props;
 
+// SVG width attribute rather than a style attribute: the CSP blocks inline
+// style attributes, not SVG presentation attributes.
 const fillWidth = `${percent}%`;
 ---
 
@@ -15,9 +17,9 @@ const fillWidth = `${percent}%`;
     <span>{label}</span>
     <span>{percent} %</span>
   </div>
-  <div class="loading-bar-track">
-    <span class="loading-bar-fill" style={`width: ${fillWidth}`}></span>
-  </div>
+  <svg class="loading-bar-track">
+    <rect class="loading-bar-fill" width={fillWidth} height="100%"></rect>
+  </svg>
 </div>
 
 <style>
@@ -34,13 +36,13 @@ const fillWidth = `${percent}%`;
   }
 
   .loading-bar-track {
+    display: block;
+    width: 100%;
     height: 12px;
     border: 1px solid var(--color-accent);
   }
 
   .loading-bar-fill {
-    display: block;
-    height: 100%;
-    background: var(--color-accent);
+    fill: var(--color-accent);
   }
 </style>

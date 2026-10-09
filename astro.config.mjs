@@ -8,6 +8,15 @@ const FONTS_DIRECTORY = './src/assets/fonts';
 // https://astro.build/config
 export default defineConfig({
   integrations: [react()],
+  // Content Security Policy: Astro hashes the scripts and styles it generates
+  // and adds script-src and style-src in a <meta> tag on every page. Anything
+  // else (an injected script, an inline style attribute) is blocked.
+  // The directives a <meta> tag cannot carry (frame-ancestors) stay in the
+  // nginx header: the browser enforces both policies.
+  // Not compatible with <ClientRouter />.
+  security: {
+    csp: true,
+  },
   fonts: [
     {
       provider: fontProviders.local(),
