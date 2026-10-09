@@ -26,6 +26,8 @@ RUN npm run build
 FROM nginxinc/nginx-unprivileged:1.30.5-alpine@sha256:15c994d10d6d78658721c3bcafff14cb281fba2a4bdf9d5ba92c416a472516e3 AS runtime
 
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+# Outside conf.d: nginx would load it at the http level on its own.
+COPY docker/nginx/security-headers.conf /etc/nginx/snippets/security-headers.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 8080
