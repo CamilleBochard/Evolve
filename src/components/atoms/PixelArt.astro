@@ -1,0 +1,66 @@
+---
+// Pixel drawing from a text grid: "X" is a filled pixel, any other
+// character is empty. All rows have the same length.
+//
+// The "behind" slot takes SVG shapes drawn under the pixels (a background,
+// for example), the default slot takes shapes drawn on top. Their
+// coordinates are in grid pixels.
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'svg'> {
+  rows: string[];
+  pixelColor: string;
+  // Margin around the grid, in pixels, for shapes that overflow it.
+  padding?: number;
+}
+
+const {
+  rows,
+  pixelColor,
+  padding = 0,
+  class: className,
+  ...attributes
+} = Astro.props;
+
+const FILLED_PIXEL = 'X';
+
+interface Pixel {
+  x: number;
+  y: number;
+}
+
+const pixels: Pixel[] = [];
+rows.forEach((row, y) => {
+  for (let x = 0; x < row.length; x++) {
+    if (row[x] === FILLED_PIXEL) {
+      pixels.push({ x, y });
+    }
+  }
+});
+
+const gridWidth = rows[0].length;
+const gridHeight = rows.length;
+const viewBox = `${-padding} ${-padding} ${gridWidth + padding * 2} ${gridHeight + padding * 2}`;
+---
+
+<svg
+  class:list={['pixel-art', className]}
+  viewBox={viewBox}
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+  {...attributes}
+>
+  <slot name="behind" />
+  {pixels.map((pixel) => (
+    <rect x={pixel.x} y={pixel.y} width="1" height="1" fill={pixelColor} />
+  ))}
+  <slot />
+</svg>
+
+<style>
+  .pixel-art {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

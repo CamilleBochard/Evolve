@@ -1,0 +1,95 @@
+---
+// Error poster title: sad file, "ERREUR", pixel 404.
+// Screen readers read the heading as "Erreur 404 : page introuvable".
+import PixelNumber from '../molecules/PixelNumber.astro';
+import SadFileIcon from '../molecules/SadFileIcon.astro';
+---
+
+<div class="error-title">
+  <SadFileIcon class="error-title-icon" />
+
+  <div class="error-title-word">
+    <h1 class="error-title-heading">
+      Erreur
+      <span class="visually-hidden">404 : page introuvable</span>
+    </h1>
+    <span class="error-title-box" aria-hidden="true">
+      ✕
+    </span>
+  </div>
+
+  <PixelNumber class="error-title-number" value="404" />
+
+  <p class="error-title-subtitle" aria-hidden="true">
+    <span class="error-title-page">Page</span>
+    <span class="error-title-missing">Introuvable</span>
+  </p>
+</div>
+
+<style>
+  .error-title {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: clamp(8px, 1.6vh, 16px);
+    min-width: 0;
+  }
+
+  .error-title-icon {
+    width: clamp(64px, 9vh, 96px);
+  }
+
+  .error-title-word {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .error-title-heading {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: clamp(26px, 4.4vh, 44px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .error-title-box {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border: 1.5px solid var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--color-accent);
+  }
+
+  .error-title-number {
+    width: min(100%, clamp(200px, 42vh, 440px));
+  }
+
+  .error-title-subtitle {
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    font-family: var(--font-title);
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .error-title-page {
+    font-size: clamp(20px, 3.4vh, 32px);
+  }
+
+  .error-title-missing {
+    font-size: clamp(16px, 2.6vh, 24px);
+    letter-spacing: 0.06em;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 720px) {
+    .error-title-box {
+      display: none;
+    }
+  }
+</style>

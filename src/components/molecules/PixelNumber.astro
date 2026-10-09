@@ -1,0 +1,33 @@
+---
+// Number drawn with pixel digits (a 5 x 7 grid per digit).
+import type { HTMLAttributes } from 'astro/types';
+
+import PixelArt from '../atoms/PixelArt.astro';
+
+interface Props extends HTMLAttributes<'svg'> {
+  value: string;
+}
+
+const { value, ...attributes } = Astro.props;
+
+const DIGIT_GLYPHS: Record<string, string[]> = {
+  '0': ['.XXX.', 'X...X', 'X...X', 'X...X', 'X...X', 'X...X', '.XXX.'],
+  '4': ['...X.', '..XX.', '.X.X.', 'X..X.', 'XXXXX', '...X.', '...X.'],
+};
+const GLYPH_HEIGHT = 7;
+const SPACE_BETWEEN_DIGITS = '.';
+
+// Build the digits row by row, separated by an empty column.
+const rows: string[] = [];
+for (let rowIndex = 0; rowIndex < GLYPH_HEIGHT; rowIndex++) {
+  const rowParts: string[] = [];
+  for (const digit of value) {
+    const glyph = DIGIT_GLYPHS[digit];
+    rowParts.push(glyph[rowIndex]);
+  }
+  const row = rowParts.join(SPACE_BETWEEN_DIGITS);
+  rows.push(row);
+}
+---
+
+<PixelArt rows={rows} pixelColor="var(--color-accent)" {...attributes} />
