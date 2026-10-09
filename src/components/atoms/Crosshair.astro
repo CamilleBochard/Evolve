@@ -1,9 +1,9 @@
 ---
-// Repère en croix décoratif. Le parent le positionne via `class`.
+// Decorative crosshair mark. The parent positions it through `class`.
 //
-// Les autres attributs (dont l'attribut de scope CSS du parent) sont
-// transmis à l'élément racine : c'est ce qui permet au style du parent
-// de s'appliquer à la classe qu'il passe.
+// The remaining attributes (including the parent's CSS scope attribute) are
+// forwarded to the root element: this is what lets the parent's styles
+// apply to the class it passes.
 import type { HTMLAttributes } from 'astro/types';
 
 type Props = HTMLAttributes<'span'>;
@@ -32,7 +32,7 @@ const { class: className, ...attributes } = Astro.props;
     background: var(--color-ink);
   }
 
-  /* Trait vertical */
+  /* Vertical stroke */
   .crosshair::before {
     top: 0;
     left: 6px;
@@ -40,7 +40,7 @@ const { class: className, ...attributes } = Astro.props;
     height: 13px;
   }
 
-  /* Trait horizontal */
+  /* Horizontal stroke */
   .crosshair::after {
     top: 6px;
     left: 0;

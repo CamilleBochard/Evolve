@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-// Vérifie seulement que la chaîne de test des composants React tourne (JSX,
-// jsdom, Testing Library). À supprimer dès qu'un vrai test de composant existe.
+// Only checks that the React component test chain runs (JSX, jsdom,
+// Testing Library). Remove once a real component test exists.
 function Greeting() {
   return <p>Hello</p>;
 }

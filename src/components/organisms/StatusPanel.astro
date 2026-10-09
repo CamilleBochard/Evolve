@@ -1,5 +1,5 @@
 ---
-// Panneau de statut : message de chantier, liens et portrait analysé.
+// Status panel: work in progress message, links and scanned portrait.
 import type { SocialLink } from '../../data/profile';
 import BracketLabel from '../atoms/BracketLabel.astro';
 import Crosshair from '../atoms/Crosshair.astro';
@@ -78,10 +78,10 @@ const { links, portraitAlt } = Astro.props;
   }
 
   /*
-   * Desktop : le portrait est posé à droite du panneau. Sa hauteur suit la
-   * place disponible, sa largeur vient du ratio de l'image. Il rétrécit
-   * aussi quand la colonne est étroite, pour ne pas couvrir le texte.
-   * Le conteneur n'a pas de boîte propre (display: contents).
+   * Desktop: the portrait sits on the right of the panel. Its height follows
+   * the available space, its width comes from the image ratio. It also
+   * shrinks when the column is narrow, so it never covers the text.
+   * The wrapper has no box of its own (display: contents).
    */
   .status-panel-portrait {
     display: contents;
@@ -101,8 +101,8 @@ const { links, portraitAlt } = Astro.props;
   }
 
   /*
-   * Mobile : portrait aligné à gauche sous les boutons, et des hachures
-   * comblent l'espace jusqu'à la marge droite.
+   * Mobile: portrait aligned left under the buttons, with hatching filling
+   * the space up to the right margin.
    */
   @media (max-width: 980px) {
     .status-panel {

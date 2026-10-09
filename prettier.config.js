@@ -1,6 +1,6 @@
 // @ts-check
 
-// L'indentation et les fins de ligne viennent de .editorconfig.
+// Indentation and line endings come from .editorconfig.
 /** @type {import('prettier').Config} */
 const config = {
   singleQuote: true,

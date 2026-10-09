@@ -1,5 +1,5 @@
-# Contrôles qualité sur chaque pull request et sur master.
-# La CI n'appelle que les scripts npm du projet : local et CI font la même chose.
+# Quality checks on every pull request and on master.
+# The CI only calls the project's npm scripts: local and CI do the same thing.
 name: CI
 
 on:
@@ -7,12 +7,12 @@ on:
   push:
     branches: [master]
 
-# Lecture seule : la CI n'a besoin de rien écrire dans le dépôt.
+# Read-only: the CI never needs to write to the repository.
 permissions:
   contents: read
 
-# Un nouveau push sur une pull request annule l'exécution précédente,
-# devenue obsolète. Sur master, chaque exécution va au bout.
+# A new push on a pull request cancels the now outdated previous run.
+# On master, every run completes.
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      # Actions épinglées par SHA de commit : un tag peut être déplacé, pas un SHA.
+      # Actions pinned by commit SHA: a tag can be moved, a SHA cannot.
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

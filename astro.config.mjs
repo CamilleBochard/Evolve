@@ -46,8 +46,8 @@ export default defineConfig({
         ],
       },
     },
-    // Police mono des étiquettes et des données. Téléchargée au build puis
-    // servie par le site : aucune requête vers Google côté visiteur.
+    // Mono font for labels and data. Downloaded at build time and served by
+    // the site: visitors never send a request to Google.
     {
       provider: fontProviders.google(),
       name: 'Space Mono',

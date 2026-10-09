@@ -1,9 +1,9 @@
 ---
-// Portrait « analysé » façon logiciel de reconnaissance faciale.
-// L'effet (grain, points orange) est déjà dans l'image ; les cadres de visée
-// sont dessinés en SVG par-dessus pour rester nets à toutes les tailles.
-// Le parent fixe la taille du composant via `class` ; les autres attributs
-// sont transmis à l'élément racine (voir Crosshair).
+// "Scanned" portrait, styled like face recognition software.
+// The effect (grain, orange dots) is baked into the image; the target boxes
+// are drawn in SVG on top so they stay sharp at any size.
+// The parent sets the size through `class`; remaining attributes are
+// forwarded to the root element (see Crosshair).
 import { Image } from 'astro:assets';
 import type { HTMLAttributes } from 'astro/types';
 
@@ -27,7 +27,7 @@ const { alt, class: className, ...attributes } = Astro.props;
       sizes="(max-width: 980px) 64vw, 300px"
     />
 
-    <!-- Les coordonnées suivent l'image source (360 x 480). -->
+    <!-- Coordinates follow the source image (360 x 480). -->
     <svg
       class="scanned-portrait-targets"
       viewBox="0 0 360 480"
@@ -35,10 +35,10 @@ const { alt, class: className, ...attributes } = Astro.props;
       aria-hidden="true"
     >
       <g fill="none" stroke="currentColor" stroke-width="2">
-        <!-- Visage -->
+        <!-- Face -->
         <rect x="108" y="40" width="130" height="180"></rect>
         <line x1="238" y1="40" x2="360" y2="10"></line>
-        <!-- Logo du t-shirt -->
+        <!-- T-shirt logo -->
         <rect x="208" y="250" width="56" height="56"></rect>
         <line x1="264" y1="250" x2="360" y2="190"></line>
       </g>

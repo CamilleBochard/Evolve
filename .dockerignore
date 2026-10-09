@@ -1,6 +1,6 @@
-# Liste blanche : tout est exclu, puis seul ce qui sert au build est admis.
-# Un fichier local oublié (secrets, maquettes, notes) ne peut pas entrer
-# dans l'image par accident.
+# Allowlist: everything is excluded, then only what the build needs is let in.
+# A forgotten local file (secrets, mockups, notes) cannot end up in the image
+# by accident.
 *
 
 !package.json

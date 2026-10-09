@@ -1,7 +1,7 @@
-// État public du serveur affiché dans la fenêtre « vps.status ».
+// Public server status shown in the "vps.status" window.
 //
-// Uniquement des données sans risque : pourcentages, état des services,
-// date du dernier déploiement. Jamais d'IP, de nom d'hôte ni de version.
+// Only harmless data: percentages, service states, last deployment date.
+// Never an IP address, a host name or a version.
 
 export type ServiceState = 'up' | 'down' | 'unknown';
 
@@ -16,7 +16,7 @@ export interface VpsStatus {
   cpuPercent: number | null;
   memoryPercent: number | null;
   diskPercent: number | null;
-  // Charge CPU des 30 dernières minutes, une valeur par minute.
+  // CPU load over the last 30 minutes, one value per minute.
   cpuHistory: number[];
   services: VpsService[];
   siteUptime: string | null;
@@ -24,7 +24,7 @@ export interface VpsStatus {
   commitSha: string | null;
 }
 
-// Affiché tant que les données réelles ne sont pas branchées.
+// Shown until the real data is wired in.
 export const PENDING_VPS_STATUS: VpsStatus = {
   isAvailable: false,
   cpuPercent: null,
