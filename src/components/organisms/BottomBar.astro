@@ -5,9 +5,10 @@ import type { SocialLink } from '../../data/profile';
 interface Props {
   links: SocialLink[];
   email: string;
+  label: string;
 }
 
-const { links, email } = Astro.props;
+const { links, email, label } = Astro.props;
 
 const mailtoHref = `mailto:${email}`;
 ---
@@ -21,7 +22,7 @@ const mailtoHref = `mailto:${email}`;
       {email}
     </a>
   </nav>
-  <span>Page temporaire</span>
+  <span>{label}</span>
 </footer>
 
 <style>

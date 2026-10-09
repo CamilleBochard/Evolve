@@ -1,6 +1,7 @@
 ---
 // Cadre V4 commun aux pages : coins, barres du haut et du bas, gouttières.
 // Le contenu de la page va dans le slot, à l'intérieur de <main>.
+// Les textes des gouttières et de la barre du bas changent selon la page.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PROFILE, SOCIAL_LINKS } from '../../data/profile';
 import FrameGutter from '../molecules/FrameGutter.astro';
@@ -10,12 +11,23 @@ import TopBar from '../organisms/TopBar.astro';
 interface Props {
   title: string;
   description: string;
+  leftGutterText: string;
+  rightGutterText: string;
+  footerLabel: string;
+  isIndexable?: boolean;
 }
 
-const { title, description } = Astro.props;
+const {
+  title,
+  description,
+  leftGutterText,
+  rightGutterText,
+  footerLabel,
+  isIndexable = true,
+} = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} isIndexable={isIndexable}>
   <div class="frame">
     <span class="frame-corner frame-corner--top-left" aria-hidden="true">
       +
@@ -25,16 +37,16 @@ const { title, description } = Astro.props;
       +
     </span>
 
-    <FrameGutter side="left" text="SECTOR 01 // CHANTIER" />
+    <FrameGutter side="left" text={leftGutterText} />
     <main class="frame-content">
       <slot />
     </main>
-    <FrameGutter side="right" text="SECTOR 02 // CHANTIER" />
+    <FrameGutter side="right" text={rightGutterText} />
 
     <span class="frame-corner frame-corner--bottom-left" aria-hidden="true">
       +
     </span>
-    <BottomBar links={SOCIAL_LINKS} email={PROFILE.email} />
+    <BottomBar links={SOCIAL_LINKS} email={PROFILE.email} label={footerLabel} />
     <span class="frame-corner frame-corner--bottom-right" aria-hidden="true">
       +
     </span>

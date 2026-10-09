@@ -1,0 +1,54 @@
+---
+// Fenêtre « Que faire ? » : liens pour quitter la page d'erreur.
+import type { ErrorAction } from '../../data/error-actions';
+import ActionLink from '../molecules/ActionLink.astro';
+import TerminalWindow from '../molecules/TerminalWindow.astro';
+
+interface Props {
+  actions: ErrorAction[];
+}
+
+const { actions } = Astro.props;
+---
+
+<TerminalWindow
+  class="error-actions"
+  title="Que faire ?"
+  titleId="error-actions-title"
+>
+  <nav class="error-actions-list" aria-labelledby="error-actions-title">
+    {actions.map((action) => (
+      <ActionLink
+        href={action.href}
+        icon={action.icon}
+        label={action.label}
+        hint={action.hint}
+        isPrimary={action.isPrimary}
+      />
+    ))}
+  </nav>
+</TerminalWindow>
+
+<style>
+  .error-actions {
+    position: relative;
+    z-index: 1;
+    width: min(380px, 100%);
+  }
+
+  .error-actions-list {
+    display: grid;
+    padding: 6px 0;
+  }
+
+  /* Pointillés entre deux liens */
+  .error-actions-list > :global(* + *) {
+    border-top: 1px dashed var(--color-ink-faint);
+  }
+
+  @media (max-width: 720px) {
+    .error-actions {
+      width: 100%;
+    }
+  }
+</style>

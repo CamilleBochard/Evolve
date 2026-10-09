@@ -1,0 +1,46 @@
+---
+// Barre de chargement décorative : libellé, pourcentage, barre à cadre accent.
+interface Props {
+  label: string;
+  percent: number;
+}
+
+const { label, percent } = Astro.props;
+
+const fillWidth = `${percent}%`;
+---
+
+<div class="loading-bar" aria-hidden="true">
+  <div class="loading-bar-legend">
+    <span>{label}</span>
+    <span>{percent} %</span>
+  </div>
+  <div class="loading-bar-track">
+    <span class="loading-bar-fill" style={`width: ${fillWidth}`}></span>
+  </div>
+</div>
+
+<style>
+  .loading-bar {
+    display: grid;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .loading-bar-legend {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .loading-bar-track {
+    height: 12px;
+    border: 1px solid var(--color-accent);
+  }
+
+  .loading-bar-fill {
+    display: block;
+    height: 100%;
+    background: var(--color-accent);
+  }
+</style>

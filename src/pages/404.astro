@@ -1,0 +1,29 @@
+---
+// Page 404 : servie par nginx pour toute adresse inconnue.
+import ErrorActions from '../components/organisms/ErrorActions.astro';
+import ErrorDecor from '../components/organisms/ErrorDecor.astro';
+import ErrorFooter from '../components/organisms/ErrorFooter.astro';
+import ErrorHeader from '../components/organisms/ErrorHeader.astro';
+import ErrorNotice from '../components/organisms/ErrorNotice.astro';
+import ErrorTitle from '../components/organisms/ErrorTitle.astro';
+import ErrorTemplate from '../components/templates/ErrorTemplate.astro';
+import { ERROR_ACTIONS, HOME_HREF } from '../data/error-actions';
+import { PROFILE } from '../data/profile';
+
+const pageTitle = `Page introuvable · ${PROFILE.firstName} ${PROFILE.lastName}`;
+const pageDescription = "Cette page n'existe pas.";
+---
+
+<ErrorTemplate title={pageTitle} description={pageDescription}>
+  <ErrorDecor slot="decor" />
+  <ErrorHeader slot="header" />
+  <ErrorTitle slot="title" />
+
+  <ErrorActions slot="windows" actions={ERROR_ACTIONS} />
+  <ErrorNotice slot="windows" confirmHref={HOME_HREF}>
+    Cette page n'existe pas. Le site est en chantier : elle arrivera peut-être
+    plus tard.
+  </ErrorNotice>
+
+  <ErrorFooter slot="footer" homeHref={HOME_HREF} />
+</ErrorTemplate>

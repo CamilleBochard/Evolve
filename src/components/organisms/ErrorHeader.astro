@@ -1,0 +1,86 @@
+---
+// En-tête de l'affiche d'erreur : alerte à gauche, horodatage à droite.
+import Icon from '../atoms/Icon.astro';
+---
+
+<div class="error-header">
+  <p class="error-header-alert">
+    <span class="error-header-code">
+      <Icon class="error-header-icon" name="warning" />
+      ERROR 404
+    </span>
+    <span>PAGE NOT FOUND</span>
+    <span aria-hidden="true">_</span>
+  </p>
+
+  <p class="error-header-meta" aria-hidden="true">
+    <span>
+      Something went wrong
+      <span class="error-header-close">✕</span>
+    </span>
+    <span>
+      Heure : <b>4:04</b>
+    </span>
+    <span>
+      Date : <b>aujourd'hui</b>
+    </span>
+  </p>
+</div>
+
+<style>
+  .error-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .error-header-alert {
+    display: grid;
+    gap: 4px;
+  }
+
+  .error-header-code {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+  }
+
+  .error-header-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .error-header-meta {
+    display: grid;
+    justify-items: end;
+    gap: 4px;
+    text-align: right;
+  }
+
+  .error-header-meta b {
+    font-weight: 400;
+    color: var(--color-accent);
+  }
+
+  .error-header-close {
+    display: inline-grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    margin-left: 6px;
+    border: var(--line);
+    font-size: 9px;
+    vertical-align: 1px;
+  }
+
+  @media (max-width: 720px) {
+    .error-header-meta {
+      display: none;
+    }
+  }
+</style>

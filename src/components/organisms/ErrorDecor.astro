@@ -1,0 +1,141 @@
+---
+// Décor de l'affiche d'erreur : traits de glitch, cases, règle graduée,
+// texte vertical et jauge. Purement décoratif, positionné en absolu dans
+// l'affiche. Masqué sur mobile pour ne pas gêner la lecture.
+---
+
+<div class="error-decor" aria-hidden="true">
+  <span
+    class="glitch glitch--accent"
+    style="top: 14%; left: 8%; width: 90px"
+  ></span>
+  <span
+    class="glitch glitch--ink"
+    style="top: 15%; left: 12%; width: 40px"
+  ></span>
+  <span
+    class="glitch glitch--faint"
+    style="top: 31%; right: 6%; width: 160px"
+  ></span>
+  <span
+    class="glitch glitch--accent"
+    style="top: 33%; right: 14%; width: 30px"
+  ></span>
+  <span
+    class="glitch glitch--ink"
+    style="top: 47%; left: 4%; width: 60px"
+  ></span>
+  <span
+    class="glitch glitch--accent"
+    style="top: 58%; right: 9%; width: 70px"
+  ></span>
+  <span
+    class="glitch glitch--faint"
+    style="top: 74%; left: 4%; width: 110px"
+  ></span>
+
+  <span class="side-box" style="top: 22%; left: 48px">
+    ✕
+  </span>
+  <span class="side-box" style="top: 54%; right: 64px">
+    !
+  </span>
+
+  <span class="ruler"></span>
+  <span class="side-text">RETRY.CONNECTION.EXE</span>
+  <span class="side-gauge"></span>
+</div>
+
+<style>
+  .error-decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .glitch {
+    position: absolute;
+    height: 2px;
+  }
+
+  .glitch--accent {
+    background: var(--color-accent);
+  }
+
+  .glitch--ink {
+    background: var(--color-ink);
+    opacity: 0.55;
+  }
+
+  .glitch--faint {
+    background: var(--color-ink-faint);
+  }
+
+  .side-box {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border: var(--line);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  /* Règle graduée verticale */
+  .ruler {
+    position: absolute;
+    top: 24%;
+    left: 22px;
+    width: 6px;
+    height: 46%;
+    background: repeating-linear-gradient(
+      var(--color-ink-soft) 0 1px,
+      transparent 1px 7px
+    );
+  }
+
+  .side-text {
+    position: absolute;
+    top: 26%;
+    right: 22px;
+    writing-mode: vertical-rl;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+  }
+
+  /* Jauge verticale presque vide */
+  .side-gauge {
+    position: absolute;
+    top: calc(26% + 230px);
+    right: 24px;
+    width: 10px;
+    height: 110px;
+    border: var(--line);
+  }
+
+  .side-gauge::after {
+    content: '';
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+    height: 18%;
+    background: var(--color-accent);
+  }
+
+  /* Écran bas : le texte vertical passerait sous les fenêtres. */
+  @media (max-height: 760px) {
+    .side-text,
+    .side-gauge {
+      display: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .error-decor {
+      display: none;
+    }
+  }
+</style>

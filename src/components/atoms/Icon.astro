@@ -1,0 +1,67 @@
+---
+// Icônes au trait, dessinées en SVG. Elles prennent la couleur du texte
+// (currentColor) et sont décoratives : le texte voisin porte le sens.
+import type { HTMLAttributes } from 'astro/types';
+
+import type { IconName } from './icon-name';
+
+interface Props extends HTMLAttributes<'svg'> {
+  name: IconName;
+}
+
+const { name, class: className, ...attributes } = Astro.props;
+---
+
+<svg
+  class:list={['icon', className]}
+  viewBox="0 0 26 26"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  aria-hidden="true"
+  {...attributes}
+>
+  {name === 'home' && <path d="M3 12 L13 3 L23 12 V23 H16 V16 H10 V23 H3 Z" />}
+
+  {name === 'code' && (
+    <path d="M8 7 L3 13 L8 19 M18 7 L23 13 L18 19 M15 5 L11 21" />
+  )}
+
+  {name === 'linkedin' && (
+    <>
+      <rect x="3" y="3" width="20" height="20" />
+      <path d="M8.2 11 V19 M8.2 7 V9 M12.5 19 V11 M12.5 14 C12.5 11 18.5 10 18.5 14 V19" />
+    </>
+  )}
+
+  {name === 'mail' && (
+    <>
+      <rect x="3" y="6" width="20" height="14" />
+      <path d="M3 6 L13 14 L23 6" />
+    </>
+  )}
+
+  {name === 'warning' && (
+    <>
+      <path d="M13 2.5 L24.5 23 H1.5 Z" />
+      <path d="M13 10 V16 M13 18.5 V20.5" />
+    </>
+  )}
+
+  {name === 'globe' && (
+    <>
+      <circle cx="13" cy="13" r="10" />
+      <ellipse cx="13" cy="13" rx="4.5" ry="10" />
+      <path d="M3 13 H23 M5 8 H21 M5 18 H21" stroke-width="1.2" />
+    </>
+  )}
+</svg>
+
+<style>
+  .icon {
+    display: block;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+  }
+</style>

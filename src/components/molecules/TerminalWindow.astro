@@ -1,0 +1,61 @@
+---
+// Fenêtre façon terminal : barre de titre sombre, case de fermeture
+// décorative, contenu dans le slot. Le parent fixe la taille via `class`.
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'section'> {
+  title: string;
+  titleId: string;
+}
+
+const { title, titleId, class: className, ...attributes } = Astro.props;
+---
+
+<section
+  class:list={['terminal-window', className]}
+  aria-labelledby={titleId}
+  {...attributes}
+>
+  <div class="terminal-window-bar">
+    <h2 class="terminal-window-title" id={titleId}>
+      {title}
+    </h2>
+    <span class="terminal-window-close" aria-hidden="true">
+      ✕
+    </span>
+  </div>
+  <slot />
+</section>
+
+<style>
+  .terminal-window {
+    background: var(--color-paper-light);
+    border: var(--line);
+    box-shadow: 6px 6px 0 var(--color-ink);
+  }
+
+  .terminal-window-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 6px 10px;
+    color: var(--color-paper);
+    background: var(--color-ink);
+  }
+
+  .terminal-window-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  .terminal-window-close {
+    display: inline-grid;
+    place-items: center;
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--color-paper);
+    font-size: 8px;
+  }
+</style>

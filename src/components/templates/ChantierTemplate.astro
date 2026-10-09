@@ -12,7 +12,13 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-<FrameTemplate title={title} description={description}>
+<FrameTemplate
+  title={title}
+  description={description}
+  leftGutterText="SECTOR 01 // CHANTIER"
+  rightGutterText="SECTOR 02 // CHANTIER"
+  footerLabel="Page temporaire"
+>
   <div class="chantier">
     <div class="chantier-panels">
       <slot name="panels" />

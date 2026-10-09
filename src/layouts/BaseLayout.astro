@@ -8,9 +8,12 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  // false pour les pages que les moteurs de recherche ne doivent pas
+  // indexer (la page 404, par exemple).
+  isIndexable?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, isIndexable = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -19,6 +22,7 @@ const { title, description } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {!isIndexable && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <Font cssVariable="--font-syne" preload />

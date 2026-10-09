@@ -1,0 +1,49 @@
+---
+// Fichier triste en pixels : contour, coin plié, yeux en croix, bouche.
+// Quelques éclats de « glitch » débordent sur les côtés.
+import type { HTMLAttributes } from 'astro/types';
+
+import PixelArt from '../atoms/PixelArt.astro';
+
+type Props = HTMLAttributes<'svg'>;
+
+const attributes = Astro.props;
+
+const SAD_FILE_ROWS = [
+  'XXXXXXXXXX....',
+  'X........XX...',
+  'X........X.X..',
+  'X........X..X.',
+  'X........XXXXX',
+  'X............X',
+  'X..X.X..X.X..X',
+  'X...X....X...X',
+  'X..X.X..X.X..X',
+  'X............X',
+  'X............X',
+  'X....XXXX....X',
+  'X...X....X...X',
+  'X............X',
+  'X............X',
+  'XXXXXXXXXXXXXX',
+];
+---
+
+<PixelArt
+  rows={SAD_FILE_ROWS}
+  pixelColor="var(--color-ink)"
+  padding={3}
+  {...attributes}
+>
+  <!-- Fond clair, à la forme du fichier -->
+  <polygon
+    slot="behind"
+    points="0,0 10,0 14,4 14,16 0,16"
+    fill="var(--color-paper-light)"
+  ></polygon>
+
+  <!-- Éclats de glitch -->
+  <rect x="15" y="6" width="2" height="1" fill="var(--color-accent)"></rect>
+  <rect x="-3" y="10" width="2" height="1" fill="var(--color-accent)"></rect>
+  <rect x="15.5" y="12" width="1" height="1" fill="var(--color-ink)"></rect>
+</PixelArt>
