@@ -1,5 +1,4 @@
 # Automatic dependency updates.
-# The Docker ecosystem will be added together with the CI image build.
 version: 2
 
 updates:
@@ -53,4 +52,27 @@ updates:
     # Titles: "ci(deps): …"
     commit-message:
       prefix: ci
+      include: scope
+
+  # Base images of the Dockerfile (pinned by digest, updated together with
+  # their tag). One pull request per image: Node only affects the build,
+  # nginx is what runs in production.
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Paris
+    # Docker only supports a single delay, not one per update type.
+    cooldown:
+      default-days: 7
+    # The Node major follows .nvmrc and the engines field: it changes with
+    # them, in a dedicated pull request, never alone.
+    ignore:
+      - dependency-name: node
+        update-types: ['version-update:semver-major']
+    # Titles: "build(deps): …"
+    commit-message:
+      prefix: build
       include: scope
