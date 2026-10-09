@@ -18,16 +18,26 @@ if (hasValues) {
   maximumText = `${Math.round(maximum)} %`;
 }
 
+// Bars drawn in SVG, in a 100-unit-high box stretched to the plot: their
+// size goes through SVG attributes, which the CSP allows, rather than style
+// attributes, which it blocks.
+const PLOT_HEIGHT = 100;
+const BAR_WIDTH = 0.8;
+
 interface Bar {
-  heightPercent: number;
+  x: number;
+  y: number;
+  height: number;
   description: string;
 }
 
 const bars: Bar[] = values.map((value, index) => {
   const minutesAgo = values.length - 1 - index;
-  const heightPercent = Math.max(value, MINIMUM_BAR_PERCENT);
+  const height = Math.max(value, MINIMUM_BAR_PERCENT);
   const description = `il y a ${minutesAgo} min : ${Math.round(value)} %`;
-  const bar = { heightPercent, description };
+  const x = index + (1 - BAR_WIDTH) / 2;
+  const y = PLOT_HEIGHT - height;
+  const bar = { x, y, height, description };
   return bar;
 });
 ---
@@ -39,15 +49,24 @@ const bars: Bar[] = values.map((value, index) => {
   </div>
 
   {hasValues && (
-    <div class="cpu-history-plot" aria-hidden="true">
+    <svg
+      class="cpu-history-plot"
+      viewBox={`0 0 ${values.length} ${PLOT_HEIGHT}`}
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
       {bars.map((bar) => (
-        <i
+        <rect
           class="cpu-history-bar"
-          style={`height: ${bar.heightPercent}%`}
-          title={bar.description}
-        />
+          x={bar.x}
+          y={bar.y}
+          width={BAR_WIDTH}
+          height={bar.height}
+        >
+          <title>{bar.description}</title>
+        </rect>
       ))}
-    </div>
+    </svg>
   )}
 
   {!hasValues && (
@@ -69,10 +88,8 @@ const bars: Bar[] = values.map((value, index) => {
   }
 
   .cpu-history-plot {
-    display: grid;
-    grid-template-columns: repeat(30, 1fr);
-    align-items: end;
-    gap: 2px;
+    display: block;
+    width: 100%;
     height: clamp(36px, 5.6vh, 56px);
     border-bottom: var(--line);
     background-image: linear-gradient(
@@ -83,19 +100,16 @@ const bars: Bar[] = values.map((value, index) => {
   }
 
   .cpu-history-plot--empty {
-    grid-template-columns: 1fr;
+    display: grid;
     place-items: center;
     background-image: none;
   }
 
   .cpu-history-bar {
-    display: block;
-    min-height: 2px;
-    background: var(--color-ink);
-    border-radius: 2px 2px 0 0;
+    fill: var(--color-ink);
   }
 
   .cpu-history-bar:hover {
-    background: var(--color-accent);
+    fill: var(--color-accent);
   }
 </style>
