@@ -1,0 +1,31 @@
+---
+// Decorative barcode. The parent can resize it through `class`.
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'span'>;
+
+const { class: className, ...attributes } = Astro.props;
+---
+
+<span
+  class:list={['barcode', className]}
+  aria-hidden="true"
+  {...attributes}
+></span>
+
+<style>
+  .barcode {
+    display: block;
+    width: 150px;
+    height: 26px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--color-ink) 0 2px,
+      transparent 2px 4px,
+      var(--color-ink) 4px 5px,
+      transparent 5px 8px,
+      var(--color-ink) 8px 11px,
+      transparent 11px 12px
+    );
+  }
+</style>

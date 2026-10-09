@@ -1,0 +1,90 @@
+---
+// Error page template: a poster inside the V4 frame.
+// - "decor" slot: background decor;
+// - "header" slot: poster header;
+// - "title" slot: title (left column on desktop);
+// - "windows" slot: windows (right column on desktop);
+// - "footer" slot: poster footer.
+// On mobile, everything stacks.
+import FrameTemplate from './FrameTemplate.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<FrameTemplate
+  title={title}
+  description={description}
+  leftGutterText="SECTOR 404 // INTROUVABLE"
+  rightGutterText="SECTOR 404 // INTROUVABLE"
+  footerLabel="Erreur 404"
+  isIndexable={false}
+>
+  <div class="error-poster">
+    <slot name="decor" />
+    <slot name="header" />
+
+    <div class="error-poster-body">
+      <slot name="title" />
+      <div class="error-poster-windows">
+        <slot name="windows" />
+      </div>
+    </div>
+
+    <slot name="footer" />
+  </div>
+</FrameTemplate>
+
+<style>
+  .error-poster {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
+    min-height: 0;
+    padding: 20px 28px 18px;
+    overflow: hidden;
+  }
+
+  .error-poster-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 32px;
+    min-height: 0;
+  }
+
+  .error-poster-windows {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  @media (max-width: 980px) {
+    .error-poster {
+      height: auto;
+      gap: 24px;
+    }
+
+    .error-poster-body {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .error-poster {
+      padding: 18px 16px;
+    }
+
+    .error-poster-windows {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>

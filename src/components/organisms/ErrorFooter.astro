@@ -1,0 +1,100 @@
+---
+// Error poster footer: search at 0 %, status, link back home.
+import Barcode from '../atoms/Barcode.astro';
+import Icon from '../atoms/Icon.astro';
+import MicroText from '../atoms/MicroText.astro';
+import LoadingBar from '../molecules/LoadingBar.astro';
+
+interface Props {
+  homeHref: string;
+}
+
+const { homeHref } = Astro.props;
+---
+
+<div class="error-footer">
+  <div class="error-footer-search">
+    <LoadingBar label="Recherche de la page..." percent={0} />
+  </div>
+
+  <div class="error-footer-row">
+    <p class="error-footer-status">
+      <span>
+        System status : <b>page manquante</b>
+      </span>
+      <span>Checkpoint : accueil</span>
+    </p>
+
+    <a class="error-footer-home" href={homeHref}>
+      <Icon name="globe" />
+      <span>
+        Reconnexion
+        <br />à l'accueil &gt;_
+      </span>
+    </a>
+
+    <div class="error-footer-code" aria-hidden="true">
+      <Barcode />
+      <MicroText>RETRY.EXE</MicroText>
+    </div>
+  </div>
+</div>
+
+<style>
+  .error-footer {
+    display: grid;
+    gap: 14px;
+  }
+
+  .error-footer-search {
+    justify-self: center;
+    width: min(520px, 100%);
+  }
+
+  .error-footer-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .error-footer-status {
+    display: grid;
+  }
+
+  .error-footer-status b {
+    font-weight: 400;
+    color: var(--color-accent);
+  }
+
+  .error-footer-home {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .error-footer-home:hover,
+  .error-footer-home:focus-visible {
+    color: var(--color-accent);
+  }
+
+  .error-footer-code {
+    display: grid;
+    justify-items: center;
+    justify-self: end;
+    gap: 4px;
+  }
+
+  @media (max-width: 720px) {
+    .error-footer-row {
+      grid-template-columns: 1fr;
+      justify-items: start;
+    }
+
+    .error-footer-code {
+      justify-self: start;
+    }
+  }
+</style>
