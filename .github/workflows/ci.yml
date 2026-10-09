@@ -53,3 +53,58 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  # A broken Dockerfile or nginx config must block the pull request, not
+  # fail the deployment after the merge. On master, deploy.yml builds the
+  # image anyway: no need to build it twice.
+  image:
+    name: Docker image
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      # Built locally, never pushed. Reads the layer cache written by
+      # deploy.yml on master, without writing to it.
+      - name: Build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          push: false
+          load: true
+          tags: evolve:ci
+          cache-from: type=gha
+
+      # nginx only reads its config when it starts: run the image and check
+      # that it serves the home page and the 404 page.
+      - name: Smoke test
+        run: |
+          docker run --detach --name site --publish 8080:8080 evolve:ci
+
+          for attempt in $(seq 1 20); do
+            if curl --silent --output /dev/null http://127.0.0.1:8080/; then
+              break
+            fi
+            sleep 1
+          done
+
+          home_status=$(curl --silent --output /dev/null --write-out '%{http_code}' http://127.0.0.1:8080/)
+          missing_status=$(curl --silent --output /dev/null --write-out '%{http_code}' http://127.0.0.1:8080/does-not-exist)
+          echo "Home page: $home_status, unknown page: $missing_status"
+
+          if [ "$home_status" != "200" ]; then
+            docker logs site
+            exit 1
+          fi
+          if [ "$missing_status" != "404" ]; then
+            docker logs site
+            exit 1
+          fi
