@@ -24,6 +24,11 @@ updates:
     groups:
       npm-minor-and-patch:
         update-types: [minor, patch]
+    # @types/node décrit l'API de Node : sa version majeure doit suivre celle
+    # de Node utilisée (.nvmrc). Elle change avec Node, pas avant.
+    ignore:
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
     # Titres conformes au contrôle Conventional Commits :
     # « chore(deps): … » et « chore(deps-dev): … ».
     commit-message:
