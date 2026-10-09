@@ -1,5 +1,5 @@
 ---
-// Document HTML commun : métadonnées, polices et styles globaux.
+// Shared HTML document: metadata, fonts and global styles.
 import { Font } from 'astro:assets';
 
 import '../styles/tokens.css';
@@ -8,8 +8,8 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
-  // false pour les pages que les moteurs de recherche ne doivent pas
-  // indexer (la page 404, par exemple).
+  // false for pages search engines must not index (the 404 page, for
+  // example).
   isIndexable?: boolean;
 }
 

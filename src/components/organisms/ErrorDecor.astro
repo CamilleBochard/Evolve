@@ -1,7 +1,7 @@
 ---
-// Décor de l'affiche d'erreur : traits de glitch, cases, règle graduée,
-// texte vertical et jauge. Purement décoratif, positionné en absolu dans
-// l'affiche. Masqué sur mobile pour ne pas gêner la lecture.
+// Error poster decor: glitch lines, boxes, ruler, vertical text and gauge.
+// Purely decorative, absolutely positioned in the poster. Hidden on mobile
+// so it does not get in the way of reading.
 ---
 
 <div class="error-decor" aria-hidden="true">
@@ -82,7 +82,7 @@
     font-size: 13px;
   }
 
-  /* Règle graduée verticale */
+  /* Vertical ruler */
   .ruler {
     position: absolute;
     top: 24%;
@@ -105,7 +105,7 @@
     letter-spacing: 0.2em;
   }
 
-  /* Jauge verticale presque vide */
+  /* Almost empty vertical gauge */
   .side-gauge {
     position: absolute;
     top: calc(26% + 230px);
@@ -125,7 +125,7 @@
     background: var(--color-accent);
   }
 
-  /* Écran bas : le texte vertical passerait sous les fenêtres. */
+  /* Short screens: the vertical text would slide under the windows. */
   @media (max-height: 760px) {
     .side-text,
     .side-gauge {

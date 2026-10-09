@@ -1,7 +1,7 @@
 ---
-// Cadre V4 commun aux pages : coins, barres du haut et du bas, gouttières.
-// Le contenu de la page va dans le slot, à l'intérieur de <main>.
-// Les textes des gouttières et de la barre du bas changent selon la page.
+// V4 frame shared by the pages: corners, top and bottom bars, gutters.
+// The page content goes in the slot, inside <main>.
+// Gutter and bottom bar texts change from page to page.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PROFILE, SOCIAL_LINKS } from '../../data/profile';
 import FrameGutter from '../molecules/FrameGutter.astro';
@@ -69,7 +69,7 @@ const {
     min-width: 0;
   }
 
-  /* Coins « + » aux quatre angles du cadre */
+  /* "+" marks in the four corners of the frame */
   .frame-corner {
     display: grid;
     place-items: center;
@@ -98,7 +98,7 @@ const {
     border-left: var(--line);
   }
 
-  /* Desktop : la page tient dans la hauteur de l'écran, sans défilement. */
+  /* Desktop: the page fits the screen height, without scrolling. */
   @media (min-width: 981px) {
     .frame {
       grid-template-rows: var(--frame-topbar-height) minmax(0, 1fr) var(
@@ -114,7 +114,7 @@ const {
     }
   }
 
-  /* Mobile : le cadre se réduit aux barres, sans coins ni gouttières. */
+  /* Mobile: the frame shrinks to the bars, without corners or gutters. */
   @media (max-width: 720px) {
     .frame {
       grid-template-columns: 0 1fr 0;

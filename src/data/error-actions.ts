@@ -1,4 +1,4 @@
-// Liens proposés sur la page d'erreur pour revenir sur le site ou contacter.
+// Links offered on the error page to get back to the site or get in touch.
 import type { IconName } from '../components/atoms/icon-name';
 import { PROFILE, SOCIAL_LINKS } from './profile';
 

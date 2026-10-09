@@ -1,5 +1,5 @@
 ---
-// Fenêtre « Que faire ? » : liens pour quitter la page d'erreur.
+// "Que faire ?" window: links to leave the error page.
 import type { ErrorAction } from '../../data/error-actions';
 import ActionLink from '../molecules/ActionLink.astro';
 import TerminalWindow from '../molecules/TerminalWindow.astro';
@@ -41,7 +41,7 @@ const { actions } = Astro.props;
     padding: 6px 0;
   }
 
-  /* Pointillés entre deux liens */
+  /* Dashed line between two links */
   .error-actions-list > :global(* + *) {
     border-top: 1px dashed var(--color-ink-faint);
   }

@@ -1,5 +1,5 @@
 ---
-// Nombre en chiffres pixelisés (grille de 5 x 7 par chiffre).
+// Number drawn with pixel digits (a 5 x 7 grid per digit).
 import type { HTMLAttributes } from 'astro/types';
 
 import PixelArt from '../atoms/PixelArt.astro';
@@ -17,7 +17,7 @@ const DIGIT_GLYPHS: Record<string, string[]> = {
 const GLYPH_HEIGHT = 7;
 const SPACE_BETWEEN_DIGITS = '.';
 
-// On assemble les chiffres ligne par ligne, séparés d'une colonne vide.
+// Build the digits row by row, separated by an empty column.
 const rows: string[] = [];
 for (let rowIndex = 0; rowIndex < GLYPH_HEIGHT; rowIndex++) {
   const rowParts: string[] = [];

@@ -1,16 +1,16 @@
 ---
-// Dessin en pixels à partir d'une grille de texte : « X » = pixel plein,
-// tout autre caractère = vide. Toutes les lignes ont la même longueur.
+// Pixel drawing from a text grid: "X" is a filled pixel, any other
+// character is empty. All rows have the same length.
 //
-// Le slot « behind » reçoit des formes SVG dessinées sous les pixels (un
-// fond, par exemple), le slot par défaut des formes dessinées par-dessus.
-// Les coordonnées de ces formes sont en pixels de la grille.
+// The "behind" slot takes SVG shapes drawn under the pixels (a background,
+// for example), the default slot takes shapes drawn on top. Their
+// coordinates are in grid pixels.
 import type { HTMLAttributes } from 'astro/types';
 
 interface Props extends HTMLAttributes<'svg'> {
   rows: string[];
   pixelColor: string;
-  // Marge autour de la grille, en pixels, pour les formes qui débordent.
+  // Margin around the grid, in pixels, for shapes that overflow it.
   padding?: number;
 }
 

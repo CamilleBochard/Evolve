@@ -1,7 +1,7 @@
 ---
-// Gabarit de la page temporaire : deux colonnes dans le cadre V4.
-// - slot « panels » : les panneaux empilés de la colonne de gauche ;
-// - slot « stage » : la colonne de droite.
+// Temporary home page template: two columns inside the V4 frame.
+// - "panels" slot: stacked panels of the left column;
+// - "stage" slot: the right column.
 import FrameTemplate from './FrameTemplate.astro';
 
 interface Props {
@@ -35,9 +35,9 @@ const { title, description } = Astro.props;
   }
 
   /*
-   * Colonne de gauche : identité en haut, statut au milieu (prend la place
-   * restante), contact en bas. Les panneaux sont séparés par un trait.
-   * container-type permet aux panneaux de se dimensionner sur sa largeur.
+   * Left column: identity at the top, status in the middle (takes the
+   * remaining space), contact at the bottom, separated by a line.
+   * container-type lets the panels size themselves on its width.
    */
   .chantier-panels {
     display: grid;
