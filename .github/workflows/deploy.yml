@@ -1,15 +1,13 @@
 # Production delivery: every push on master (so every merged pull request)
-# builds the site image and publishes it on GHCR.
+# builds the site image, publishes it on GHCR, then deploys it on the VPS.
 name: Deploy
 
 on:
   push:
     branches: [master]
 
-# Read the code, write the image to GHCR. Nothing else.
-permissions:
-  contents: read
-  packages: write
+# No permission by default: each job asks only for what it needs.
+permissions: {}
 
 # One delivery at a time, and never cancel one halfway through.
 concurrency:
@@ -24,6 +22,10 @@ jobs:
     name: Build and publish the image
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Read the code, write the image to GHCR. Nothing else.
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       # Actions pinned by commit SHA: a tag can be moved, a SHA cannot.
@@ -64,3 +66,46 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  deploy:
+    name: Deploy on the VPS
+    needs: publish
+    runs-on: ubuntu-latest
+    # Covers two pulls and two health checks if the script rolls back.
+    timeout-minutes: 10
+    # The SSH secrets live in this environment, not in the repository.
+    environment:
+      name: production
+      url: https://camillebochard.fr
+    # Talks to the VPS only: no access to the repository or the registry.
+    permissions: {}
+
+    steps:
+      # The key and the server fingerprint come from secrets, through env
+      # variables rather than inline expressions in the script.
+      - name: Set up SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          umask 077
+          printf '%s\n' "$DEPLOY_SSH_KEY" > "$RUNNER_TEMP/deploy_key"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$RUNNER_TEMP/known_hosts"
+
+      # The forced command on the VPS ignores what is sent and passes it as
+      # arguments to deploy.sh: "portfolio sha-<short commit>".
+      # Same short SHA length as the tag written by metadata-action.
+      - name: Run the deploy script
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          image_tag="sha-${GITHUB_SHA::7}"
+          ssh \
+            -i "$RUNNER_TEMP/deploy_key" \
+            -o IdentitiesOnly=yes \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts" \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            portfolio "$image_tag"
