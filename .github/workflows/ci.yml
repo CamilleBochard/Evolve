@@ -108,3 +108,27 @@ jobs:
             docker logs site
             exit 1
           fi
+
+      # Each location includes the headers on its own, and the 404 page needs
+      # `always`: check one URL of each kind.
+      - name: Security headers
+        run: |
+          asset_path=$(curl --silent http://127.0.0.1:8080/ | grep --only-matching '/_astro/[^"]*\.css' | head -n 1)
+          urls="http://127.0.0.1:8080/ http://127.0.0.1:8080/does-not-exist http://127.0.0.1:8080${asset_path}"
+          expected_headers="x-content-type-options referrer-policy permissions-policy content-security-policy x-frame-options"
+
+          missing_count=0
+          for url in $urls; do
+            response_headers=$(curl --silent --head "$url" | tr '[:upper:]' '[:lower:]')
+            for header in $expected_headers; do
+              if ! echo "$response_headers" | grep --quiet "^${header}:"; then
+                echo "Missing $header on $url"
+                missing_count=$((missing_count + 1))
+              fi
+            done
+          done
+
+          if [ "$missing_count" -ne 0 ]; then
+            exit 1
+          fi
+          echo "All security headers present"
