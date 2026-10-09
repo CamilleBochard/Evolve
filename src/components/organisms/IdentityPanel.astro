@@ -1,5 +1,5 @@
 ---
-// Panneau d'identité : nom en grand et classe du personnage.
+// Identity panel: large name and character class.
 import type { Profile } from '../../data/profile';
 import CornerMarks from '../atoms/CornerMarks.astro';
 import Tag from '../atoms/Tag.astro';
@@ -38,8 +38,8 @@ const { profile } = Astro.props;
     margin: clamp(14px, 2.6vh, 28px) 0 clamp(12px, 2.2vh, 24px);
     font-family: var(--font-title);
     font-weight: 800;
-    /* Syne 800 est très large : la taille suit la largeur de la colonne
-       (cqi) et la hauteur de l'écran (vh), la plus petite des deux. */
+    /* Syne 800 is very wide: the size follows the column width (cqi) and
+       the screen height (vh), whichever is smaller. */
     font-size: clamp(36px, min(10.5cqi, 9vh), 112px);
     line-height: 0.88;
     letter-spacing: -0.01em;

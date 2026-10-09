@@ -1,13 +1,12 @@
 /// <reference types="vitest/config" />
 import { getViteConfig } from 'astro/config';
 
-// getViteConfig applique la configuration Vite d'Astro aux tests (plugins,
-// alias, modules virtuels astro:*), pour que le code testé soit compilé
-// comme dans le site.
+// getViteConfig applies Astro's Vite config to the tests (plugins, aliases,
+// astro:* virtual modules), so tested code is compiled as in the site.
 //
-// Deux projets, séparés par l'extension du fichier de test :
-// - *.test.ts : logique pure, exécutée dans Node ;
-// - *.test.tsx : composants React, exécutés dans un DOM simulé (jsdom).
+// Two projects, split by test file extension:
+// - *.test.ts: pure logic, run in Node;
+// - *.test.tsx: React components, run in a simulated DOM (jsdom).
 const config = getViteConfig({
   test: {
     projects: [

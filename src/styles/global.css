@@ -1,4 +1,4 @@
-/* Styles de base communs à toutes les pages. */
+/* Base styles shared by every page. */
 
 *,
 *::before,
@@ -14,7 +14,7 @@ body {
   background-color: var(--color-paper);
 }
 
-/* Trame de points façon interface de jeu */
+/* Dot grid, like a game interface */
 body {
   background-image: radial-gradient(
     var(--color-ink-faint) 1px,
@@ -35,7 +35,7 @@ figure {
   margin: 0;
 }
 
-/* Texte lu par les lecteurs d'écran mais invisible à l'écran */
+/* Text read by screen readers but invisible on screen */
 .visually-hidden {
   position: absolute;
   width: 1px;

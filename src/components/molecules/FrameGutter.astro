@@ -1,5 +1,5 @@
 ---
-// Gouttière latérale du cadre : bande hachurée et texte vertical.
+// Side gutter of the frame: hatched band and vertical text.
 import HatchBlock from '../atoms/HatchBlock.astro';
 
 type Side = 'left' | 'right';
@@ -40,7 +40,7 @@ const { side, text } = Astro.props;
     opacity: 0.5;
   }
 
-  /* Texte vertical, lu de bas en haut */
+  /* Vertical text, read from bottom to top */
   .frame-gutter-text {
     position: absolute;
     bottom: 24px;

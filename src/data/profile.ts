@@ -1,4 +1,4 @@
-// Contenu du profil affiché sur le site, séparé du balisage.
+// Profile content shown on the site, kept apart from the markup.
 
 export interface SocialLink {
   label: string;

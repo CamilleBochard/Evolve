@@ -1,9 +1,9 @@
-# Mises à jour automatiques des dépendances.
-# L'écosystème Docker sera ajouté avec le Dockerfile (phase 3).
+# Automatic dependency updates.
+# The Docker ecosystem will be added together with the CI image build.
 version: 2
 
 updates:
-  # Dépendances npm (package.json)
+  # npm dependencies (package.json)
   - package-ecosystem: npm
     directory: /
     schedule:
@@ -11,33 +11,33 @@ updates:
       day: monday
       time: '06:00'
       timezone: Europe/Paris
-    # Attendre avant de proposer une version toute neuve : une version
-    # publiée par un compte compromis est en général retirée en quelques
-    # jours. Ne s'applique pas aux mises à jour de sécurité.
+    # Wait before proposing a brand new release: a version published from a
+    # compromised account is usually pulled within a few days. Does not apply
+    # to security updates.
     cooldown:
       default-days: 5
       semver-major-days: 14
       semver-minor-days: 7
       semver-patch-days: 3
-    # Mineures et correctifs regroupés dans une seule pull request par
-    # semaine ; chaque version majeure arrive seule, pour être relue.
+    # Minor and patch updates grouped in one weekly pull request; each major
+    # update comes alone, to be reviewed.
     groups:
       npm-minor-and-patch:
         update-types: [minor, patch]
-    # @types/node décrit l'API de Node : sa version majeure doit suivre celle
-    # de Node utilisée (.nvmrc). Elle change avec Node, pas avant.
+    # @types/node describes the Node API: its major must follow the Node
+    # version in use (.nvmrc). It changes with Node, not before.
     ignore:
       - dependency-name: '@types/node'
         update-types: ['version-update:semver-major']
-    # Titres conformes au contrôle Conventional Commits :
-    # « chore(deps): … » et « chore(deps-dev): … ».
+    # Titles that pass the Conventional Commits check:
+    # "chore(deps): …" and "chore(deps-dev): …".
     commit-message:
       prefix: chore
       prefix-development: chore
       include: scope
 
-  # Actions GitHub des workflows (épinglées par SHA, mises à jour avec
-  # leur commentaire de version)
+  # GitHub Actions used by the workflows (pinned by SHA, updated together
+  # with their version comment)
   - package-ecosystem: github-actions
     directory: /
     schedule:
@@ -50,7 +50,7 @@ updates:
     groups:
       github-actions:
         patterns: ['*']
-    # Titres : « ci(deps): … »
+    # Titles: "ci(deps): …"
     commit-message:
       prefix: ci
       include: scope

@@ -8,10 +8,10 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 import typescriptEslint from 'typescript-eslint';
 
-// eslint-plugin-astro charge eslint-plugin-jsx-a11y-x avec require(). Un
-// `import` ESM du même plugin ici vide ses règles d'accessibilité pour les
-// fichiers .astro (constaté avec eslint-plugin-astro 3.2.1 et
-// eslint-plugin-jsx-a11y-x 0.2.0). On le charge donc de la même façon.
+// eslint-plugin-astro loads eslint-plugin-jsx-a11y-x with require(). An ESM
+// `import` of the same plugin here empties its accessibility rules for
+// .astro files (seen with eslint-plugin-astro 3.2.1 and
+// eslint-plugin-jsx-a11y-x 0.2.0), so it is loaded the same way.
 const requireFromConfig = createRequire(import.meta.url);
 const jsxA11yModule = requireFromConfig('eslint-plugin-jsx-a11y-x');
 const jsxA11y = jsxA11yModule.default;
@@ -19,15 +19,15 @@ const jsxA11y = jsxA11yModule.default;
 export default defineConfig([
   globalIgnores(['dist/', '.astro/', 'maquettes/', 'inspi_portfolio/']),
 
-  // Base JavaScript et TypeScript, pour tous les fichiers.
+  // JavaScript and TypeScript base, for every file.
   eslintJs.configs.recommended,
   typescriptEslint.configs.recommended,
 
-  // Composants Astro, avec les règles d'accessibilité adaptées à leur syntaxe.
+  // Astro components, with accessibility rules adapted to their syntax.
   eslintPluginAstro.configs.recommended,
   eslintPluginAstro.configs['jsx-a11y-recommended'],
 
-  // Islands React : règles des hooks et accessibilité du JSX.
+  // React islands: hooks rules and JSX accessibility.
   {
     files: ['**/*.{jsx,tsx}'],
     extends: [reactHooks.configs.flat.recommended, jsxA11y.configs.recommended],
@@ -36,7 +36,7 @@ export default defineConfig([
     },
   },
 
-  // Fichiers de configuration exécutés par Node.
+  // Config files run by Node.
   {
     files: ['*.config.{js,mjs,ts}'],
     languageOptions: {

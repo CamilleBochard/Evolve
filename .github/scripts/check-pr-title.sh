@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Vérifie qu'un titre de pull request suit le format Conventional Commits :
-#   type(portée facultative)!: description
-# Exemples valides : « feat: add home page », « fix(ci)!: drop Node 22 ».
+# Checks that a pull request title follows Conventional Commits:
+#   type(optional scope)!: description
+# Valid examples: "feat: add home page", "fix(ci)!: drop Node 22".
 #
-# Avec le merge squash, ce titre devient le message du commit sur master.
+# With squash merges, this title becomes the commit message on master.
 #
 # Usage : PR_TITLE="feat: add home page" check-pr-title.sh
 

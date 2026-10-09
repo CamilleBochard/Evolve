@@ -1,11 +1,11 @@
 /*
- * Design tokens du thème V4 (jour).
- * Toutes les couleurs passent par ces variables : c'est ce qui permettra
- * plus tard la bascule jour / nuit.
+ * Design tokens of the V4 (day) theme.
+ * Every color goes through these variables: this is what will later allow
+ * switching between day and night themes.
  */
 
 :root {
-  /* Couleurs */
+  /* Colors */
   --color-paper: #e4e2dc;
   --color-paper-deep: #d9d6ce;
   --color-paper-light: #efede8;
@@ -15,12 +15,12 @@
   --color-accent: #ff3d1f;
   --color-screen: #0e0e0e;
 
-  /* Polices (variables fournies par l'API Fonts d'Astro) */
+  /* Fonts (variables provided by the Astro Fonts API) */
   --font-title: var(--font-syne);
   --font-body: var(--font-plus-jakarta-sans);
   --font-mono: var(--font-space-mono);
 
-  /* Traits et motifs */
+  /* Lines and patterns */
   --line: 1px solid var(--color-ink);
   --hatch: repeating-linear-gradient(
     -45deg,
@@ -47,7 +47,7 @@
     0 var(--chamfer-size)
   );
 
-  /* Cadre global */
+  /* Global frame */
   --frame-gutter-width: 36px;
   --frame-topbar-height: 48px;
   --frame-bottombar-height: 44px;

@@ -1,14 +1,14 @@
-# Vérifie que le titre de chaque pull request suit Conventional Commits.
-# Avec le merge squash, ce titre devient le message du commit sur master.
+# Checks that every pull request title follows Conventional Commits.
+# With squash merges, this title becomes the commit message on master.
 name: PR title
 
 on:
   pull_request:
-    # « edited » relance le contrôle quand le titre change ; « synchronize »
-    # le relance à chaque nouveau commit, pour qu'il couvre le dernier commit.
+    # "edited" reruns the check when the title changes; "synchronize" reruns
+    # it on each new commit, so it always covers the latest commit.
     types: [opened, edited, reopened, synchronize]
 
-# Aucun droit : le contrôle lit seulement le titre fourni par l'événement.
+# No permissions: the check only reads the title from the event payload.
 permissions: {}
 
 concurrency:
@@ -28,8 +28,8 @@ jobs:
           persist-credentials: false
           sparse-checkout: .github/scripts
 
-      # Le titre passe par une variable d'environnement, jamais directement
-      # dans le script : un titre piégé ne peut pas injecter de commande.
+      # The title goes through an environment variable, never straight into
+      # the script: a crafted title cannot inject a command.
       - name: Check title
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
