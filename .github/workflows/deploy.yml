@@ -95,10 +95,13 @@ jobs:
       # The forced command on the VPS ignores what is sent and passes it as
       # arguments to deploy.sh: "portfolio sha-<short commit>".
       # Same short SHA length as the tag written by metadata-action.
+      # The user name is a variable, not a secret: GitHub masks every
+      # occurrence of a secret value in the logs, and a common word like
+      # this one would be hidden everywhere.
       - name: Run the deploy script
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER }}
         run: |
           image_tag="sha-${GITHUB_SHA::7}"
           ssh \
