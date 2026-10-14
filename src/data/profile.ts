@@ -18,7 +18,7 @@ export const PROFILE: Profile = {
   lastName: 'Bochard',
   className: 'Développeur',
   level: 3,
-  email: 'cam.bochard@gmail.com',
+  email: 'contact@camillebochard.fr',
 };
 
 export const SOCIAL_LINKS: SocialLink[] = [
