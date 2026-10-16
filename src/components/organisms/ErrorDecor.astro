@@ -5,41 +5,16 @@
 ---
 
 <div class="error-decor" aria-hidden="true">
-  <span
-    class="glitch glitch--accent"
-    style="top: 14%; left: 8%; width: 90px"
-  ></span>
-  <span
-    class="glitch glitch--ink"
-    style="top: 15%; left: 12%; width: 40px"
-  ></span>
-  <span
-    class="glitch glitch--faint"
-    style="top: 31%; right: 6%; width: 160px"
-  ></span>
-  <span
-    class="glitch glitch--accent"
-    style="top: 33%; right: 14%; width: 30px"
-  ></span>
-  <span
-    class="glitch glitch--ink"
-    style="top: 47%; left: 4%; width: 60px"
-  ></span>
-  <span
-    class="glitch glitch--accent"
-    style="top: 58%; right: 9%; width: 70px"
-  ></span>
-  <span
-    class="glitch glitch--faint"
-    style="top: 74%; left: 4%; width: 110px"
-  ></span>
+  <span class="glitch glitch--accent glitch--1"></span>
+  <span class="glitch glitch--ink glitch--2"></span>
+  <span class="glitch glitch--faint glitch--3"></span>
+  <span class="glitch glitch--accent glitch--4"></span>
+  <span class="glitch glitch--ink glitch--5"></span>
+  <span class="glitch glitch--accent glitch--6"></span>
+  <span class="glitch glitch--faint glitch--7"></span>
 
-  <span class="side-box" style="top: 22%; left: 48px">
-    ✕
-  </span>
-  <span class="side-box" style="top: 54%; right: 64px">
-    !
-  </span>
+  <span class="side-box side-box--left">✕</span>
+  <span class="side-box side-box--right">!</span>
 
   <span class="ruler"></span>
   <span class="side-text">RETRY.CONNECTION.EXE</span>
@@ -71,6 +46,50 @@
     background: var(--color-ink-faint);
   }
 
+  /* Positions in classes rather than style attributes: the CSP blocks
+     inline style attributes. */
+  .glitch--1 {
+    top: 14%;
+    left: 8%;
+    width: 90px;
+  }
+
+  .glitch--2 {
+    top: 15%;
+    left: 12%;
+    width: 40px;
+  }
+
+  .glitch--3 {
+    top: 31%;
+    right: 6%;
+    width: 160px;
+  }
+
+  .glitch--4 {
+    top: 33%;
+    right: 14%;
+    width: 30px;
+  }
+
+  .glitch--5 {
+    top: 47%;
+    left: 4%;
+    width: 60px;
+  }
+
+  .glitch--6 {
+    top: 58%;
+    right: 9%;
+    width: 70px;
+  }
+
+  .glitch--7 {
+    top: 74%;
+    left: 4%;
+    width: 110px;
+  }
+
   .side-box {
     position: absolute;
     display: grid;
@@ -80,6 +99,16 @@
     border: var(--line);
     font-family: var(--font-mono);
     font-size: 13px;
+  }
+
+  .side-box--left {
+    top: 22%;
+    left: 48px;
+  }
+
+  .side-box--right {
+    top: 54%;
+    right: 64px;
   }
 
   /* Vertical ruler */

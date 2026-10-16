@@ -32,5 +32,10 @@ COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 8080
 
-HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+# Traefik only routes to a container once it is healthy. Without a start
+# period, the first check runs after a full interval and every deployment
+# takes the site down for 30 s. During the start period, nginx is checked
+# every second, then every 30 s once healthy (start-interval needs Docker
+# Engine 25 or later).
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 --start-period=20s --start-interval=1s \
   CMD wget --quiet --spider http://127.0.0.1:8080/ || exit 1
