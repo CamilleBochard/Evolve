@@ -23,7 +23,7 @@ RUN npm run build
 # ---------- Stage 2: static web server ----------
 # Non-root nginx variant: the process runs as an unprivileged user and
 # listens on port 8080.
-FROM nginxinc/nginx-unprivileged:1.31.5-alpine@sha256:19c132c9ab02d3b783f478743dafc7a7f42e27aa7d2bdcbec1bb1128ca8f2a07 AS runtime
+FROM nginxinc/nginx-unprivileged:1.31.7-alpine@sha256:b5047b9b76845eac124358373c6852377c52e4b05834a47647e955dd91cb8f1e AS runtime
 
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 # Outside conf.d: nginx would load it at the http level on its own.
