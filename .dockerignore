@@ -8,5 +8,6 @@
 !astro.config.mjs
 !tsconfig.json
 !public/
+!scripts/
 !src/
 !docker/

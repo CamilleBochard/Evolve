@@ -36,9 +36,9 @@ export default defineConfig([
     },
   },
 
-  // Config files run by Node.
+  // Config files and build scripts run by Node.
   {
-    files: ['*.config.{js,mjs,ts}'],
+    files: ['*.config.{js,mjs,ts}', 'scripts/**/*.ts'],
     languageOptions: {
       globals: globals.node,
     },

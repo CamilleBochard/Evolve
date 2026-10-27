@@ -17,7 +17,9 @@ RUN npm ci
 
 COPY astro.config.mjs tsconfig.json ./
 COPY public ./public
+COPY scripts ./scripts
 COPY src ./src
+# The build first generates the halftone prints (npm prebuild).
 RUN npm run build
 
 # ---------- Stage 2: static web server ----------
