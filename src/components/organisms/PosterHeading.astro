@@ -1,0 +1,68 @@
+---
+// Heading of a poster: a spaced kicker line and a large vertical title,
+// read from bottom to top. The title becomes horizontal on mobile.
+interface Props {
+  kicker: string;
+  title: string;
+}
+
+const { kicker, title } = Astro.props;
+---
+
+<header class="poster-heading">
+  <p class="poster-heading-kicker">{kicker}</p>
+  <h1 class="poster-heading-title">{title}</h1>
+</header>
+
+<style>
+  .poster-heading {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 18px;
+    height: 100%;
+  }
+
+  .poster-heading-kicker {
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+  }
+
+  .poster-heading-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(64px, 11vh, 124px);
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-align: center;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  @media (max-width: 1240px) and (min-width: 721px) {
+    .poster-heading-title {
+      font-size: 72px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .poster-heading {
+      gap: 14px;
+      text-align: center;
+    }
+
+    .poster-heading-kicker {
+      letter-spacing: 0.4em;
+    }
+
+    .poster-heading-title {
+      padding-left: 0.14em;
+      font-size: 44px;
+      letter-spacing: 0.14em;
+      writing-mode: horizontal-tb;
+      transform: none;
+    }
+  }
+</style>

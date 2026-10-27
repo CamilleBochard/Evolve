@@ -1,0 +1,67 @@
+---
+// Graphic strip of the game top bar: hatching, serial, barcode and rings.
+// The last ring is lit with the accent color.
+import Barcode from '../atoms/Barcode.astro';
+import HatchBlock from '../atoms/HatchBlock.astro';
+---
+
+<span class="top-bar-deco" aria-hidden="true">
+  <HatchBlock class="top-bar-deco-hatch" />
+  <span class="top-bar-deco-code">SYS.92 // EVOLVE</span>
+  <Barcode class="top-bar-deco-barcode" />
+  <span class="top-bar-deco-rings">
+    <i></i>
+    <i></i>
+    <i class="is-lit"></i>
+  </span>
+</span>
+
+<style>
+  .top-bar-deco {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .top-bar-deco :global(.top-bar-deco-hatch) {
+    width: 46px;
+    height: 10px;
+  }
+
+  .top-bar-deco-code {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+    opacity: 0.6;
+  }
+
+  .top-bar-deco :global(.top-bar-deco-barcode) {
+    width: 72px;
+    height: 14px;
+  }
+
+  .top-bar-deco-rings {
+    display: flex;
+    gap: 3px;
+  }
+
+  .top-bar-deco-rings i {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+  }
+
+  .top-bar-deco-rings .is-lit {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  @media (max-width: 720px) {
+    .top-bar-deco-code,
+    .top-bar-deco :global(.top-bar-deco-barcode) {
+      display: none;
+    }
+  }
+</style>

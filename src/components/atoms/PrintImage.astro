@@ -1,0 +1,31 @@
+---
+// Halftone print generated at build time (see scripts/generate-prints.ts).
+// Shown as is, without Astro's image optimization: a lossy format would blur
+// the dots. The dots stay square when the print is enlarged.
+import type { ImageMetadata } from 'astro';
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'img'>, 'src'> {
+  image: ImageMetadata;
+  alt: string;
+}
+
+const { image, alt, class: className, ...attributes } = Astro.props;
+---
+
+<img
+  class:list={['print-image', className]}
+  src={image.src}
+  width={image.width}
+  height={image.height}
+  alt={alt}
+  decoding="async"
+  {...attributes}
+/>
+
+<style>
+  .print-image {
+    display: block;
+    image-rendering: pixelated;
+  }
+</style>

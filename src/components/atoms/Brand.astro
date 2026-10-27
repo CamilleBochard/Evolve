@@ -1,14 +1,16 @@
 ---
-// Logo texte « CB//V1.0 ».
+// Text logo « CB//V1.0 »; the version after the slashes can change.
 interface Props {
   href: string;
+  version?: string;
 }
 
-const { href } = Astro.props;
+const { href, version = 'V1.0' } = Astro.props;
 ---
 
 <a class="brand" href={href}>
-  CB<span class="brand-slash">//</span>V1.0
+  CB<span class="brand-slash">//</span>
+  {version}
 </a>
 
 <style>

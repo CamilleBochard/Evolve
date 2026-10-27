@@ -1,0 +1,38 @@
+---
+// Character sheet: the paladev surveyed like a technical print.
+import { Font } from 'astro:assets';
+
+import CharacterSheetPanel from '../components/organisms/CharacterSheetPanel.astro';
+import PosterHeading from '../components/organisms/PosterHeading.astro';
+import PrintCaption from '../components/organisms/PrintCaption.astro';
+import PrintControlStrip from '../components/organisms/PrintControlStrip.astro';
+import SurveyedFigure from '../components/organisms/SurveyedFigure.astro';
+import CharacterTemplate from '../components/templates/CharacterTemplate.astro';
+import { CHARACTER } from '../data/character';
+import { PROFILE } from '../data/profile';
+
+const pageTitle = `Personnage · ${PROFILE.firstName} ${PROFILE.lastName}`;
+const pageDescription = `Fiche du personnage de ${PROFILE.firstName} ${PROFILE.lastName} : ${CHARACTER.name.toLowerCase()} niveau ${CHARACTER.level}, attributs et équipement.`;
+const levelCode = String(CHARACTER.level).padStart(2, '0');
+const serial = `PLD-03 · S 059 · NV ${levelCode}`;
+---
+
+<CharacterTemplate title={pageTitle} description={pageDescription}>
+  <Fragment slot="head">
+    <Font cssVariable="--font-cormorant" preload />
+    <Font cssVariable="--font-bebas" />
+  </Fragment>
+
+  <PosterHeading
+    slot="heading"
+    kicker="Relevé n° 03 · au-delà du commit"
+    title={CHARACTER.name}
+  />
+  <SurveyedFigure slot="figure" />
+  <PrintCaption
+    slot="caption"
+    lines={['Fig. 01 · Gravure deux encres', 'Échelle 1:8 · Trame 4 × 4']}
+  />
+  <CharacterSheetPanel slot="sheet" />
+  <PrintControlStrip slot="control" serial={serial} />
+</CharacterTemplate>

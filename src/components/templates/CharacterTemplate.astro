@@ -1,0 +1,235 @@
+---
+// Character sheet template: a dark gridded poster inside the frame, with grain,
+// fold creases and registration marks.
+// - "heading" slot: kicker and vertical title, on the left;
+// - "figure" slot: the surveyed figure, in the middle;
+// - "caption" slot: print caption, at the top right of the figure;
+// - "sheet" slot: the character sheet, on the right;
+// - "control" slot: print control strip, at the bottom left.
+// On mobile, everything stacks in one column, figure first.
+import RegistrationMark from '../atoms/RegistrationMark.astro';
+import GameTopBar from '../organisms/GameTopBar.astro';
+import FrameTemplate from './FrameTemplate.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  isIndexable?: boolean;
+}
+
+const { title, description, isIndexable = true } = Astro.props;
+---
+
+<FrameTemplate
+  title={title}
+  description={description}
+  leftGutterText="SECTOR 01 // ZONE ROBOTS"
+  rightGutterText="SECTOR 02 // ZONE ROBOTS"
+  footerLabel="Fiche du personnage"
+  isIndexable={isIndexable}
+>
+  <slot name="head" slot="head" />
+  <GameTopBar slot="top-bar" />
+
+  <div class="character-poster">
+    <span class="character-poster-grain" aria-hidden="true"></span>
+    <span class="character-poster-frame" aria-hidden="true"></span>
+    <RegistrationMark class="character-poster-registration is-top" />
+    <RegistrationMark class="character-poster-registration is-bottom" />
+
+    <div class="character-poster-heading">
+      <slot name="heading" />
+    </div>
+    <div class="character-poster-figure">
+      <slot name="figure" />
+    </div>
+    <div class="character-poster-caption">
+      <slot name="caption" />
+    </div>
+    <div class="character-poster-sheet">
+      <slot name="sheet" />
+    </div>
+    <div class="character-poster-control">
+      <slot name="control" />
+    </div>
+  </div>
+</FrameTemplate>
+
+<style>
+  .character-poster {
+    position: relative;
+    height: 100%;
+    min-height: 640px;
+    overflow: hidden;
+    color: var(--color-print-bone);
+    font-family: var(--font-mono);
+    background-color: var(--color-print-paper);
+    /* Light grid: a major line every 5 cells. */
+    background-image:
+      linear-gradient(var(--color-print-grid-major) 1px, transparent 1px),
+      linear-gradient(
+        90deg,
+        var(--color-print-grid-major) 1px,
+        transparent 1px
+      ),
+      linear-gradient(var(--color-print-grid-minor) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-print-grid-minor) 1px, transparent 1px);
+    background-size:
+      160px 160px,
+      160px 160px,
+      32px 32px,
+      32px 32px;
+    background-position: center;
+  }
+
+  /* Print texture: fold creases and a vignette, above everything. */
+  .character-poster::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        90deg,
+        transparent calc(50% - 1px),
+        rgba(255, 255, 255, 0.07) 50%,
+        rgba(0, 0, 0, 0.5) calc(50% + 1px),
+        transparent calc(50% + 3px)
+      ),
+      linear-gradient(
+        0deg,
+        transparent calc(42% - 1px),
+        rgba(255, 255, 255, 0.06) 42%,
+        rgba(0, 0, 0, 0.45) calc(42% + 1px),
+        transparent calc(42% + 3px)
+      ),
+      radial-gradient(
+        ellipse at center,
+        transparent 55%,
+        rgba(0, 0, 0, 0.6) 100%
+      );
+  }
+
+  .character-poster-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0.08;
+    mix-blend-mode: screen;
+    /* Resolved and hashed by Vite: no inline style, the CSP stays strict. */
+    background-image: url('../../assets/prints/grain.png');
+  }
+
+  .character-poster-frame {
+    position: absolute;
+    inset: 18px;
+    z-index: 1;
+    pointer-events: none;
+    border: 1px solid var(--color-print-bone-faint);
+  }
+
+  .character-poster :global(.character-poster-registration) {
+    position: absolute;
+    left: 50%;
+    z-index: 3;
+    margin-left: -11px;
+    color: var(--color-print-bone-soft);
+  }
+
+  .character-poster :global(.character-poster-registration.is-top) {
+    top: 7px;
+  }
+
+  .character-poster :global(.character-poster-registration.is-bottom) {
+    bottom: 7px;
+  }
+
+  .character-poster-heading {
+    position: absolute;
+    inset: 34px auto 112px 40px;
+    z-index: 1;
+  }
+
+  .character-poster-figure {
+    position: absolute;
+    bottom: 74px;
+    left: calc(50% - 150px);
+    z-index: 2;
+    height: calc(100% - 150px);
+    aspect-ratio: 240 / 340;
+    transform: translateX(-50%);
+  }
+
+  .character-poster-caption {
+    position: absolute;
+    top: 34px;
+    right: calc(48px + 300px + 26px + 32px);
+    z-index: 3;
+  }
+
+  .character-poster-sheet {
+    position: absolute;
+    top: 48px;
+    right: 48px;
+    bottom: 48px;
+    z-index: 3;
+    width: 300px;
+  }
+
+  .character-poster-control {
+    position: absolute;
+    bottom: 34px;
+    left: 48px;
+    z-index: 3;
+  }
+
+  @media (max-height: 820px) and (min-width: 721px) {
+    .character-poster-control {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1240px) and (min-width: 721px) {
+    .character-poster-figure {
+      left: calc(50% - 120px);
+    }
+
+    .character-poster-sheet {
+      width: 250px;
+    }
+
+    .character-poster-caption {
+      display: none;
+    }
+  }
+
+  /* Mobile: one scrolling column, figure first. */
+  @media (max-width: 720px) {
+    .character-poster {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+      height: auto;
+      min-height: 0;
+      padding: 32px 20px 60px;
+    }
+
+    .character-poster-heading,
+    .character-poster-figure,
+    .character-poster-sheet,
+    .character-poster-control {
+      position: static;
+      inset: auto;
+      width: auto;
+      height: auto;
+      transform: none;
+    }
+
+    .character-poster-caption,
+    .character-poster :global(.character-poster-registration) {
+      display: none;
+    }
+  }
+</style>

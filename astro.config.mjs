@@ -57,5 +57,25 @@ export default defineConfig({
       subsets: ['latin'],
       fallbacks: ['monospace'],
     },
+    // Poster fonts of the character sheet: a light serif for the name, a
+    // condensed sans for the class. Downloaded at build time as well.
+    {
+      provider: fontProviders.google(),
+      name: 'Cormorant Garamond',
+      cssVariable: '--font-cormorant',
+      weights: [300, 400],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['serif'],
+    },
+    {
+      provider: fontProviders.google(),
+      name: 'Bebas Neue',
+      cssVariable: '--font-bebas',
+      weights: [400],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['sans-serif'],
+    },
   ],
 });

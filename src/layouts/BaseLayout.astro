@@ -28,6 +28,8 @@ const { title, description, isIndexable = true } = Astro.props;
     <Font cssVariable="--font-syne" preload />
     <Font cssVariable="--font-plus-jakarta-sans" />
     <Font cssVariable="--font-space-mono" preload />
+    <!-- Extra fonts or metadata of a single page -->
+    <slot name="head" />
     <title>{title}</title>
   </head>
 

@@ -5,6 +5,7 @@
 // one Bayer dot per CSS pixel. The PNG is twice as large, so the finer sun
 // grain stays sharp on high-density screens.
 import { ENVELOPE } from './figures/envelope.ts';
+import { PALADEV_STANDING } from './figures/paladev.ts';
 import type { PrintFigure } from './figures/figure.ts';
 
 export const PRINT_COLORS = {
@@ -25,6 +26,13 @@ export interface PrintSpec {
 }
 
 export const PRINT_SPECS: PrintSpec[] = [
+  // Character sheet: the poster figure, about 2 CSS pixels per Bayer dot.
+  {
+    name: 'paladev-standing',
+    figure: PALADEV_STANDING,
+    bodyWidth: 240,
+    ink: PRINT_COLORS.ember,
+  },
   {
     name: 'envelope',
     figure: ENVELOPE,

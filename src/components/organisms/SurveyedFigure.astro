@@ -1,0 +1,228 @@
+---
+// The paladev surveyed like a technical print: the halftone figure, with
+// numbered callouts on the equipment, survey sizes and crop marks drawn in
+// figure units on top of it.
+import paladevPrint from '../../assets/prints/paladev-standing.png';
+import PrintImage from '../atoms/PrintImage.astro';
+
+type CalloutSide = 'left' | 'right';
+
+interface Callout {
+  number: string;
+  name: string;
+  from: [number, number];
+  elbow: [number, number];
+  to: [number, number];
+  side: CalloutSide;
+}
+
+// Box of the figure, the same as its print (see figures/paladev.ts).
+const BOX = { x: -10, y: -40, width: 240, height: 340 };
+const viewBox = `${BOX.x} ${BOX.y} ${BOX.width} ${BOX.height}`;
+
+// A dot on the part, an elbow, then the label.
+const CALLOUTS: Callout[] = [
+  {
+    number: '03',
+    name: 'VISIÈRE',
+    from: [126, 84],
+    elbow: [190, 4],
+    to: [252, 4],
+    side: 'right',
+  },
+  {
+    number: '01',
+    name: 'ÉPÉE',
+    from: [162, 110],
+    elbow: [204, 140],
+    to: [252, 140],
+    side: 'right',
+  },
+  {
+    number: '04',
+    name: 'INSPIRATION',
+    from: [68, 70],
+    elbow: [20, 112],
+    to: [-42, 112],
+    side: 'left',
+  },
+  {
+    number: '02',
+    name: 'BOUCLIER',
+    from: [36, 214],
+    elbow: [8, 244],
+    to: [-42, 244],
+    side: 'left',
+  },
+];
+
+// Survey sizes, labelled in millimetres at a scale of 1:8.
+const HEIGHT_SIZE = { x: -34, top: 20, bottom: 292, label: 'H 1 820' };
+const WIDTH_SIZE = { y: 306, left: 26, right: 194, label: 'L 0 620' };
+
+const LABEL_GAP = 3;
+const TICK = 4;
+
+function leadPath(callout: Callout): string {
+  const [fromX, fromY] = callout.from;
+  const [elbowX, elbowY] = callout.elbow;
+  const [toX, toY] = callout.to;
+  const path = `M${fromX} ${fromY} L${elbowX} ${elbowY} L${toX} ${toY}`;
+  return path;
+}
+
+function labelX(callout: Callout): number {
+  let x = callout.to[0] + LABEL_GAP;
+  if (callout.side === 'left') {
+    x = callout.to[0] - LABEL_GAP;
+  }
+  return x;
+}
+
+function labelAnchor(callout: Callout): string {
+  let anchor = 'start';
+  if (callout.side === 'left') {
+    anchor = 'end';
+  }
+  return anchor;
+}
+
+const heightMiddle = (HEIGHT_SIZE.top + HEIGHT_SIZE.bottom) / 2;
+const widthMiddle = (WIDTH_SIZE.left + WIDTH_SIZE.right) / 2;
+const heightLabelX = HEIGHT_SIZE.x - LABEL_GAP;
+const heightPath = [
+  `M${HEIGHT_SIZE.x} ${HEIGHT_SIZE.top} L${HEIGHT_SIZE.x} ${HEIGHT_SIZE.bottom}`,
+  `M${HEIGHT_SIZE.x - TICK} ${HEIGHT_SIZE.top} L${HEIGHT_SIZE.x + TICK} ${HEIGHT_SIZE.top}`,
+  `M${HEIGHT_SIZE.x - TICK} ${HEIGHT_SIZE.bottom} L${HEIGHT_SIZE.x + TICK} ${HEIGHT_SIZE.bottom}`,
+].join(' ');
+const widthPath = [
+  `M${WIDTH_SIZE.left} ${WIDTH_SIZE.y} L${WIDTH_SIZE.right} ${WIDTH_SIZE.y}`,
+  `M${WIDTH_SIZE.left} ${WIDTH_SIZE.y - TICK} L${WIDTH_SIZE.left} ${WIDTH_SIZE.y + TICK}`,
+  `M${WIDTH_SIZE.right} ${WIDTH_SIZE.y - TICK} L${WIDTH_SIZE.right} ${WIDTH_SIZE.y + TICK}`,
+].join(' ');
+
+// Crop marks just outside the four corners of the box.
+const CROP_GAP = 4;
+const CROP_LENGTH = 10;
+const left = BOX.x;
+const top = BOX.y;
+const right = BOX.x + BOX.width;
+const bottom = BOX.y + BOX.height;
+const cropPath = [
+  `M${left - CROP_GAP - CROP_LENGTH} ${top} L${left - CROP_GAP} ${top}`,
+  `M${left} ${top - CROP_GAP - CROP_LENGTH} L${left} ${top - CROP_GAP}`,
+  `M${right + CROP_GAP} ${top} L${right + CROP_GAP + CROP_LENGTH} ${top}`,
+  `M${right} ${top - CROP_GAP - CROP_LENGTH} L${right} ${top - CROP_GAP}`,
+  `M${left - CROP_GAP - CROP_LENGTH} ${bottom} L${left - CROP_GAP} ${bottom}`,
+  `M${left} ${bottom + CROP_GAP} L${left} ${bottom + CROP_GAP + CROP_LENGTH}`,
+  `M${right + CROP_GAP} ${bottom} L${right + CROP_GAP + CROP_LENGTH} ${bottom}`,
+  `M${right} ${bottom + CROP_GAP} L${right} ${bottom + CROP_GAP + CROP_LENGTH}`,
+].join(' ');
+
+const figureAlt =
+  'Paladev en gravure tramée orange, relevé comme un plan : épée, bouclier, visière et inspiration repérés par des renvois numérotés, hauteur et largeur cotées.';
+---
+
+<figure class="surveyed-figure">
+  <PrintImage
+    class="surveyed-figure-print"
+    image={paladevPrint}
+    alt={figureAlt}
+  />
+  <svg class="surveyed-figure-overlay" viewBox={viewBox} aria-hidden="true">
+    <path class="crop" d={cropPath}></path>
+    <path class="size" d={heightPath}></path>
+    <text
+      class="soft-text"
+      x={heightLabelX}
+      y={heightMiddle}
+      text-anchor="middle"
+      transform={`rotate(-90 ${heightLabelX} ${heightMiddle})`}
+    >
+      {HEIGHT_SIZE.label}
+    </text>
+    <path class="size" d={widthPath}></path>
+    <text
+      class="soft-text"
+      x={widthMiddle}
+      y={WIDTH_SIZE.y + 8}
+      text-anchor="middle"
+    >
+      {WIDTH_SIZE.label}
+    </text>
+    {CALLOUTS.map((callout) => (
+      <g>
+        <path class="lead" d={leadPath(callout)} />
+        <circle class="dot" cx={callout.from[0]} cy={callout.from[1]} r="2" />
+        <text
+          x={labelX(callout)}
+          y={callout.to[1] + 2}
+          text-anchor={labelAnchor(callout)}
+        >
+          <tspan class="number">{callout.number}</tspan> {callout.name}
+        </text>
+      </g>
+    ))}
+  </svg>
+</figure>
+
+<style>
+  .surveyed-figure {
+    position: relative;
+    aspect-ratio: 240 / 340;
+  }
+
+  .surveyed-figure :global(.surveyed-figure-print),
+  .surveyed-figure-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .surveyed-figure-overlay {
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .surveyed-figure-overlay .lead,
+  .surveyed-figure-overlay .crop {
+    fill: none;
+    stroke: var(--color-print-bone-soft);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .surveyed-figure-overlay .size {
+    fill: none;
+    stroke: var(--color-print-bone);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .surveyed-figure-overlay .dot {
+    fill: var(--color-print-ember);
+  }
+
+  .surveyed-figure-overlay text {
+    font-family: var(--font-mono);
+    font-size: 5.4px;
+    letter-spacing: 0.06em;
+    fill: var(--color-print-bone);
+  }
+
+  .surveyed-figure-overlay .number {
+    font-weight: 700;
+    fill: var(--color-print-ember);
+  }
+
+  .surveyed-figure-overlay .soft-text {
+    fill: var(--color-print-bone-soft);
+  }
+
+  @media (max-width: 720px) {
+    .surveyed-figure-overlay {
+      display: none;
+    }
+  }
+</style>

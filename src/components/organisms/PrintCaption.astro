@@ -1,0 +1,31 @@
+---
+// Small print caption, aligned right: a soft first line, then the others.
+interface Props {
+  lines: string[];
+}
+
+const { lines } = Astro.props;
+
+const [firstLine, ...otherLines] = lines;
+---
+
+<p class="print-caption" aria-hidden="true">
+  <span class="print-caption-soft">{firstLine}</span>
+  {otherLines.map((line) => (
+    <span>{line}</span>
+  ))}
+</p>
+
+<style>
+  .print-caption {
+    display: grid;
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .print-caption-soft {
+    color: var(--color-print-bone-soft);
+  }
+</style>

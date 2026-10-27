@@ -1,0 +1,106 @@
+---
+// Equipment module of the character sheet: line art in a light square, then
+// the number, the slot and the tool. The art is drawn on a 100 × 100 box;
+// .accent shapes take the ember ink.
+import type { EquipmentModule, ModuleArt } from '../../data/character';
+
+interface Props {
+  module: EquipmentModule;
+}
+
+const { module } = Astro.props;
+
+const MODULE_ART: Record<ModuleArt, string> = {
+  // Great helm of the engraving: plume, rounded top, band, slit, ridge, holes.
+  visor: `
+    <path class="accent" d="M52 14 Q60 -2 90 2 Q72 8 64 20 Z"/>
+    <path d="M24 100 L24 46 Q24 14 50 12 Q76 14 76 46 L76 100"/>
+    <path d="M24 40 L76 40"/>
+    <rect class="accent" x="24" y="48" width="52" height="9"/>
+    <path d="M50 12 L50 48 M50 57 L50 100"/>
+    <circle class="dot" cx="62" cy="70" r="2.4"/>
+    <circle class="dot" cx="68" cy="76" r="2.4"/>
+    <circle class="dot" cx="62" cy="82" r="2.4"/>
+    <path class="hatch" d="M62 18 L74 32 M24 66 L36 78 M24 80 L36 92 M66 88 L76 98"/>`,
+  core: `
+    <path d="M50 0 L50 26 M50 74 L50 100"/>
+    <circle cx="50" cy="50" r="22"/>
+    <circle class="hatch" cx="50" cy="50" r="30" stroke-dasharray="2 4"/>
+    <circle class="accent" cx="50" cy="50" r="10"/>`,
+  shield: `
+    <path d="M20 12 L80 12 L80 50 Q80 80 50 96 Q20 80 20 50 Z"/>
+    <path class="hatch" d="M28 20 L72 20 L72 50 Q72 74 50 87 Q28 74 28 50 Z"/>
+    <path class="accent-line" d="M40 42 L32 50 L40 58 M55 38 L46 64 M61 42 L69 50 L61 58"/>
+    <path class="hatch" d="M66 24 L76 34 M64 34 L76 46 M64 48 L76 60 M60 62 L72 74"/>`,
+  sword: `
+    <path d="M45 0 L45 50 L55 50 L55 0"/>
+    <path class="hatch" d="M50 0 L50 48"/>
+    <path d="M22 50 L78 50 L78 58 L22 58 Z"/>
+    <path d="M46 58 L46 80 L54 80 L54 58"/>
+    <path class="hatch" d="M46 64 L54 64 M46 70 L54 70 M46 76 L54 76"/>
+    <circle class="accent" cx="50" cy="88" r="7"/>`,
+};
+
+const title = `${module.number} ${module.slot}`;
+---
+
+<div class="equipment-module">
+  <svg class="equipment-module-art" viewBox="0 0 100 100" aria-hidden="true">
+    <Fragment set:html={MODULE_ART[module.art]} />
+  </svg>
+  <b class="equipment-module-title">{title}</b>
+  <span class="equipment-module-tool">{module.tool}</span>
+</div>
+
+<style>
+  .equipment-module {
+    display: grid;
+    gap: 1px;
+    align-content: start;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .equipment-module-art {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    margin-bottom: 5px;
+    border: 1.5px solid var(--color-print-bone);
+    background: var(--color-print-paper);
+    fill: none;
+    stroke: var(--color-print-bone);
+    stroke-width: 2.4;
+    stroke-linejoin: round;
+  }
+
+  .equipment-module-art :global(.accent) {
+    fill: var(--color-print-ember);
+    stroke: var(--color-print-ember);
+  }
+
+  .equipment-module-art :global(.accent-line) {
+    stroke: var(--color-print-ember);
+    stroke-width: 5;
+  }
+
+  .equipment-module-art :global(.dot) {
+    fill: var(--color-print-bone);
+    stroke: none;
+  }
+
+  .equipment-module-art :global(.hatch) {
+    stroke: var(--color-print-bone-soft);
+    stroke-width: 1.2;
+  }
+
+  .equipment-module-title {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .equipment-module-tool {
+    color: var(--color-print-bone-soft);
+  }
+</style>

@@ -2,6 +2,8 @@
 // V4 frame shared by the pages: corners, top and bottom bars, gutters.
 // The page content goes in the slot, inside <main>.
 // Gutter and bottom bar texts change from page to page.
+// Optional slots: "head" (extra fonts of the page) and "top-bar" (replaces
+// the default top bar).
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PROFILE, SOCIAL_LINKS } from '../../data/profile';
 import FrameGutter from '../molecules/FrameGutter.astro';
@@ -28,11 +30,14 @@ const {
 ---
 
 <BaseLayout title={title} description={description} isIndexable={isIndexable}>
+  <slot name="head" slot="head" />
   <div class="frame">
     <span class="frame-corner frame-corner--top-left" aria-hidden="true">
       +
     </span>
-    <TopBar />
+    <slot name="top-bar">
+      <TopBar />
+    </slot>
     <span class="frame-corner frame-corner--top-right" aria-hidden="true">
       +
     </span>

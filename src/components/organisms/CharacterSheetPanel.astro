@@ -1,0 +1,128 @@
+---
+// Right panel of the character sheet: class, identity, attributes read from
+// the skill tree, and the equipped modules.
+import { ATTRIBUTE_NAMES, CHARACTER, EQUIPMENT } from '../../data/character';
+import { SKILL_BRANCHES } from '../../data/skill-tree';
+import { branchScore, treeScore } from '../../lib/skill-score';
+import AttributeGauge from '../molecules/AttributeGauge.astro';
+import EquipmentModule from '../molecules/EquipmentModule.astro';
+
+const experiencePercent = Math.round(CHARACTER.experience * 100);
+const levelLine = `Niveau ${CHARACTER.level} · XP ${experiencePercent} %`;
+const classLine = `Classe : ${CHARACTER.classLabel}`;
+
+const attributes = SKILL_BRANCHES.map((branch, index) => {
+  const attribute = {
+    label: `${ATTRIBUTE_NAMES[index]} · ${branch.name}`,
+    score: branchScore(branch),
+  };
+  return attribute;
+});
+const total = treeScore(SKILL_BRANCHES);
+const totalLine = `${total.unlocked}/${total.total}`;
+---
+
+<aside class="character-sheet" aria-label="Fiche du personnage">
+  <h2 class="character-sheet-class">{classLine}</h2>
+
+  <section class="character-sheet-identity">
+    <p class="character-sheet-name">{CHARACTER.name}</p>
+    <p class="character-sheet-level">{levelLine}</p>
+  </section>
+
+  <section aria-labelledby="attributes-title">
+    <h3 class="character-sheet-heading" id="attributes-title">
+      Attributs <span class="character-sheet-soft">{totalLine}</span>
+    </h3>
+    {attributes.map((attribute) => (
+      <AttributeGauge label={attribute.label} score={attribute.score} />
+    ))}
+  </section>
+
+  <section aria-labelledby="modules-title">
+    <h3 class="character-sheet-heading" id="modules-title">
+      Modules équipés
+    </h3>
+    <div class="character-sheet-modules">
+      {EQUIPMENT.map((module) => (
+        <EquipmentModule module={module} />
+      ))}
+    </div>
+  </section>
+</aside>
+
+<style>
+  .character-sheet {
+    --module-size: clamp(68px, calc((100vh - 560px) / 2), 118px);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding-left: 26px;
+    border-left: 1px solid var(--color-print-bone-faint);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .character-sheet-class {
+    font-family: var(--font-condensed);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    color: var(--color-print-ember);
+  }
+
+  .character-sheet-name {
+    font-family: var(--font-serif);
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .character-sheet-level {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .character-sheet-heading {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .character-sheet-soft {
+    font-weight: 400;
+    color: var(--color-print-bone-soft);
+  }
+
+  .character-sheet-modules {
+    display: grid;
+    grid-template-columns: repeat(2, var(--module-size));
+    gap: 12px 22px;
+    margin-top: 8px;
+  }
+
+  /* Short screens: the identity is already the big title of the poster. */
+  @media (max-height: 820px) and (min-width: 721px) {
+    .character-sheet-identity {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1240px) {
+    .character-sheet-modules {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .character-sheet {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+</style>

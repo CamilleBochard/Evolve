@@ -1,0 +1,64 @@
+---
+// One attribute of the character sheet: its name, the score read from the
+// skill tree and a thin gauge. The gauge is an SVG, sized by attributes:
+// no inline style, so the strict CSP stays intact.
+import type { SkillScore } from '../../lib/skill-score';
+import { scoreRatio } from '../../lib/skill-score';
+
+interface Props {
+  label: string;
+  score: SkillScore;
+}
+
+const { label, score } = Astro.props;
+
+const GAUGE_WIDTH = 100;
+const filledWidth = scoreRatio(score) * GAUGE_WIDTH;
+const value = `${score.unlocked}/${score.total}`;
+---
+
+<div class="attribute-gauge">
+  <span class="attribute-gauge-label">{label}</span>
+  <span class="attribute-gauge-value">{value}</span>
+  <svg
+    class="attribute-gauge-track"
+    viewBox={`0 0 ${GAUGE_WIDTH} 3`}
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <rect class="attribute-gauge-empty" width={GAUGE_WIDTH} height="3"></rect>
+    <rect class="attribute-gauge-fill" width={filledWidth} height="3"></rect>
+  </svg>
+</div>
+
+<style>
+  .attribute-gauge {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 8px;
+    margin-top: 8px;
+  }
+
+  .attribute-gauge-label {
+    text-transform: uppercase;
+  }
+
+  .attribute-gauge-value {
+    color: var(--color-print-bone-soft);
+  }
+
+  .attribute-gauge-track {
+    grid-column: 1 / -1;
+    display: block;
+    width: 100%;
+    height: 3px;
+  }
+
+  .attribute-gauge-empty {
+    fill: var(--color-print-bone-faint);
+  }
+
+  .attribute-gauge-fill {
+    fill: var(--color-print-ember);
+  }
+</style>

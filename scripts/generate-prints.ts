@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import type { OverlayOptions, SharpOptions } from 'sharp';
 
-import { ditherPixels } from '../src/lib/prints/dither.ts';
+import { createGrain, ditherPixels } from '../src/lib/prints/dither.ts';
 import type { DitherOptions } from '../src/lib/prints/dither.ts';
 import type { ViewBox } from '../src/lib/prints/figures/figure.ts';
 import { PRINT_COLORS, PRINT_SPECS } from '../src/lib/prints/print-specs.ts';
@@ -58,7 +58,7 @@ async function rasterize(
   height: number,
 ): Promise<RawLayer> {
   const scale = width / sourceWidth;
-  const { data, info } = await sharp(Buffer.from(svg), {
+  const { data, info } = await sharp(Buffer.from(svg.trim()), {
     density: SVG_BASE_DENSITY * scale,
   })
     .resize(width, height, { fit: 'fill' })
@@ -164,8 +164,40 @@ async function generatePrint(spec: PrintSpec): Promise<string> {
   return outputPath;
 }
 
+// Grain of the dark posters: a gray noise tile repeated over the page and
+// blended with a low opacity, like the texture of a printed sheet.
+const GRAIN_TILE_SIZE = 128;
+const GRAIN_SEED = 11;
+// 16 gray levels are enough at a low opacity, and keep the tile light.
+const GRAIN_LEVELS = 16;
+
+async function generateGrainTile(): Promise<string> {
+  const pixelCount = GRAIN_TILE_SIZE * GRAIN_TILE_SIZE;
+  const pixels = new Uint8ClampedArray(pixelCount * 4);
+  const grain = createGrain(GRAIN_SEED);
+  for (let index = 0; index < pixelCount; index++) {
+    const level = Math.floor(grain() * GRAIN_LEVELS);
+    const value = Math.round((level / (GRAIN_LEVELS - 1)) * 255);
+    pixels[index * 4] = value;
+    pixels[index * 4 + 1] = value;
+    pixels[index * 4 + 2] = value;
+    pixels[index * 4 + 3] = 255;
+  }
+  const outputPath = `${OUTPUT_DIRECTORY}grain.png`;
+  const tile: RawLayer = {
+    data: pixels,
+    width: GRAIN_TILE_SIZE,
+    height: GRAIN_TILE_SIZE,
+  };
+  await sharp(Buffer.from(tile.data), rawInput(tile))
+    .png({ palette: true, colours: GRAIN_LEVELS })
+    .toFile(outputPath);
+  return outputPath;
+}
+
 await mkdir(OUTPUT_DIRECTORY, { recursive: true });
 for (const spec of PRINT_SPECS) {
   const outputPath = await generatePrint(spec);
   console.log(`print: ${outputPath}`);
 }
+console.log(`print: ${await generateGrainTile()}`);

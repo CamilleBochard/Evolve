@@ -1,0 +1,26 @@
+---
+// Print registration target: a circle crossed by two lines.
+// The parent positions it through `class` (see Crosshair).
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'svg'>;
+
+const { class: className, ...attributes } = Astro.props;
+---
+
+<svg
+  class:list={['registration-mark', className]}
+  viewBox="0 0 22 22"
+  aria-hidden="true"
+  {...attributes}
+>
+  <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor"></circle>
+  <path d="M11 0 V22 M0 11 H22" stroke="currentColor"></path>
+</svg>
+
+<style>
+  .registration-mark {
+    width: 22px;
+    height: 22px;
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+// Print control strip of a poster: ink swatches, barcode and serial number,
+// like the margins of a press proof. Purely decorative.
+interface Props {
+  serial: string;
+}
+
+const { serial } = Astro.props;
+
+const SWATCH_COUNT = 5;
+const swatches = Array.from({ length: SWATCH_COUNT }, (_, index) => index);
+
+// One bar per "1" of the pattern, on a 160 × 22 box.
+const BARCODE_PATTERN =
+  '1101001110100101101100101011100110100111010010110110010101110011';
+const BARCODE_WIDTH = 160;
+const barWidth = BARCODE_WIDTH / BARCODE_PATTERN.length;
+const bars = [...BARCODE_PATTERN]
+  .map((bit, index) => ({ bit, x: index * barWidth }))
+  .filter((bar) => bar.bit === '1');
+---
+
+<section class="print-control-strip" aria-hidden="true">
+  <span class="print-control-strip-swatches">
+    {swatches.map((index) => (
+      <i class={`swatch-${index}`}></i>
+    ))}
+  </span>
+  <svg
+    class="print-control-strip-barcode"
+    viewBox={`0 0 ${BARCODE_WIDTH} 22`}
+    preserveAspectRatio="none"
+  >
+    {bars.map((bar) => (
+      <rect x={bar.x} width={barWidth} height="22" />
+    ))}
+  </svg>
+  <span class="print-control-strip-serial">{serial}</span>
+</section>
+
+<style>
+  .print-control-strip {
+    display: grid;
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .print-control-strip-swatches {
+    display: flex;
+  }
+
+  .print-control-strip-swatches i {
+    width: 22px;
+    height: 12px;
+    border: 1px solid var(--color-print-bone-faint);
+    background: var(--color-print-ember);
+  }
+
+  /* Ink density steps, from full ink to a light tint. */
+  .print-control-strip-swatches .swatch-1 {
+    opacity: 0.75;
+  }
+
+  .print-control-strip-swatches .swatch-2 {
+    opacity: 0.5;
+  }
+
+  .print-control-strip-swatches .swatch-3 {
+    opacity: 0.25;
+  }
+
+  .print-control-strip-swatches .swatch-4 {
+    opacity: 0.1;
+  }
+
+  .print-control-strip-barcode {
+    display: block;
+    width: 160px;
+    height: 22px;
+    fill: var(--color-print-bone);
+  }
+
+  .print-control-strip-serial {
+    color: var(--color-print-bone-soft);
+  }
+</style>

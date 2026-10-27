@@ -1,0 +1,63 @@
+---
+// Top bar of the game pages: logo, graphic strip and the menu link.
+// The Escape key opens the menu too, like the pause key of a game.
+import Brand from '../atoms/Brand.astro';
+import TopBarDeco from '../molecules/TopBarDeco.astro';
+
+const MENU_HREF = '/menu';
+---
+
+<header class="game-top-bar">
+  <Brand href={MENU_HREF} version="92" />
+  <TopBarDeco />
+  <a class="game-top-bar-menu" href={MENU_HREF} data-menu-link>
+    [Échap] Menu
+  </a>
+</header>
+
+<script>
+  // Escape opens the menu, unless the user is typing in a field.
+  document.addEventListener('keydown', (event) => {
+    const isTyping =
+      event.target instanceof HTMLElement &&
+      event.target.closest('input, textarea, select') !== null;
+    if (event.key !== 'Escape' || isTyping || event.defaultPrevented) {
+      return;
+    }
+    const menuLink =
+      document.querySelector<HTMLAnchorElement>('[data-menu-link]');
+    if (menuLink) {
+      window.location.href = menuLink.href;
+    }
+  });
+</script>
+
+<style>
+  .game-top-bar {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--color-paper);
+    border-bottom: var(--line);
+  }
+
+  .game-top-bar-menu {
+    margin-left: auto;
+  }
+
+  .game-top-bar-menu:hover,
+  .game-top-bar-menu:focus-visible {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 720px) {
+    .game-top-bar {
+      gap: 14px;
+      padding: 0 16px;
+      font-size: 11px;
+    }
+  }
+</style>
