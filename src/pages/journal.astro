@@ -1,0 +1,24 @@
+---
+// Journal: the career told as an RPG quest log, with a plain résumé view.
+import CampaignSummary from '../components/organisms/CampaignSummary.astro';
+import JournalPrologue from '../components/organisms/JournalPrologue.astro';
+import LanguageList from '../components/organisms/LanguageList.astro';
+import SimpleJournal from '../components/organisms/SimpleJournal.astro';
+import JournalTemplate from '../components/templates/JournalTemplate.astro';
+import { PROFILE } from '../data/profile';
+
+const pageTitle = `Journal · ${PROFILE.firstName} ${PROFILE.lastName}`;
+const pageDescription = `Parcours de ${PROFILE.firstName} ${PROFILE.lastName} raconté en quêtes : onze ans comme couvreur-zingueur, une reconversion, puis développeur PHP sur Laravel et Magento 2.`;
+---
+
+<JournalTemplate
+  title={pageTitle}
+  description={pageDescription}
+  heading="Journal"
+>
+  <JournalPrologue slot="sidebar" />
+  <CampaignSummary slot="sidebar" />
+  <LanguageList slot="sidebar" />
+
+  <SimpleJournal slot="simple" />
+</JournalTemplate>

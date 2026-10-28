@@ -11,6 +11,8 @@ export interface PreviousClass {
 export interface Language {
   name: string;
   level: string;
+  // The level written in a sentence, for the simple view.
+  plainLevel: string;
   // Filled pips out of LANGUAGE_PIPS.
   pips: number;
 }
@@ -32,6 +34,11 @@ export const PREVIOUS_CLASS: PreviousClass = {
 export const LANGUAGE_PIPS = 6;
 
 export const LANGUAGES: Language[] = [
-  { name: 'Français', level: 'Langue maternelle', pips: 6 },
-  { name: 'Anglais', level: 'B1', pips: 3 },
+  {
+    name: 'Français',
+    level: 'Langue maternelle',
+    plainLevel: 'langue maternelle',
+    pips: 6,
+  },
+  { name: 'Anglais', level: 'B1', plainLevel: 'niveau B1', pips: 3 },
 ];

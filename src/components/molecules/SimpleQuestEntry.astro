@@ -1,0 +1,108 @@
+---
+// One quest of the simple view, written like a résumé entry: dates, title,
+// place, story, objectives, key figures and skills.
+import type { Quest } from '../../data/quests';
+import { skillsEarnedIn } from '../../lib/journal/rewards';
+import {
+  plainFeats,
+  plainObjective,
+  plainPlace,
+} from '../../lib/journal/simple-view';
+
+interface Props {
+  quest: Quest;
+}
+
+const { quest } = Astro.props;
+
+const place = plainPlace(quest);
+const feats = plainFeats(quest);
+const skillNames = skillsEarnedIn(quest.id).map((skill) => skill.name);
+const skills = skillNames.join(', ');
+---
+
+<article class="simple-quest-entry">
+  <span class="simple-quest-entry-when">{quest.period}</span>
+  <div>
+    <h4>{quest.title}</h4>
+    {place && <p class="simple-quest-entry-where">{place}</p>}
+    {quest.story.map((paragraph) => (
+      <p>{paragraph}</p>
+    ))}
+    {quest.objectives.length > 0 && (
+      <ul>
+        {quest.objectives.map((objective) => (
+          <li>{plainObjective(objective)}</li>
+        ))}
+      </ul>
+    )}
+    {feats && (
+      <p class="simple-quest-entry-extra">
+        <b>Chiffres clés : </b>
+        {feats}
+      </p>
+    )}
+    {skills && (
+      <p class="simple-quest-entry-extra">
+        <b>Compétences : </b>
+        {skills}
+      </p>
+    )}
+  </div>
+</article>
+
+<style>
+  .simple-quest-entry {
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr);
+    gap: 4px 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-ink-faint);
+  }
+
+  .simple-quest-entry-when {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-ink-soft);
+  }
+
+  .simple-quest-entry h4 {
+    margin: 0;
+    font-size: 17px;
+  }
+
+  .simple-quest-entry p {
+    margin: 0 0 8px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .simple-quest-entry .simple-quest-entry-where {
+    margin: 2px 0 8px;
+    font-size: 14px;
+    color: var(--color-ink-soft);
+  }
+
+  .simple-quest-entry ul {
+    margin: 0 0 8px;
+    padding-left: 20px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .simple-quest-entry .simple-quest-entry-extra {
+    font-size: 14px;
+    color: var(--color-ink-soft);
+  }
+
+  .simple-quest-entry-extra b {
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 720px) {
+    .simple-quest-entry {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

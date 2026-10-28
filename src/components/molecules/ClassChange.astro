@@ -1,0 +1,83 @@
+---
+// Class change of the prologue: the previous class, an arrow, the current
+// class. The cards are drawn for the eye; screen readers get one sentence.
+import { CHARACTER } from '../../data/character';
+import { PREVIOUS_CLASS } from '../../data/journal';
+
+const summary = `Changement de classe : ${PREVIOUS_CLASS.name.toLowerCase()} niveau ${PREVIOUS_CLASS.level}, ancien ${PREVIOUS_CLASS.trade}, puis ${CHARACTER.name.toLowerCase()} niveau ${CHARACTER.level}.`;
+---
+
+<div class="class-change">
+  <p class="visually-hidden">{summary}</p>
+  <div class="class-change-card is-previous" aria-hidden="true">
+    <span class="class-change-micro">Ancienne classe</span>
+    <b>{PREVIOUS_CLASS.name}</b>
+    <span class="class-change-level">Niveau {PREVIOUS_CLASS.level}</span>
+  </div>
+  <span class="class-change-arrow" aria-hidden="true">
+    ▸
+  </span>
+  <div class="class-change-card is-current" aria-hidden="true">
+    <span class="class-change-micro">Classe actuelle</span>
+    <b>{CHARACTER.name}</b>
+    <span class="class-change-level">Niveau {CHARACTER.level}</span>
+  </div>
+</div>
+
+<style>
+  .class-change {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .class-change-card {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+    padding: 8px;
+    background: var(--color-paper-light);
+    border: var(--line);
+  }
+
+  .class-change-micro {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+
+  .class-change-card b {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 11px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .class-change-level {
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .class-change-card.is-previous b {
+    color: var(--color-ink-soft);
+  }
+
+  .class-change-card.is-current {
+    color: var(--color-paper);
+    background: var(--color-ink);
+  }
+
+  .class-change-card.is-current .class-change-micro {
+    color: rgba(228, 226, 220, 0.6);
+  }
+
+  .class-change-arrow {
+    align-self: center;
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+  }
+</style>

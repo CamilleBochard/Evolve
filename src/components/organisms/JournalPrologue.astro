@@ -1,0 +1,29 @@
+---
+// Prologue of the journal: who the character is, then the class change.
+import { PROLOGUE } from '../../data/journal';
+import { PROFILE } from '../../data/profile';
+import ClassChange from '../molecules/ClassChange.astro';
+import PanelHeader from '../molecules/PanelHeader.astro';
+
+const signature = `${PROFILE.lastName} ${PROFILE.firstName}`;
+---
+
+<section class="journal-prologue">
+  <PanelHeader label="Prologue" reference={signature} />
+  {PROLOGUE.map((paragraph) => (
+    <p>{paragraph}</p>
+  ))}
+  <ClassChange />
+</section>
+
+<style>
+  .journal-prologue {
+    display: grid;
+    gap: 10px;
+  }
+
+  .journal-prologue p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+</style>

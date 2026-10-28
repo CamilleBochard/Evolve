@@ -1,0 +1,139 @@
+---
+// Journal template, inside the frame:
+// - "sidebar" slot: prologue and campaign, stacked sections on the left;
+// - default slot: the quest log (timeline, list and quest sheet);
+// - "simple" slot: the same career as a plain résumé, hidden until the
+//   visitor switches to the simple view (class is-simple on [data-journal]).
+// Below 960 pixels the page scrolls: the side column goes on top.
+import SheetHeading from '../molecules/SheetHeading.astro';
+import GameTopBar from '../organisms/GameTopBar.astro';
+import FrameTemplate from './FrameTemplate.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  isIndexable?: boolean;
+}
+
+const { title, description, heading, isIndexable = true } = Astro.props;
+---
+
+<FrameTemplate
+  title={title}
+  description={description}
+  leftGutterText="SECTOR 01 // ZONE ROBOTS"
+  rightGutterText="SECTOR 02 // ZONE ROBOTS"
+  footerLabel="Journal de quêtes"
+  isIndexable={isIndexable}
+>
+  <GameTopBar slot="top-bar" />
+
+  <div class="journal" data-journal>
+    <aside class="journal-sidebar" aria-label="Prologue et campagne">
+      <SheetHeading title={heading} number="02 / 06" />
+      <slot name="sidebar" />
+    </aside>
+    <div class="journal-game">
+      <slot />
+    </div>
+    <div class="journal-simple">
+      <slot name="simple" />
+    </div>
+  </div>
+</FrameTemplate>
+
+<style>
+  .journal {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    height: 100%;
+    min-height: 0;
+    background: var(--color-paper);
+  }
+
+  .journal-sidebar {
+    min-height: 0;
+    overflow-y: auto;
+    border-right: var(--line);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink) transparent;
+  }
+
+  .journal-sidebar > :global(*) {
+    min-width: 0;
+    padding: 14px 20px;
+    border-bottom: var(--line);
+  }
+
+  .journal-sidebar > :global(*:last-child) {
+    border-bottom: 0;
+  }
+
+  .journal-game {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .journal-simple {
+    display: none;
+  }
+
+  /* Simple view: only the résumé, scrolling on its own. */
+  .journal.is-simple {
+    display: block;
+    overflow-y: auto;
+  }
+
+  .journal.is-simple > :not(.journal-simple) {
+    display: none;
+  }
+
+  .journal.is-simple > .journal-simple {
+    display: block;
+  }
+
+  @media (max-width: 1200px) {
+    .journal {
+      grid-template-columns: 300px minmax(0, 1fr);
+    }
+  }
+
+  /* The page scrolls: the side column above, in two columns. */
+  @media (max-width: 960px) {
+    .journal {
+      grid-template-columns: minmax(0, 1fr);
+      height: auto;
+    }
+
+    .journal-sidebar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      overflow: visible;
+      border-right: 0;
+      border-bottom: var(--line);
+    }
+
+    .journal-sidebar > :global(.sheet-heading) {
+      grid-column: 1 / -1;
+    }
+
+    .journal-sidebar > :global(.journal-prologue) {
+      grid-row: span 2;
+      border-right: var(--line);
+      border-bottom: 0;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .journal-sidebar {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .journal-sidebar > :global(.journal-prologue) {
+      grid-row: auto;
+      border-right: 0;
+      border-bottom: var(--line);
+    }
+  }
+</style>

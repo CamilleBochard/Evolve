@@ -1,0 +1,49 @@
+---
+// Heading of a game sheet, at the top of its side column: "[Fiche]", the
+// number of the sheet among the menu entries, then the page title.
+interface Props {
+  title: string;
+  // Such as "02 / 06".
+  number: string;
+}
+
+const { title, number } = Astro.props;
+---
+
+<header class="sheet-heading">
+  <span class="sheet-heading-top">
+    <span>[Fiche]</span>
+    <span class="sheet-heading-number">{number}</span>
+  </span>
+  <h1>{title}</h1>
+</header>
+
+<style>
+  .sheet-heading {
+    position: relative;
+    display: grid;
+    gap: 4px;
+  }
+
+  .sheet-heading-top {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .sheet-heading-number {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--color-ink-soft);
+  }
+
+  .sheet-heading h1 {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 19px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+</style>

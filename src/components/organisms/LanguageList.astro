@@ -1,0 +1,49 @@
+---
+// Languages of the character, each with its level and a gauge.
+import { LANGUAGES, LANGUAGE_PIPS } from '../../data/journal';
+import PanelHeader from '../molecules/PanelHeader.astro';
+import SegmentGauge from '../molecules/SegmentGauge.astro';
+---
+
+<section class="language-list">
+  <PanelHeader label="Langues" reference="LNG.02" />
+  <ul>
+    {LANGUAGES.map((language) => (
+      <li>
+        <span>{language.name}</span>
+        <small>{language.level}</small>
+        <SegmentGauge
+          ratio={language.pips / LANGUAGE_PIPS}
+          segmentCount={LANGUAGE_PIPS}
+        />
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .language-list ul {
+    display: grid;
+    gap: 6px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .language-list li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .language-list small {
+    font-size: 10px;
+    color: var(--color-ink-soft);
+  }
+
+  .language-list li > :global(.segment-gauge) {
+    grid-column: 1 / -1;
+  }
+</style>

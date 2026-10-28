@@ -1,0 +1,121 @@
+---
+// Progress of the campaign: quests done, chapters open, years of career,
+// then one box per quest in campaign order.
+import { QUESTS, QUEST_CHAPTERS } from '../../data/quests';
+import { campaignStats } from '../../lib/journal/campaign';
+import PanelHeader from '../molecules/PanelHeader.astro';
+
+interface StatCell {
+  value: number;
+  label: string;
+}
+
+const stats = campaignStats();
+const cells: StatCell[] = [
+  { value: stats.doneCount, label: `/ ${stats.questCount} quêtes` },
+  {
+    value: stats.openChapterCount,
+    label: `/ ${stats.chapterCount} chapitres`,
+  },
+  { value: stats.years, label: 'ans de campagne' },
+];
+const lastChapter = QUEST_CHAPTERS[QUEST_CHAPTERS.length - 1];
+const lastChapterLabel = `Chapitre ${lastChapter.numeral}`;
+---
+
+<section class="campaign-summary">
+  <PanelHeader label="Campagne" reference="2011 → aujourd'hui" />
+  <ul class="campaign-summary-stats">
+    {cells.map((cell) => (
+      <li>
+        <b>{cell.value}</b>
+        <span>{cell.label}</span>
+      </li>
+    ))}
+  </ul>
+  <div class="campaign-summary-progress">
+    <span class="campaign-summary-bar" aria-hidden="true">
+      {QUESTS.map((quest) => (
+        <i
+          class:list={['campaign-summary-box', `is-${quest.status}`]}
+          title={quest.title}
+        />
+      ))}
+    </span>
+    <span class="campaign-summary-hint" aria-hidden="true">
+      <span>Prologue</span>
+      <span>{lastChapterLabel}</span>
+    </span>
+  </div>
+</section>
+
+<style>
+  .campaign-summary {
+    display: grid;
+    gap: 10px;
+  }
+
+  .campaign-summary-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .campaign-summary-stats li {
+    display: grid;
+    gap: 2px;
+    padding: 8px;
+    border: var(--line);
+  }
+
+  .campaign-summary-stats b {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .campaign-summary-stats span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-ink-soft);
+  }
+
+  .campaign-summary-bar {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    gap: 2px;
+  }
+
+  .campaign-summary-box {
+    height: 8px;
+    border: 1px solid var(--color-ink);
+  }
+
+  .campaign-summary-box.is-done {
+    background: var(--color-ink);
+  }
+
+  .campaign-summary-box.is-progress {
+    background: var(--hatch-accent);
+    border-color: var(--color-accent);
+  }
+
+  .campaign-summary-box.is-locked {
+    border-style: dashed;
+    border-color: var(--color-ink-soft);
+  }
+
+  .campaign-summary-hint {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-ink-soft);
+  }
+</style>

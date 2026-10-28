@@ -39,6 +39,11 @@
     var(--color-ink) 0 2px,
     transparent 2px 7px
   );
+  --hatch-accent: repeating-linear-gradient(
+    -45deg,
+    var(--color-accent) 0 2px,
+    transparent 2px 7px
+  );
   --octagon: polygon(
     29% 0,
     71% 0,

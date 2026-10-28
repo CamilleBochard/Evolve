@@ -1,0 +1,145 @@
+---
+// Simple view of the journal: the same career as a plain résumé, for
+// visitors lost in the game interface. Written in the HTML, so search
+// engines and visitors without JavaScript read the whole career too.
+// Headings start at h2: the h1 of the page is the sheet title.
+import { LANGUAGES, PLAIN_ROLE, PROLOGUE } from '../../data/journal';
+import { PROFILE } from '../../data/profile';
+import { plainChapters } from '../../lib/journal/simple-view';
+import SimpleQuestEntry from '../molecules/SimpleQuestEntry.astro';
+
+const fullName = `${PROFILE.firstName} ${PROFILE.lastName}`;
+const chapters = plainChapters();
+const languageNames = LANGUAGES.map(
+  (language) => `${language.name}, ${language.plainLevel}`,
+);
+const languages = languageNames.join(' · ');
+---
+
+<div class="simple-journal">
+  <p class="simple-journal-banner">
+    <span>Vue simple : le même parcours, sans l'interface de jeu.</span>
+    <button type="button" class="simple-journal-back" data-view-back>
+      Revenir à la vue jeu ▸
+    </button>
+  </p>
+
+  <header class="simple-journal-head">
+    <h2>{fullName}</h2>
+    <p class="simple-journal-role">{PLAIN_ROLE}</p>
+    {PROLOGUE.map((paragraph) => (
+      <p>{paragraph}</p>
+    ))}
+  </header>
+
+  {chapters.map((group) => (
+    <section class="simple-journal-section">
+      <h3>
+        {group.chapter.plainName}
+        <small>{group.chapter.period}</small>
+      </h3>
+      {group.quests.map((quest) => (
+        <SimpleQuestEntry quest={quest} />
+      ))}
+    </section>
+  ))}
+
+  <section class="simple-journal-section">
+    <h3>Langues</h3>
+    <p class="simple-journal-plain">{languages}</p>
+  </section>
+</div>
+
+<style>
+  .simple-journal {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 28px 48px;
+  }
+
+  .simple-journal-banner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 28px;
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--color-paper-light);
+    border: var(--line);
+  }
+
+  .simple-journal-back {
+    padding: 0;
+    font: inherit;
+    font-weight: 700;
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .simple-journal-back:hover {
+    color: var(--color-accent);
+  }
+
+  .simple-journal-back:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .simple-journal-head h2 {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1;
+  }
+
+  .simple-journal-head p,
+  .simple-journal-plain {
+    margin: 0 0 12px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .simple-journal-head .simple-journal-role {
+    margin: 8px 0 16px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+
+  .simple-journal-section {
+    margin-top: 36px;
+  }
+
+  .simple-journal-section h3 {
+    margin: 0 0 4px;
+    padding-bottom: 8px;
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 22px;
+    border-bottom: var(--line);
+  }
+
+  .simple-journal-section h3 small {
+    margin-left: 8px;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--color-ink-soft);
+  }
+
+  @media (max-width: 720px) {
+    .simple-journal {
+      padding: 16px 14px 32px;
+    }
+
+    .simple-journal-head h2 {
+      font-size: 30px;
+    }
+  }
+</style>
