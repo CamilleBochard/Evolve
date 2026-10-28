@@ -1,0 +1,67 @@
+.link {
+  display: inline-flex;
+  align-items: stretch;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  color: var(--color-paper);
+  background: var(--color-ink);
+  clip-path: var(--chamfer);
+}
+
+.label::after {
+  content: '▸';
+  color: var(--color-accent);
+}
+
+.hatch {
+  width: 26px;
+  margin-left: 4px;
+  background: var(--hatch);
+  border: var(--line);
+}
+
+.accent .label {
+  color: var(--color-ink);
+  background: var(--color-accent);
+}
+
+.accent .label::after {
+  color: var(--color-ink);
+}
+
+.link:hover .label,
+.link:focus-visible .label {
+  color: var(--color-ink);
+  background: var(--color-accent);
+}
+
+.link:hover .label::after,
+.link:focus-visible .label::after {
+  color: var(--color-ink);
+}
+
+.accent:hover .label,
+.accent:focus-visible .label {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.accent:hover .label::after,
+.accent:focus-visible .label::after {
+  color: var(--color-accent);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}

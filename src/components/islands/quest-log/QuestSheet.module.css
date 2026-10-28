@@ -1,0 +1,174 @@
+/* Quest sheet: story, objectives, feats and logbook. */
+
+.sheet {
+  display: grid;
+  gap: 22px;
+  max-width: 820px;
+  padding: 22px 28px 32px;
+  animation: sheet-in 220ms ease-out;
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.lockedNote {
+  padding: 18px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+  border: 1px dashed var(--color-ink-soft);
+}
+
+.story p {
+  max-width: 64ch;
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.objectives {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.objectives li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: start;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.check {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  font: 700 11px/1 var(--font-mono);
+  border: var(--line);
+}
+
+.objectiveDone .check {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.objectiveDone .objectiveText {
+  color: var(--color-ink-soft);
+}
+
+.objectiveOpen .check {
+  border-color: var(--color-accent);
+}
+
+.feats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feat {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 12px 12px 10px;
+  background: var(--color-paper-light);
+  border: var(--line);
+}
+
+.feat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 6px;
+  background: var(--hatch-accent);
+}
+
+.feat b {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.feat span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-soft);
+}
+
+.log {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0 0 0 14px;
+  list-style: none;
+  border-left: 2px solid var(--color-ink);
+}
+
+.log li {
+  position: relative;
+  display: grid;
+  gap: 2px;
+}
+
+.log li::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: -21px;
+  width: 10px;
+  height: 10px;
+  background: var(--color-paper);
+  border: 2px solid var(--color-ink);
+  transform: rotate(45deg);
+}
+
+.log li:last-child::before {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.when {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.what {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@media (max-width: 720px) {
+  .sheet {
+    padding: 16px 14px 24px;
+  }
+
+  .story p {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
+}

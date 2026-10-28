@@ -1,0 +1,79 @@
+/* Title, order button and filters, above the quest list. */
+
+.head {
+  display: grid;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: var(--line);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.micro {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.sort {
+  padding: 3px 8px;
+  font: 11px var(--font-mono);
+  white-space: nowrap;
+  color: var(--color-ink);
+  background: transparent;
+  border: var(--line);
+  cursor: pointer;
+}
+
+.sort:hover {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.filter {
+  padding: 4px 10px;
+  font: inherit;
+  color: var(--color-ink);
+  background: var(--color-paper-light);
+  border: var(--line);
+  cursor: pointer;
+}
+
+.filter:hover {
+  background: var(--color-paper-deep);
+}
+
+.filter[aria-pressed='true'] {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.filter[aria-pressed='true']::before {
+  content: '■ ';
+  color: var(--color-accent);
+}
+
+.sort:focus-visible,
+.filter:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}

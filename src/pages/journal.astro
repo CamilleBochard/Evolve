@@ -1,5 +1,6 @@
 ---
 // Journal: the career told as an RPG quest log, with a plain résumé view.
+import QuestLog from '../components/islands/quest-log/QuestLog';
 import CampaignSummary from '../components/organisms/CampaignSummary.astro';
 import JournalPrologue from '../components/organisms/JournalPrologue.astro';
 import LanguageList from '../components/organisms/LanguageList.astro';
@@ -19,6 +20,8 @@ const pageDescription = `Parcours de ${PROFILE.firstName} ${PROFILE.lastName} ra
   <JournalPrologue slot="sidebar" />
   <CampaignSummary slot="sidebar" />
   <LanguageList slot="sidebar" />
+
+  <QuestLog client:visible />
 
   <SimpleJournal slot="simple" />
 </JournalTemplate>

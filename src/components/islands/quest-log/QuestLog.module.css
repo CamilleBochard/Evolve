@@ -1,0 +1,62 @@
+/* Layout of the quest log: the timeline across, then the list and the
+   sheet side by side, each scrolling on its own. */
+
+.log {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+}
+
+.timelineRow {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.listColumn {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  border-right: var(--line);
+}
+
+.sheetColumn {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink) transparent;
+}
+
+/* The sheet goes under the list, which keeps a short height. */
+@media (max-width: 1200px) {
+  .log {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+
+  .listColumn {
+    max-height: 360px;
+    border-right: 0;
+    border-bottom: var(--line);
+  }
+}
+
+/* The page scrolls as a whole. */
+@media (max-width: 960px) {
+  .log {
+    grid-template-rows: none;
+    height: auto;
+  }
+
+  .listColumn {
+    max-height: none;
+  }
+
+  .listColumn > nav,
+  .sheetColumn {
+    overflow: visible;
+  }
+}

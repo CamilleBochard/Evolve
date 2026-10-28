@@ -1,0 +1,162 @@
+/* Quest list, grouped by chapter. */
+
+.list {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink) transparent;
+}
+
+.chapter {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--color-paper-deep);
+  border-bottom: var(--line);
+}
+
+.chapter b {
+  padding: 0 5px;
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.chapter span {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chapter small {
+  font-size: 10px;
+  color: var(--color-ink-soft);
+}
+
+.chapterLocked {
+  color: var(--color-ink-soft);
+}
+
+.chapterLocked b {
+  color: var(--color-ink-soft);
+  background: transparent;
+  border: 1px dashed var(--color-ink-soft);
+}
+
+.quests {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 2px 8px;
+  width: 100%;
+  padding: 10px 16px;
+  font: inherit;
+  text-align: left;
+  color: var(--color-ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-ink-faint);
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.item:hover {
+  background: var(--color-paper-light);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.mark {
+  grid-row: span 2;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  grid-column: 2;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-ink-soft);
+}
+
+.status {
+  grid-row: 1 / span 2;
+  grid-column: 3;
+  align-self: center;
+  padding: 2px 5px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: var(--line);
+}
+
+.done {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.progress {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.locked {
+  color: var(--color-ink-soft);
+  border-style: dashed;
+  border-color: var(--color-ink-soft);
+}
+
+.itemLocked .title,
+.itemLocked .mark {
+  color: var(--color-ink-soft);
+}
+
+.item[aria-current='true'] {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.item[aria-current='true'] .mark {
+  color: var(--color-accent);
+}
+
+.item[aria-current='true'] .meta {
+  color: rgba(228, 226, 220, 0.65);
+}
+
+.item[aria-current='true'] .status {
+  border-color: var(--color-paper);
+}
+
+.item[aria-current='true'] .done {
+  color: var(--color-ink);
+  background: var(--color-paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+}

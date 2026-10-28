@@ -1,0 +1,22 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0 0 10px;
+  padding-bottom: 6px;
+  font-weight: 400;
+  border-bottom: var(--line);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.micro {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}

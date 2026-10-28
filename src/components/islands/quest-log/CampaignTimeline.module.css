@@ -1,0 +1,124 @@
+/* Campaign timeline, above the list and the quest sheet. */
+
+.timeline {
+  min-width: 0;
+  padding: 10px 20px 8px;
+  border-bottom: var(--line);
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.micro {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.track {
+  display: block;
+  overflow: visible;
+}
+
+.yearLine {
+  stroke: var(--color-ink-faint);
+  stroke-width: 1;
+}
+
+.bar {
+  cursor: pointer;
+}
+
+.barBox {
+  fill: var(--color-paper-light);
+  stroke: var(--color-ink);
+  stroke-width: 2;
+}
+
+.barText {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  fill: var(--color-ink);
+}
+
+.main .barBox {
+  fill: var(--color-ink);
+}
+
+.main .barText {
+  fill: var(--color-paper);
+}
+
+.progress .barBox {
+  fill: var(--color-paper-light);
+  stroke: var(--color-accent);
+}
+
+.progress .barText {
+  fill: var(--color-ink);
+}
+
+.bar:hover .barBox {
+  fill: var(--color-paper-deep);
+}
+
+.main:hover .barBox {
+  fill: var(--color-ink-soft);
+}
+
+.bar[aria-current='true'] .barBox,
+.bar:focus-visible .barBox {
+  stroke: var(--color-accent);
+  stroke-width: 4;
+}
+
+.bar:focus-visible {
+  outline: none;
+}
+
+.now {
+  stroke: var(--color-accent);
+  stroke-dasharray: 3 3;
+}
+
+.years {
+  display: block;
+  margin-top: 4px;
+  overflow: visible;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--color-ink-soft);
+}
+
+.nowLabel {
+  fill: var(--color-accent);
+}
+
+/* Too narrow for both labels: "Auj." would run into the last year. */
+@media (max-width: 1200px) {
+  .nowLabel {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .timeline {
+    padding: 10px 12px 8px;
+  }
+
+  .barText {
+    display: none;
+  }
+}

@@ -1,0 +1,43 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: var(--line);
+}
+
+.button {
+  display: grid;
+  gap: 2px;
+  padding: 0;
+  font: 11px var(--font-mono);
+  text-align: left;
+  color: var(--color-ink);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.button b {
+  font-size: 13px;
+}
+
+.button:hover b {
+  color: var(--color-accent);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.newer {
+  text-align: right;
+}
+
+.micro {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
