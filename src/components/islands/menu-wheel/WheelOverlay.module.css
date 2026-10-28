@@ -1,0 +1,87 @@
+/* Animated marks drawn over the printed wheel. */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Turns around the center of the wheel, in figure units. */
+.spin {
+  transform-origin: 120px 140px;
+  animation: spin 90s linear infinite;
+}
+
+.outerRing {
+  fill: none;
+  stroke: rgba(227, 220, 205, 0.22);
+  stroke-width: 0.6;
+  stroke-dasharray: 1 5;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--color-print-bone);
+  stroke-width: 0.8;
+  stroke-dasharray: 2 2.4;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 160ms ease;
+  animation: spin 20s linear infinite;
+}
+
+.leader {
+  stroke: var(--color-print-ember);
+  stroke-width: 0.6;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.selected .ring,
+.selected .leader {
+  opacity: 1;
+}
+
+/* Shown on phones only, in the rune version. */
+.runeRing {
+  display: none;
+  fill: none;
+  stroke: var(--color-print-bone);
+  stroke-width: 0.7;
+  stroke-dasharray: 1.4 3.2;
+  opacity: 0.8;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin 120s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Phones: the wheel is a still backdrop, only the rune ring turns. */
+@media (max-width: 720px) {
+  .spin,
+  .ring,
+  .leader {
+    display: none;
+  }
+
+  .rune .runeRing {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin,
+  .ring,
+  .runeRing {
+    animation: none;
+  }
+}

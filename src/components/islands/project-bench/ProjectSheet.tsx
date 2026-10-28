@@ -3,11 +3,11 @@ import { projectSkills } from '../../../lib/atelier/projects';
 import { BlockHead } from '../shared/BlockHead';
 import { GameLink } from '../shared/GameLink';
 import { SkillChips } from '../shared/SkillChips';
+import type { PrintFile } from '../shared/print-file';
 import { ExperimentNotebook } from './ExperimentNotebook';
 import { ProjectHead } from './ProjectHead';
 import { ProjectPlate } from './ProjectPlate';
 import styles from './ProjectSheet.module.css';
-import type { PrintFile } from './project-prints';
 
 interface ProjectSheetProps {
   project: Project;

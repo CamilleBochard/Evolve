@@ -6,7 +6,7 @@ import type { TourStep } from '../../../data/journal-tour';
 import { readStored, writeStored } from '../../../lib/browser-storage';
 import { TourDialog } from './TourDialog';
 import { findTourTarget, isOnScreen } from './tour-targets';
-import { useIsAwake } from './useIsAwake';
+import { useIsAwake } from '../shared/useIsAwake';
 
 const TOUR_SEEN_KEY = 'journal-tour-seen';
 

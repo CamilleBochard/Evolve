@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
+import type { PrintFile } from '../shared/print-file';
 import styles from './PrintPaper.module.css';
-import type { PrintFile } from './project-prints';
 
 interface PrintPaperProps {
   print: PrintFile;

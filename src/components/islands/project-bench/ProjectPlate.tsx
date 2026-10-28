@@ -1,9 +1,9 @@
 import { PROJECT_STATUS_LABELS } from '../../../data/projects';
 import type { Project } from '../../../data/projects';
 import { BlockHead } from '../shared/BlockHead';
+import type { PrintFile } from '../shared/print-file';
 import { PrintPaper } from './PrintPaper';
 import styles from './ProjectPlate.module.css';
-import type { PrintFile } from './project-prints';
 
 interface ProjectPlateProps {
   project: Project;

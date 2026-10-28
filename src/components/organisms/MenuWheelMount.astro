@@ -1,0 +1,55 @@
+---
+// Mounts the wheel of the pause menu with the prints of its version. The
+// prints are generated at build time; the island gets their address only.
+import type { ImageMetadata } from 'astro';
+
+import anvilMedallion from '../../assets/prints/menu-anvil-medallion.png';
+import bookMedallion from '../../assets/prints/menu-book-medallion.png';
+import envelopeMedallion from '../../assets/prints/menu-envelope-medallion.png';
+import paladevMedallion from '../../assets/prints/menu-paladev-medallion.png';
+import sunPlain from '../../assets/prints/menu-sun-plain.png';
+import sunRune from '../../assets/prints/menu-sun-rune.png';
+import treeMedallion from '../../assets/prints/menu-tree-medallion.png';
+import wheelPlain from '../../assets/prints/menu-wheel-plain.png';
+import wheelRune from '../../assets/prints/menu-wheel-rune.png';
+import type { MenuVersion } from '../../data/menu';
+import MenuWheel from '../islands/menu-wheel/MenuWheel';
+import type { MenuWheelPrints } from '../islands/menu-wheel/menu-prints';
+import type { PrintFile } from '../islands/shared/print-file';
+
+interface Props {
+  version: MenuVersion;
+}
+
+const { version } = Astro.props;
+
+function printFile(image: ImageMetadata): PrintFile {
+  const file: PrintFile = {
+    src: image.src,
+    width: image.width,
+    height: image.height,
+  };
+  return file;
+}
+
+let wheel = wheelPlain;
+let sun = sunPlain;
+if (version === 'rune') {
+  wheel = wheelRune;
+  sun = sunRune;
+}
+
+const prints: MenuWheelPrints = {
+  wheel: printFile(wheel),
+  sun: printFile(sun),
+  medallions: {
+    paladev: printFile(paladevMedallion),
+    tree: printFile(treeMedallion),
+    book: printFile(bookMedallion),
+    anvil: printFile(anvilMedallion),
+    envelope: printFile(envelopeMedallion),
+  },
+};
+---
+
+<MenuWheel client:load version={version} prints={prints} />

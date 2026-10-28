@@ -1,12 +1,6 @@
-// Prints of the projects, generated at build time: the page imports the PNG
-// files and hands their address and size to the island.
+// Prints of the projects, generated at build time.
 import type { ProjectFigure } from '../../../data/projects';
-
-export interface PrintFile {
-  src: string;
-  width: number;
-  height: number;
-}
+import type { PrintFile } from '../shared/print-file';
 
 export interface ProjectPrints {
   // Small print of the bench slot.

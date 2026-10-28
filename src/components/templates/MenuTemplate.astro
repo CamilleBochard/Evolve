@@ -2,8 +2,8 @@
 // Menu template: a full-window pause screen, without the frame of the
 // other pages. The dark gridded print covers the window; the corners hold
 // what the bars show elsewhere.
-// Default slot: the wheel, centered. It sets data-wheel-ready once it can
-// be used: until then, the list of links stands in for it on desktop.
+// The wheel, centered, sets data-wheel-ready once it can be used: until
+// then, the list of links stands in for it on desktop.
 // --menu-wheel-size: the size of the wheel, for the wheel component.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import type { MenuVersion } from '../../data/menu';
@@ -11,6 +11,7 @@ import MenuBackBlock from '../organisms/MenuBackBlock.astro';
 import MenuFooter from '../organisms/MenuFooter.astro';
 import MenuIdentity from '../organisms/MenuIdentity.astro';
 import MenuList from '../organisms/MenuList.astro';
+import MenuWheelMount from '../organisms/MenuWheelMount.astro';
 
 interface Props {
   title: string;
@@ -31,7 +32,7 @@ const { title, description, version, isIndexable = true } = Astro.props;
 
     <MenuIdentity />
     <MenuBackBlock version={version} />
-    <slot />
+    <MenuWheelMount version={version} />
     <MenuList />
     <MenuFooter />
   </main>
@@ -39,11 +40,11 @@ const { title, description, version, isIndexable = true } = Astro.props;
 
 <style>
   /* The labels stick out of the wheel: about 13 % of its size in height,
-     36 % in width. */
+     36 % in width, plus the width of the longest name on each side. */
   .menu-stage {
     --menu-wheel-size: min(
       calc((100vh - 120px) * 0.88),
-      calc((100vw - 200px) / 1.36)
+      calc((100vw - 320px) / 1.36)
     );
 
     position: fixed;

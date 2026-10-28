@@ -1,0 +1,62 @@
+/* The printed wheel, sized by the menu template (--menu-wheel-size). */
+
+.wheel {
+  position: relative;
+  z-index: 1;
+  width: var(--menu-wheel-size);
+  aspect-ratio: 1;
+}
+
+.art,
+.entries {
+  position: absolute;
+  inset: 0;
+}
+
+.body {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+/* The sun box is twice as large as the wheel, centered on it. Dimmer than
+   the wheel, it fades out towards its spike tips. */
+.sun {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  display: block;
+  width: 200%;
+  height: 200%;
+  image-rendering: pixelated;
+  opacity: 0.5;
+  mask-image: radial-gradient(circle closest-side, #000 42%, transparent 100%);
+}
+
+/* Desktop without JavaScript: the list of links stands in for the wheel. */
+@media (min-width: 721px) {
+  .wheel:not([data-wheel-ready]) {
+    display: none;
+  }
+}
+
+/* Phones: a dark backdrop larger than the screen, behind the list. */
+@media (max-width: 720px) {
+  .wheel {
+    position: fixed;
+    top: 56%;
+    left: 50%;
+    z-index: 0;
+    width: 132vw;
+    opacity: 0.26;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .entries {
+    display: none;
+  }
+}
