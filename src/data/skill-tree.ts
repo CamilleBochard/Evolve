@@ -1,11 +1,15 @@
 // Skill tree of the character: one branch per field, a chain of hubs per
 // branch (each hub is a prerequisite of the next), satellites around each hub.
 // Each earned skill points to the journal quest where it was used.
+import type { QuestId } from './quests';
 
 export type SkillState = 'unlocked' | 'progress' | 'locked';
 
-export type QuestId =
-  'potager' | 'magento' | 'maisondunet' | 'formation' | 'evolve' | 'chessme';
+// Journal quests where skills of the tree were earned.
+export type SkillQuestId = Extract<
+  QuestId,
+  'potager' | 'magento' | 'maisondunet' | 'formation' | 'evolve' | 'chessme'
+>;
 
 export interface SkillQuest {
   title: string;
@@ -17,9 +21,9 @@ export interface Skill {
   name: string;
   state: SkillState;
   // Missing for a skill not earned yet.
-  quest?: QuestId;
+  quest?: SkillQuestId;
   // Other quests where the skill was also earned.
-  otherQuests?: QuestId[];
+  otherQuests?: SkillQuestId[];
 }
 
 export interface SkillHub extends Skill {
@@ -35,7 +39,7 @@ export interface SkillBranch {
   hubs: SkillHub[];
 }
 
-export const SKILL_QUESTS: Record<QuestId, SkillQuest> = {
+export const SKILL_QUESTS: Record<SkillQuestId, SkillQuest> = {
   potager: {
     title: 'Le potager connecté · Maisondunet · 2023 → 2026',
     text: "Application Laravel et Vue.js de suivi des cultures, d'une V1 éprouvée sur une saison à une V2 enrichie.",
