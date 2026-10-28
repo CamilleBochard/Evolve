@@ -1,0 +1,160 @@
+---
+// The menu as a plain list of links, one button per page with its
+// miniature. Shown on phones, over the wheel turned into a dark backdrop,
+// and on desktop until the wheel is ready: without JavaScript, the menu
+// still works.
+import type { ImageMetadata } from 'astro';
+
+import anvilThumb from '../../assets/prints/menu-anvil-thumb.png';
+import bookThumb from '../../assets/prints/menu-book-thumb.png';
+import envelopeThumb from '../../assets/prints/menu-envelope-thumb.png';
+import paladevThumb from '../../assets/prints/menu-paladev-thumb.png';
+import treeThumb from '../../assets/prints/menu-tree-thumb.png';
+import { MENU_ENTRIES } from '../../data/menu';
+import type { MenuFigure } from '../../data/menu';
+import PrintImage from '../atoms/PrintImage.astro';
+
+const THUMBS: Record<MenuFigure, ImageMetadata> = {
+  paladev: paladevThumb,
+  tree: treeThumb,
+  book: bookThumb,
+  anvil: anvilThumb,
+  envelope: envelopeThumb,
+};
+
+function entryNumber(index: number): string {
+  const number = String(index + 1).padStart(2, '0');
+  return number;
+}
+---
+
+<ul class="menu-list" aria-label="Pages du site">
+  {MENU_ENTRIES.map((entry, index) => (
+    <li>
+      <a class="menu-list-button" href={entry.href}>
+        <span class="menu-list-thumb" aria-hidden="true">
+          <PrintImage image={THUMBS[entry.figure]} alt="" />
+          <span class="menu-list-badge">{entryNumber(index)}</span>
+        </span>
+        <span class="menu-list-text">
+          <span class="menu-list-name">{entry.name}</span>
+          <span class="menu-list-short">{entry.short}</span>
+        </span>
+        <span class="menu-list-arrow" aria-hidden="true">
+          ▸
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .menu-list {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 10px;
+    width: min(420px, 100%);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* A button is only an outline: the wheel shows through, the text
+     carries the contrast. */
+  .menu-list-button {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 14px 8px 8px;
+    color: var(--color-print-bone);
+    text-shadow:
+      0 0 2px #000,
+      0 0 8px #000,
+      0 1px 0 #000;
+    background: linear-gradient(
+      90deg,
+      rgba(11, 12, 14, 0.72),
+      rgba(11, 12, 14, 0.3)
+    );
+    border: 1px solid rgba(227, 220, 205, 0.5);
+  }
+
+  .menu-list-button:hover,
+  .menu-list-button:active {
+    border-color: var(--color-print-ember);
+  }
+
+  .menu-list-button:focus-visible {
+    outline: 2px solid var(--color-print-bone);
+    outline-offset: 2px;
+  }
+
+  /* A small print in the style of the Atelier slots, its number in a
+     corner. */
+  .menu-list-thumb {
+    position: relative;
+    display: block;
+    width: 64px;
+    aspect-ratio: 240 / 300;
+    overflow: hidden;
+    background-color: var(--color-print-paper);
+    background-image:
+      linear-gradient(var(--color-print-grid-major) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-print-grid-major) 1px, transparent 1px);
+    background-size: 8px 8px;
+    border: 1px solid rgba(227, 220, 205, 0.6);
+  }
+
+  .menu-list-thumb :global(.print-image) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .menu-list-badge {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    padding: 1px 4px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 10px;
+    text-shadow: none;
+    color: var(--color-print-paper);
+    background: var(--color-print-ember);
+  }
+
+  .menu-list-text {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .menu-list-name {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: clamp(14px, 4vw, 21px);
+    line-height: 1;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .menu-list-short {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 1.35;
+    opacity: 0.82;
+  }
+
+  .menu-list-arrow {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--color-print-ember);
+  }
+</style>

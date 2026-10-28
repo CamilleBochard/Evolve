@@ -1,0 +1,162 @@
+---
+// Top right corner of the menu: back to the game, and the two versions of
+// the wheel. Escape goes back too, like closing a pause menu.
+import { MENU_BACK_HREF, MENU_VERSION_HREFS } from '../../data/menu';
+import type { MenuVersion } from '../../data/menu';
+
+interface Props {
+  version: MenuVersion;
+}
+
+interface VersionLink {
+  version: MenuVersion;
+  label: string;
+}
+
+const VERSION_LINKS: VersionLink[] = [
+  { version: 'plain', label: 'Épurée' },
+  { version: 'rune', label: 'Rune' },
+];
+
+const { version } = Astro.props;
+---
+
+<div class="menu-back-block">
+  <a
+    class="menu-back-link"
+    href={MENU_BACK_HREF}
+    aria-keyshortcuts="Escape"
+    data-menu-back
+  >
+    <span class="menu-back-key" aria-hidden="true">
+      [Échap]{' '}
+    </span>
+    Retour
+  </a>
+  <span class="menu-back-code">
+    <b>MNU.00 · Pause</b>
+  </span>
+  <span class="menu-back-code">Fig. 00 · Roue, gravure deux encres</span>
+  <nav class="menu-versions" aria-label="Version de la roue">
+    {VERSION_LINKS.map((link) => {
+      let current: 'page' | undefined;
+      if (link.version === version) {
+        current = 'page';
+      }
+      return (
+        <a href={MENU_VERSION_HREFS[link.version]} aria-current={current}>
+          {link.label}
+        </a>
+      );
+    })}
+  </nav>
+</div>
+
+<script>
+  // Back to the page the menu was opened from, when it is a page of the
+  // site; otherwise the link leads to the character sheet.
+  const backLink =
+    document.querySelector<HTMLAnchorElement>('[data-menu-back]');
+
+  function cameFromSite(): boolean {
+    let isSameSite = false;
+    if (document.referrer !== '') {
+      const referrer = new URL(document.referrer);
+      isSameSite = referrer.origin === window.location.origin;
+    }
+    const hasHistory = window.history.length > 1;
+    const result = isSameSite && hasHistory;
+    return result;
+  }
+
+  backLink?.addEventListener('click', (event) => {
+    if (cameFromSite()) {
+      event.preventDefault();
+      window.history.back();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !event.defaultPrevented) {
+      backLink?.click();
+    }
+  });
+</script>
+
+<style>
+  .menu-back-block {
+    position: absolute;
+    z-index: 3;
+    top: 28px;
+    right: 32px;
+    display: grid;
+    justify-items: end;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-align: right;
+    text-transform: uppercase;
+    color: var(--color-print-bone-soft);
+  }
+
+  .menu-back-block b {
+    font-weight: 700;
+    color: var(--color-print-bone);
+  }
+
+  .menu-back-link {
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    color: var(--color-print-bone);
+    border: 1px solid var(--color-print-bone-faint);
+  }
+
+  .menu-back-link:hover,
+  .menu-back-link:focus-visible {
+    color: var(--color-print-ember);
+    border-color: var(--color-print-ember);
+  }
+
+  .menu-versions {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .menu-versions a {
+    padding: 3px 7px;
+    color: var(--color-print-bone-soft);
+    border: 1px solid var(--color-print-bone-faint);
+  }
+
+  .menu-versions a:hover {
+    color: var(--color-print-bone);
+  }
+
+  .menu-versions a[aria-current='page'] {
+    color: var(--color-print-paper);
+    background: var(--color-print-bone);
+    border-color: var(--color-print-bone);
+  }
+
+  .menu-back-block a:focus-visible {
+    outline: 2px solid var(--color-print-bone);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 720px) {
+    .menu-back-block {
+      top: 24px;
+      right: 16px;
+    }
+
+    /* No keyboard on phones. */
+    .menu-back-key,
+    .menu-back-code,
+    .menu-versions {
+      display: none;
+    }
+  }
+</style>

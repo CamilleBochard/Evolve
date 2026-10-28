@@ -1,0 +1,10 @@
+---
+// Pause menu, default version: the wheel with an empty center.
+import MenuTemplate from '../components/templates/MenuTemplate.astro';
+import { PROFILE } from '../data/profile';
+
+const pageTitle = `Menu · ${PROFILE.firstName} ${PROFILE.lastName}`;
+const pageDescription = `Portfolio de ${PROFILE.firstName} ${PROFILE.lastName}, pensé comme un menu de RPG : personnage, compétences, journal, atelier et contact.`;
+---
+
+<MenuTemplate title={pageTitle} description={pageDescription} version="plain" />

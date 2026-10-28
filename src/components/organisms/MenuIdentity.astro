@@ -1,0 +1,88 @@
+---
+// Top left corner of the menu: the save in progress, like a pause screen.
+import { CHARACTER } from '../../data/character';
+import { MENU_VERSION_HREFS } from '../../data/menu';
+import Brand from '../atoms/Brand.astro';
+import SegmentGauge from '../molecules/SegmentGauge.astro';
+
+const EXPERIENCE_SEGMENTS = 20;
+const levelLine = `${CHARACTER.name} · niveau ${CHARACTER.level}`;
+const levelText = `Niv. ${CHARACTER.level}`;
+const nextLevelText = `Niv. ${CHARACTER.level + 1}`;
+---
+
+<div class="menu-identity">
+  <Brand href={MENU_VERSION_HREFS.plain} version="92" />
+  <span>[Partie en cours]</span>
+  <span class="menu-identity-name">{CHARACTER.name}</span>
+  <span>
+    <b>{levelLine}</b> · {CHARACTER.classLabel}
+  </span>
+  <SegmentGauge
+    ratio={CHARACTER.experience}
+    segmentCount={EXPERIENCE_SEGMENTS}
+    tone="print"
+  />
+  <span class="menu-identity-hint" aria-hidden="true">
+    <span>{levelText}</span>
+    <span>{nextLevelText}</span>
+  </span>
+</div>
+
+<style>
+  .menu-identity {
+    position: absolute;
+    z-index: 3;
+    top: 28px;
+    left: 32px;
+    display: grid;
+    gap: 6px;
+    width: 230px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-print-bone-soft);
+  }
+
+  .menu-identity :global(.brand) {
+    margin-bottom: 8px;
+    font-size: 22px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-print-bone);
+  }
+
+  .menu-identity-name {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 26px;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    color: var(--color-print-bone);
+  }
+
+  .menu-identity b {
+    font-weight: 700;
+    color: var(--color-print-bone);
+  }
+
+  .menu-identity-hint {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 720px) {
+    .menu-identity {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: auto;
+    }
+
+    .menu-identity :global(.brand) {
+      margin-bottom: 4px;
+      font-size: 18px;
+    }
+  }
+</style>

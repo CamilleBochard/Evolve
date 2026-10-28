@@ -1,0 +1,11 @@
+---
+// Pause menu, rune version: the paladev rune at the center of the wheel,
+// in front of a wide spiked sun.
+import MenuTemplate from '../../components/templates/MenuTemplate.astro';
+import { PROFILE } from '../../data/profile';
+
+const pageTitle = `Menu · ${PROFILE.firstName} ${PROFILE.lastName}`;
+const pageDescription = `Portfolio de ${PROFILE.firstName} ${PROFILE.lastName}, pensé comme un menu de RPG : personnage, compétences, journal, atelier et contact.`;
+---
+
+<MenuTemplate title={pageTitle} description={pageDescription} version="rune" />

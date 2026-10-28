@@ -1,0 +1,96 @@
+---
+// Bottom right corner of the menu: the keys of the wheel and the contact
+// links the bottom bar shows on the other pages.
+import { PROFILE, SOCIAL_LINKS } from '../../data/profile';
+
+const mailtoHref = `mailto:${PROFILE.email}`;
+---
+
+<div class="menu-footer">
+  <span class="menu-footer-keys" aria-hidden="true">
+    <kbd>1</kbd>–<kbd>5</kbd> ou <kbd>←</kbd>
+    <kbd>→</kbd> choisir ·<kbd>Entrée</kbd> ouvrir
+  </span>
+  <nav class="menu-footer-links" aria-label="Contact">
+    {SOCIAL_LINKS.map((link) => (
+      <a href={link.href}>{link.label}</a>
+    ))}
+    <a href={mailtoHref}>{PROFILE.email}</a>
+  </nav>
+</div>
+
+<style>
+  .menu-footer {
+    position: absolute;
+    z-index: 3;
+    right: 32px;
+    bottom: 28px;
+    display: grid;
+    justify-items: end;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-print-bone-soft);
+  }
+
+  .menu-footer-keys {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+
+  .menu-footer-keys kbd {
+    min-width: 20px;
+    padding: 0 4px;
+    font: inherit;
+    text-align: center;
+    color: var(--color-print-bone);
+    border: 1px solid var(--color-print-bone-faint);
+  }
+
+  .menu-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .menu-footer-links a {
+    color: var(--color-print-bone);
+  }
+
+  /* The email address keeps its case. */
+  .menu-footer-links a:last-child {
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+
+  .menu-footer-links a:hover,
+  .menu-footer-links a:focus-visible {
+    color: var(--color-print-ember);
+  }
+
+  .menu-footer-links a:focus-visible {
+    outline: 2px solid var(--color-print-bone);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 1100px) {
+    .menu-footer-keys {
+      display: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .menu-footer {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      justify-items: start;
+      margin-top: 22px;
+    }
+  }
+</style>

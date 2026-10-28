@@ -4,7 +4,8 @@
 interface Props {
   ratio: number;
   segmentCount: number;
-  tone?: 'ink' | 'accent';
+  // print: ember segments on the dark paper of the prints.
+  tone?: 'ink' | 'accent' | 'print';
 }
 
 const { ratio, segmentCount, tone = 'ink' } = Astro.props;
@@ -54,5 +55,15 @@ for (let index = 0; index < segmentCount; index++) {
   .segment-gauge--accent .is-lit {
     background: var(--color-accent);
     border-color: var(--color-accent);
+  }
+
+  .segment-gauge--print .segment-gauge-cell {
+    background: transparent;
+    border-color: var(--color-print-bone-faint);
+  }
+
+  .segment-gauge--print .is-lit {
+    background: var(--color-print-ember);
+    border-color: var(--color-print-ember);
   }
 </style>
