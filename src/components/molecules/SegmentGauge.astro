@@ -1,0 +1,58 @@
+---
+// Row of square segments, lit from the left according to a ratio (0 to 1).
+// Decorative: the value it shows is always written next to it.
+interface Props {
+  ratio: number;
+  segmentCount: number;
+  tone?: 'ink' | 'accent';
+}
+
+const { ratio, segmentCount, tone = 'ink' } = Astro.props;
+
+const litCount = Math.round(ratio * segmentCount);
+const segments: boolean[] = [];
+for (let index = 0; index < segmentCount; index++) {
+  const isLit = index < litCount;
+  segments.push(isLit);
+}
+---
+
+<span
+  class:list={['segment-gauge', `segment-gauge--${tone}`]}
+  aria-hidden="true"
+>
+  {segments.map((isLit) => (
+    <i class:list={['segment-gauge-cell', { 'is-lit': isLit }]} />
+  ))}
+</span>
+
+<style>
+  .segment-gauge {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    gap: 2px;
+  }
+
+  .segment-gauge-cell {
+    height: 6px;
+    background: var(--color-paper-deep);
+    border: 1px solid var(--color-ink-faint);
+  }
+
+  .segment-gauge--ink .is-lit {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+
+  .segment-gauge--accent .segment-gauge-cell {
+    height: 9px;
+    background: transparent;
+    border-color: var(--color-ink);
+  }
+
+  .segment-gauge--accent .is-lit {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+</style>

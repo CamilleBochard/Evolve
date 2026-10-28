@@ -1,0 +1,143 @@
+---
+// Skills template, inside the frame:
+// - "sidebar" slot: the character column, stacked sections on the left;
+// - default slot: the skill tree, filling the rest of the screen.
+// Below 960 pixels the page scrolls: the character column goes on top.
+import GameTopBar from '../organisms/GameTopBar.astro';
+import FrameTemplate from './FrameTemplate.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  isIndexable?: boolean;
+}
+
+const { title, description, heading, isIndexable = true } = Astro.props;
+---
+
+<FrameTemplate
+  title={title}
+  description={description}
+  leftGutterText="SECTOR 01 // ZONE ROBOTS"
+  rightGutterText="SECTOR 02 // ZONE ROBOTS"
+  footerLabel="Arbre des compétences"
+  isIndexable={isIndexable}
+>
+  <GameTopBar slot="top-bar" />
+
+  <div class="skills">
+    <aside class="skills-sidebar" aria-label="Personnage">
+      <header class="skills-heading">
+        <span class="skills-heading-top">
+          <span>[Fiche]</span>
+          <span class="skills-heading-code">01 / 06</span>
+        </span>
+        <h1>{heading}</h1>
+      </header>
+      <slot name="sidebar" />
+    </aside>
+    <div class="skills-tree">
+      <slot />
+    </div>
+  </div>
+</FrameTemplate>
+
+<style>
+  .skills {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    height: 100%;
+    min-height: 0;
+    background: var(--color-paper);
+  }
+
+  .skills-sidebar {
+    min-height: 0;
+    overflow-y: auto;
+    border-right: var(--line);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink) transparent;
+  }
+
+  .skills-sidebar > :global(*) {
+    min-width: 0;
+    padding: 14px 20px;
+    border-bottom: var(--line);
+  }
+
+  .skills-sidebar > :global(*:last-child) {
+    border-bottom: 0;
+  }
+
+  .skills-heading {
+    position: relative;
+    display: grid;
+    gap: 4px;
+  }
+
+  .skills-heading-top {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .skills-heading-code {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--color-ink-soft);
+  }
+
+  .skills-heading h1 {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 19px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .skills-tree {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  /* The page scrolls: the character column above, in two columns. */
+  @media (max-width: 960px) {
+    .skills {
+      grid-template-columns: minmax(0, 1fr);
+      height: auto;
+    }
+
+    .skills-sidebar {
+      display: grid;
+      grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+      overflow: visible;
+      border-right: 0;
+      border-bottom: var(--line);
+    }
+
+    .skills-heading {
+      grid-column: 1 / -1;
+    }
+
+    .skills-sidebar > :global(.character-portrait) {
+      grid-row: span 3;
+      border-right: var(--line);
+      border-bottom: 0;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .skills-sidebar {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .skills-sidebar > :global(.character-portrait) {
+      grid-row: auto;
+      border-right: 0;
+      border-bottom: var(--line);
+    }
+  }
+</style>

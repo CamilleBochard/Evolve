@@ -8,12 +8,17 @@ export const CHARACTER = {
   experience: 0.6,
 };
 
+export interface Attribute {
+  abbreviation: string;
+  name: string;
+}
+
 // One attribute per branch of the skill tree, in the same order.
-export const ATTRIBUTE_NAMES = [
-  'Force',
-  'Dextérité',
-  'Constitution',
-  'Sagesse',
+export const ATTRIBUTES: Attribute[] = [
+  { abbreviation: 'FOR', name: 'Force' },
+  { abbreviation: 'DEX', name: 'Dextérité' },
+  { abbreviation: 'CON', name: 'Constitution' },
+  { abbreviation: 'SAG', name: 'Sagesse' },
 ];
 
 // Line art drawn in each equipment module.

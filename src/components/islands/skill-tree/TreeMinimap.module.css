@@ -1,0 +1,81 @@
+/* Overview of the whole tree, bottom right of the frame. */
+
+.minimap {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1;
+  width: 180px;
+  padding: 8px;
+  background: var(--color-paper-light);
+  border: var(--line);
+  box-shadow: 4px 4px 0 var(--color-ink);
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.map {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.divider {
+  stroke: var(--color-ink-faint);
+  stroke-width: 6;
+  stroke-dasharray: 3 5;
+}
+
+.spine {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 8;
+}
+
+.spine.progress {
+  stroke: var(--color-accent);
+}
+
+.spine.locked {
+  stroke: var(--color-ink-faint);
+}
+
+.satellites {
+  fill: var(--color-ink-faint);
+}
+
+.hub {
+  fill: var(--color-ink);
+}
+
+.hub.progress {
+  fill: var(--color-accent);
+}
+
+.hub.locked {
+  fill: var(--color-ink-faint);
+}
+
+.view {
+  fill: rgba(255, 61, 31, 0.08);
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+@media (max-width: 720px) {
+  .minimap {
+    display: none;
+  }
+}

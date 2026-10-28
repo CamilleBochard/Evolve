@@ -1,0 +1,63 @@
+---
+// Equipment of the character column, as text: slot number, slot, tool.
+import { EQUIPMENT } from '../../data/character';
+import PanelHeader from '../molecules/PanelHeader.astro';
+---
+
+<section class="equipment-grid">
+  <PanelHeader label="Équipement" />
+  <ol class="equipment-grid-list">
+    {EQUIPMENT.map((module) => (
+      <li class="equipment-grid-item">
+        <span class="equipment-grid-slot">
+          <b>{module.number}</b>
+          {module.slot}
+        </span>
+        <span class="equipment-grid-tool">{module.tool}</span>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .equipment-grid-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .equipment-grid-item {
+    min-width: 0;
+    padding: 6px 8px;
+    background: var(--color-paper-light);
+    border: var(--line);
+  }
+
+  .equipment-grid-slot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-ink-soft);
+  }
+
+  .equipment-grid-slot b {
+    padding: 0 4px;
+    font-weight: 700;
+    color: var(--color-paper);
+    background: var(--color-ink);
+  }
+
+  .equipment-grid-tool {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+</style>

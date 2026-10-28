@@ -1,0 +1,59 @@
+---
+// One attribute of the character column: abbreviation, name and branch,
+// score read from the skill tree, and a segmented gauge.
+import type { Attribute } from '../../data/character';
+import { scoreRatio } from '../../lib/skill-score';
+import type { SkillScore } from '../../lib/skill-score';
+import SegmentGauge from './SegmentGauge.astro';
+
+interface Props {
+  attribute: Attribute;
+  branchName: string;
+  score: SkillScore;
+}
+
+const { attribute, branchName, score } = Astro.props;
+
+const SEGMENT_COUNT = 12;
+const value = `${score.unlocked}/${score.total}`;
+---
+
+<div class="attribute-row">
+  <span class="attribute-row-abbreviation">{attribute.abbreviation}</span>
+  <span class="attribute-row-name">
+    {attribute.name} <em>· {branchName}</em>
+  </span>
+  <span class="attribute-row-value">{value}</span>
+  <span class="attribute-row-gauge">
+    <SegmentGauge ratio={scoreRatio(score)} segmentCount={SEGMENT_COUNT} />
+  </span>
+</div>
+
+<style>
+  .attribute-row {
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    align-items: baseline;
+    gap: 2px 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .attribute-row-abbreviation {
+    font-weight: 700;
+  }
+
+  .attribute-row-name em {
+    font-style: normal;
+    color: var(--color-ink-soft);
+  }
+
+  .attribute-row-value {
+    font-size: 10px;
+    color: var(--color-ink-soft);
+  }
+
+  .attribute-row-gauge {
+    grid-column: 2 / -1;
+  }
+</style>

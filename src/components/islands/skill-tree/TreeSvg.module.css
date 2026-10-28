@@ -1,0 +1,223 @@
+/* Shapes of the skill tree: dividers, titles, links, hubs and satellites. */
+
+.tree {
+  display: block;
+}
+
+.divider {
+  stroke: var(--color-ink-faint);
+  stroke-dasharray: 3 5;
+}
+
+.branchTitle {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  text-anchor: middle;
+  text-transform: uppercase;
+  fill: var(--color-ink);
+}
+
+.branchCode {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-anchor: middle;
+  fill: var(--color-ink-soft);
+}
+
+.link,
+.spine {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1.2;
+}
+
+.spine {
+  stroke-width: 2;
+}
+
+.link.progress,
+.spine.progress {
+  stroke: var(--color-accent);
+}
+
+.link.locked,
+.spine.locked {
+  stroke: var(--color-ink-faint);
+  stroke-dasharray: 4 4;
+}
+
+/* ---------- Satellites ---------- */
+
+.satellite,
+.hub {
+  cursor: pointer;
+  outline: none;
+}
+
+.satellite text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.satellite polygon {
+  transition:
+    fill 160ms ease,
+    stroke 160ms ease;
+}
+
+.satellite.unlocked polygon {
+  fill: var(--color-ink);
+}
+
+.satellite.unlocked text {
+  fill: var(--color-paper);
+}
+
+.satellite.progress polygon {
+  fill: var(--color-paper-light);
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+}
+
+.satellite.progress text {
+  fill: var(--color-ink);
+}
+
+.pulse {
+  fill: var(--color-accent);
+}
+
+.satellite.locked polygon {
+  fill: var(--color-paper);
+  stroke: var(--color-ink-faint);
+  stroke-dasharray: 4 3;
+}
+
+.satellite.locked text {
+  fill: var(--color-ink-faint);
+}
+
+.satellite:hover polygon,
+.satellite:focus-visible polygon {
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  stroke-dasharray: none;
+}
+
+.satellite.selected polygon {
+  fill: var(--color-accent);
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+  stroke-dasharray: none;
+}
+
+.satellite.selected text {
+  font-weight: 700;
+  fill: var(--color-ink);
+}
+
+/* ---------- Hubs ---------- */
+
+.ring {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1;
+  transition: stroke 160ms ease;
+}
+
+.core {
+  fill: var(--color-ink);
+}
+
+.mono {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 15px;
+  text-anchor: middle;
+  fill: var(--color-paper);
+  pointer-events: none;
+}
+
+.labelBackground {
+  fill: var(--color-paper);
+  stroke: var(--color-ink);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-anchor: middle;
+  fill: var(--color-ink);
+  pointer-events: none;
+}
+
+.hub.progress .ring {
+  stroke: var(--color-accent);
+  stroke-dasharray: 3 3;
+}
+
+.hub.progress .core {
+  fill: var(--color-paper-light);
+  stroke: var(--color-accent);
+  stroke-width: 2;
+}
+
+.hub.progress .mono {
+  fill: var(--color-accent);
+}
+
+.hub.progress .labelBackground {
+  stroke: var(--color-accent);
+}
+
+.hub.locked .ring {
+  stroke: var(--color-ink-faint);
+  stroke-dasharray: 3 4;
+}
+
+.hub.locked .core {
+  fill: var(--color-paper);
+  stroke: var(--color-ink-faint);
+  stroke-dasharray: 4 3;
+}
+
+.hub.locked .mono,
+.hub.locked .label {
+  fill: var(--color-ink-faint);
+}
+
+.hub.locked .labelBackground {
+  stroke: var(--color-ink-faint);
+}
+
+.hub:hover .ring,
+.hub:focus-visible .ring {
+  stroke: var(--color-accent);
+  stroke-width: 2;
+}
+
+.hub.selected .ring {
+  stroke: var(--color-accent);
+  stroke-width: 2.5;
+  stroke-dasharray: none;
+}
+
+.hub.selected .labelBackground {
+  fill: var(--color-accent);
+  stroke: var(--color-ink);
+}
+
+.hub.selected .label {
+  font-weight: 700;
+  fill: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .satellite polygon,
+  .ring {
+    transition: none;
+  }
+}

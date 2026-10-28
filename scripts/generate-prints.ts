@@ -73,14 +73,27 @@ async function rasterize(
   return layer;
 }
 
+interface PixelSize {
+  width: number;
+  height: number;
+}
+
+function pixelSize(box: ViewBox, scale: number): PixelSize {
+  const size: PixelSize = {
+    width: Math.round(box.width * scale),
+    height: Math.round(box.height * scale),
+  };
+  return size;
+}
+
+// Rasterizes then prints an SVG layer at an exact pixel size.
 async function printLayer(
   svg: string,
   box: ViewBox,
-  scale: number,
+  size: PixelSize,
   options: DitherOptions,
 ): Promise<RawLayer> {
-  const width = Math.round(box.width * scale);
-  const height = Math.round(box.height * scale);
+  const { width, height } = size;
   const picture = await rasterize(svg, box.width, width, height);
   const printed: RawLayer = {
     data: ditherPixels(picture.data, width, height, options),
@@ -125,27 +138,40 @@ async function generatePrint(spec: PrintSpec): Promise<string> {
   if (layers.includes('sun') && figure.sunViewBox) {
     outputBox = figure.sunViewBox;
   }
-  const outputWidth = Math.round(outputBox.width * outputScale);
-  const outputHeight = Math.round(outputBox.height * outputScale);
+  // The body is rounded to whole pixels, then enlarged: the PNG is sized from
+  // it, so the enlarged body always fits, whatever the rounding.
+  const bodySize = pixelSize(figure.viewBox, bodyScale);
+  const bodyLeft = Math.round((figure.viewBox.x - outputBox.x) * outputScale);
+  const bodyTop = Math.round((figure.viewBox.y - outputBox.y) * outputScale);
+  const roundedOutput = pixelSize(outputBox, outputScale);
+  const outputWidth = Math.max(
+    roundedOutput.width,
+    bodyLeft + bodySize.width * OUTPUT_DENSITY,
+  );
+  const outputHeight = Math.max(
+    roundedOutput.height,
+    bodyTop + bodySize.height * OUTPUT_DENSITY,
+  );
 
   const composites: OverlayOptions[] = [];
   if (layers.includes('sun')) {
     const sunBox = figure.sunViewBox ?? figure.viewBox;
-    const sun = await printLayer(figure.sun, sunBox, outputScale, {
+    const sunSize = { width: outputWidth, height: outputHeight };
+    const sun = await printLayer(figure.sun, sunBox, sunSize, {
       ...inks,
       ...SUN_PRINT,
     });
     composites.push({ input: await encode(sun), left: 0, top: 0 });
   }
   if (layers.includes('body')) {
-    const body = await printLayer(figure.body, figure.viewBox, bodyScale, {
+    const body = await printLayer(figure.body, figure.viewBox, bodySize, {
       ...inks,
       ...BODY_PRINT,
     });
     composites.push({
       input: await enlarge(body, OUTPUT_DENSITY),
-      left: Math.round((figure.viewBox.x - outputBox.x) * outputScale),
-      top: Math.round((figure.viewBox.y - outputBox.y) * outputScale),
+      left: bodyLeft,
+      top: bodyTop,
     });
   }
 

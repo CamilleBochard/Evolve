@@ -1,0 +1,65 @@
+---
+// Class block of the character column: class name, level and the progress
+// towards the next level.
+import { CHARACTER } from '../../data/character';
+import Tag from '../atoms/Tag.astro';
+import PanelHeader from '../molecules/PanelHeader.astro';
+import SegmentGauge from '../molecules/SegmentGauge.astro';
+
+const EXPERIENCE_SEGMENTS = 20;
+const levelText = `Niveau ${CHARACTER.level}`;
+const nextLevelText = `Niveau ${CHARACTER.level + 1}`;
+---
+
+<section class="character-class">
+  <PanelHeader label="Classe" reference={CHARACTER.classLabel} />
+  <h2 class="character-class-name">{CHARACTER.name}</h2>
+  <Tag>{levelText}</Tag>
+  <div class="character-class-experience">
+    <SegmentGauge
+      ratio={CHARACTER.experience}
+      segmentCount={EXPERIENCE_SEGMENTS}
+      tone="accent"
+    />
+    <span class="character-class-hint">
+      <span>{levelText}</span>
+      <span>{nextLevelText}</span>
+    </span>
+  </div>
+</section>
+
+<style>
+  .character-class {
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+  }
+
+  .character-class > :global(.panel-header) {
+    width: 100%;
+  }
+
+  .character-class-name {
+    margin: 2px 0 0;
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .character-class-experience {
+    display: grid;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .character-class-hint {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-ink-soft);
+  }
+</style>

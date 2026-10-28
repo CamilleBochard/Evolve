@@ -1,7 +1,7 @@
 ---
 // Right panel of the character sheet: class, identity, attributes read from
 // the skill tree, and the equipped modules.
-import { ATTRIBUTE_NAMES, CHARACTER, EQUIPMENT } from '../../data/character';
+import { ATTRIBUTES, CHARACTER, EQUIPMENT } from '../../data/character';
 import { SKILL_BRANCHES } from '../../data/skill-tree';
 import { branchScore, treeScore } from '../../lib/skill-score';
 import AttributeGauge from '../molecules/AttributeGauge.astro';
@@ -13,7 +13,7 @@ const classLine = `Classe : ${CHARACTER.classLabel}`;
 
 const attributes = SKILL_BRANCHES.map((branch, index) => {
   const attribute = {
-    label: `${ATTRIBUTE_NAMES[index]} · ${branch.name}`,
+    label: `${ATTRIBUTES[index].name} · ${branch.name}`,
     score: branchScore(branch),
   };
   return attribute;

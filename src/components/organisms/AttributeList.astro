@@ -1,0 +1,33 @@
+---
+// Attributes of the character column, one per branch of the skill tree,
+// with the total of unlocked skills.
+import { ATTRIBUTES } from '../../data/character';
+import { SKILL_BRANCHES } from '../../data/skill-tree';
+import { branchScore, treeScore } from '../../lib/skill-score';
+import AttributeRow from '../molecules/AttributeRow.astro';
+import PanelHeader from '../molecules/PanelHeader.astro';
+
+const total = treeScore(SKILL_BRANCHES);
+const totalText = `${total.unlocked} / ${total.total} débloquées`;
+---
+
+<section class="attribute-list">
+  <PanelHeader label="Attributs" reference={totalText} />
+  <div class="attribute-list-rows">
+    {SKILL_BRANCHES.map((branch, index) => (
+      <AttributeRow
+        attribute={ATTRIBUTES[index]}
+        branchName={branch.name}
+        score={branchScore(branch)}
+      />
+    ))}
+  </div>
+</section>
+
+<style>
+  .attribute-list-rows {
+    display: grid;
+    gap: 9px;
+    margin-top: 10px;
+  }
+</style>

@@ -1,0 +1,98 @@
+/* Branch shortcuts and state legend, above the tree. */
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  border-bottom: var(--line);
+  scrollbar-width: none;
+}
+
+.prompt {
+  margin-right: 6px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-ink-soft);
+}
+
+.button {
+  padding: 4px 10px;
+  font: inherit;
+  white-space: nowrap;
+  color: var(--color-ink);
+  background: var(--color-paper-light);
+  border: var(--line);
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.button:hover {
+  background: var(--color-paper-deep);
+}
+
+.button[aria-current='true'] {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.button[aria-current='true']::before {
+  content: '■ ';
+  color: var(--color-accent);
+}
+
+.legend {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.swatch {
+  display: inline-block;
+  width: 16px;
+  height: 9px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.unlocked {
+  background: var(--color-ink);
+}
+
+.progress {
+  border: 1.5px solid var(--color-accent);
+}
+
+.locked {
+  border: 1px dashed var(--color-ink-soft);
+}
+
+.hint {
+  margin-left: 20px;
+  white-space: nowrap;
+  color: var(--color-ink-soft);
+}
+
+@media (max-width: 1200px) {
+  .hint {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .bar {
+    padding: 8px 12px;
+  }
+
+  .legend {
+    display: none;
+  }
+}

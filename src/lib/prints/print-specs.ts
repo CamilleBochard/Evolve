@@ -33,6 +33,13 @@ export const PRINT_SPECS: PrintSpec[] = [
     bodyWidth: 240,
     ink: PRINT_COLORS.ember,
   },
+  // Skills page: the portrait of the character column, 280 CSS pixels wide.
+  {
+    name: 'paladev-portrait',
+    figure: PALADEV_STANDING,
+    bodyWidth: 280,
+    ink: PRINT_COLORS.ember,
+  },
   {
     name: 'envelope',
     figure: ENVELOPE,

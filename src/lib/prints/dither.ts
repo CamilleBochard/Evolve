@@ -3,6 +3,8 @@
 // Pure function on an RGBA buffer, so it runs the same at build time and in
 // tests, without a canvas.
 
+import { createSeededRandom } from '../seeded-random.ts';
+
 export type DitherPattern = 'bayer' | 'noise';
 
 export interface DitherOptions {
@@ -35,19 +37,8 @@ const ACCENT_MIN_STRENGTH = 0.2;
 // Below this alpha, a pixel counts as empty.
 const EMPTY_ALPHA = 128;
 
-// Mulberry32: a small seeded random generator.
-export function createGrain(seed: number): () => number {
-  let state = seed >>> 0;
-  function next(): number {
-    state = (state + 0x6d2b79f5) >>> 0;
-    let value = state;
-    value = Math.imul(value ^ (value >>> 15), value | 1);
-    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
-    const result = ((value ^ (value >>> 14)) >>> 0) / 4294967296;
-    return result;
-  }
-  return next;
-}
+// The grain of a print is a seeded random sequence.
+export const createGrain = createSeededRandom;
 
 export function hexToRgb(hex: string): Rgb {
   const value = Number.parseInt(hex.slice(1), 16);

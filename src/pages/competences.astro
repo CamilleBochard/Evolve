@@ -1,0 +1,26 @@
+---
+// Skills: the character column and the explorable skill tree.
+import SkillTreeExplorer from '../components/islands/skill-tree/SkillTreeExplorer';
+import AttributeList from '../components/organisms/AttributeList.astro';
+import CharacterClass from '../components/organisms/CharacterClass.astro';
+import CharacterPortrait from '../components/organisms/CharacterPortrait.astro';
+import EquipmentGrid from '../components/organisms/EquipmentGrid.astro';
+import SkillsTemplate from '../components/templates/SkillsTemplate.astro';
+import { PROFILE } from '../data/profile';
+
+const pageTitle = `Compétences · ${PROFILE.firstName} ${PROFILE.lastName}`;
+const pageDescription = `Arbre des compétences de ${PROFILE.firstName} ${PROFILE.lastName} : backend, front, infra, data et IA, chaque compétence reliée au projet où elle a été acquise.`;
+---
+
+<SkillsTemplate
+  title={pageTitle}
+  description={pageDescription}
+  heading="Compétences"
+>
+  <CharacterPortrait slot="sidebar" href="/personnage" />
+  <CharacterClass slot="sidebar" />
+  <EquipmentGrid slot="sidebar" />
+  <AttributeList slot="sidebar" />
+
+  <SkillTreeExplorer client:visible />
+</SkillsTemplate>
