@@ -1,0 +1,29 @@
+/* Layout of the workshop: the bench across, the sheet below it, scrolling
+   on its own. */
+
+.workshop {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+}
+
+.sheetColumn {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink) transparent;
+}
+
+/* The page scrolls as a whole. */
+@media (max-width: 960px) {
+  .workshop {
+    grid-template-rows: none;
+    height: auto;
+  }
+
+  .sheetColumn {
+    overflow: visible;
+  }
+}

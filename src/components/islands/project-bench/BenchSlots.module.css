@@ -1,0 +1,187 @@
+/* Bench of projects, above the project sheet. */
+
+.bench {
+  min-width: 0;
+  padding: 10px 20px 14px;
+  border-bottom: var(--line);
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.micro {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slot {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
+  font: inherit;
+  text-align: left;
+  color: var(--color-ink);
+  background: var(--color-paper-light);
+  border: var(--line);
+  cursor: pointer;
+  transition:
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.slot:hover {
+  box-shadow: 3px 3px 0 var(--color-ink);
+  transform: translate(-1px, -1px);
+}
+
+.slot:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.slot[aria-current='true'] {
+  color: var(--color-paper);
+  background: var(--color-ink);
+  box-shadow: 4px 4px 0 var(--color-accent);
+}
+
+.print {
+  align-self: start;
+}
+
+.text {
+  display: grid;
+  align-content: space-between;
+  gap: 6px;
+  min-width: 0;
+  padding: 2px 0;
+}
+
+.text .micro {
+  font-size: 9px;
+}
+
+.slot[aria-current='true'] .micro {
+  color: rgba(228, 226, 220, 0.6);
+}
+
+/* Four slots in a row leave little room: a smaller title, so a name such
+   as "ChessMe" stays on one line. */
+.title {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.tagline {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--color-ink-soft);
+}
+
+.slot[aria-current='true'] .tagline {
+  color: rgba(228, 226, 220, 0.7);
+}
+
+.status {
+  justify-self: start;
+  padding: 2px 5px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: var(--line);
+}
+
+.soon {
+  color: var(--color-ink);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.progress {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.locked {
+  color: var(--color-ink-soft);
+  border-style: dashed;
+  border-color: var(--color-ink-soft);
+}
+
+.paused {
+  color: var(--color-ink-soft);
+  border-color: var(--color-ink-soft);
+}
+
+.slot[aria-current='true'] .locked,
+.slot[aria-current='true'] .paused {
+  color: rgba(228, 226, 220, 0.7);
+  border-color: rgba(228, 226, 220, 0.7);
+}
+
+@media (max-width: 1280px) {
+  .slots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .title {
+    font-size: 17px;
+  }
+}
+
+/* A strip swiped sideways, one slot snapped at a time. */
+@media (max-width: 720px) {
+  .bench {
+    padding: 10px 12px 12px;
+  }
+
+  .slots {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .slots li {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slot {
+    transition: none;
+  }
+}

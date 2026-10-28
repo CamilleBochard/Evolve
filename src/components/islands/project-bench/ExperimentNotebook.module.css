@@ -1,0 +1,97 @@
+/* Lab notebook: hypothesis, verdict stamp, what the measure said. */
+
+.experiments {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.experiment {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  gap: 6px 14px;
+  padding: 12px 14px;
+  background: var(--color-paper-light);
+  border: var(--line);
+}
+
+.number {
+  grid-row: span 2;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-soft);
+}
+
+.number b {
+  display: block;
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--color-ink);
+}
+
+.hypothesis {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.hypothesisLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.result {
+  grid-column: 2 / -1;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+}
+
+.result::before {
+  content: '▸ ';
+  color: var(--color-accent);
+}
+
+.verdict {
+  align-self: start;
+  padding: 3px 7px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 2px solid currentColor;
+  transform: rotate(-4deg);
+}
+
+.confirmed {
+  color: var(--color-ink);
+}
+
+.refuted {
+  color: var(--color-accent);
+}
+
+@media (max-width: 720px) {
+  .experiment {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+
+  .verdict {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .result {
+    grid-column: 1 / -1;
+  }
+}

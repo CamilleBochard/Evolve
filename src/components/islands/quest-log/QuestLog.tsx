@@ -11,6 +11,7 @@ import {
   visibleQuests,
 } from '../../../lib/journal/quest-list';
 import type { QuestFilter, QuestOrder } from '../../../lib/journal/quest-list';
+import { useHashSelection } from '../shared/useHashSelection';
 import { CampaignTimeline } from './CampaignTimeline';
 import { QuestList } from './QuestList';
 import { QuestListHead } from './QuestListHead';
@@ -65,18 +66,7 @@ export default function QuestLog() {
     [],
   );
 
-  // The quest named by the address, now and when the address changes.
-  useEffect(() => {
-    function selectFromHash(): void {
-      const hashId = window.location.hash.slice(1);
-      if (isQuestId(hashId)) {
-        setSelectedId(hashId);
-      }
-    }
-    selectFromHash();
-    window.addEventListener('hashchange', selectFromHash);
-    return () => window.removeEventListener('hashchange', selectFromHash);
-  }, []);
+  useHashSelection(isQuestId, setSelectedId);
 
   // A new quest: its sheet starts at the top, its list item comes into view.
   useEffect(() => {

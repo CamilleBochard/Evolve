@@ -1,5 +1,5 @@
 import type { Quest, QuestId } from '../../../data/quests';
-import { BlockHead } from './BlockHead';
+import { BlockHead } from '../shared/BlockHead';
 import { QuestHead } from './QuestHead';
 import { QuestNav } from './QuestNav';
 import { QuestRewards } from './QuestRewards';

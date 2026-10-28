@@ -1,0 +1,55 @@
+---
+// Atelier: the personal projects as an experiment workshop.
+import type { ImageMetadata } from 'astro';
+
+import bubblePlate from '../assets/prints/atelier-bubble-plate.png';
+import bubbleSlot from '../assets/prints/atelier-bubble-slot.png';
+import cubePlate from '../assets/prints/atelier-cube-plate.png';
+import cubeSlot from '../assets/prints/atelier-cube-slot.png';
+import knightPlate from '../assets/prints/atelier-knight-plate.png';
+import knightSlot from '../assets/prints/atelier-knight-slot.png';
+import wheelPlate from '../assets/prints/atelier-wheel-plate.png';
+import wheelSlot from '../assets/prints/atelier-wheel-slot.png';
+import ProjectBench from '../components/islands/project-bench/ProjectBench';
+import type {
+  PrintFile,
+  PrintsByFigure,
+} from '../components/islands/project-bench/project-prints';
+import AtelierProtocol from '../components/organisms/AtelierProtocol.astro';
+import AtelierWelcome from '../components/organisms/AtelierWelcome.astro';
+import NotebookSummary from '../components/organisms/NotebookSummary.astro';
+import AtelierTemplate from '../components/templates/AtelierTemplate.astro';
+import { PROFILE } from '../data/profile';
+
+// Only what the island needs: the island props are written in the HTML.
+function printFile(image: ImageMetadata): PrintFile {
+  const file: PrintFile = {
+    src: image.src,
+    width: image.width,
+    height: image.height,
+  };
+  return file;
+}
+
+const prints: PrintsByFigure = {
+  knight: { slot: printFile(knightSlot), plate: printFile(knightPlate) },
+  wheel: { slot: printFile(wheelSlot), plate: printFile(wheelPlate) },
+  cube: { slot: printFile(cubeSlot), plate: printFile(cubePlate) },
+  bubble: { slot: printFile(bubbleSlot), plate: printFile(bubblePlate) },
+};
+
+const pageTitle = `Atelier · ${PROFILE.firstName} ${PROFILE.lastName}`;
+const pageDescription = `Projets personnels de ${PROFILE.firstName} ${PROFILE.lastName}, menés comme des expériences : ChessMe, un bot d'échecs qui joue comme lui, et Evolve, ce portfolio pensé comme un menu de RPG.`;
+---
+
+<AtelierTemplate
+  title={pageTitle}
+  description={pageDescription}
+  heading="Atelier"
+>
+  <AtelierWelcome slot="sidebar" />
+  <AtelierProtocol slot="sidebar" />
+  <NotebookSummary slot="sidebar" />
+
+  <ProjectBench client:visible prints={prints} />
+</AtelierTemplate>

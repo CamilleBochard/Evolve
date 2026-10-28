@@ -1,10 +1,9 @@
 import type { Quest } from '../../../data/quests';
 import { skillsEarnedIn } from '../../../lib/journal/rewards';
-import { BlockHead } from './BlockHead';
-import { GameLink } from './GameLink';
+import { BlockHead } from '../shared/BlockHead';
+import { GameLink } from '../shared/GameLink';
+import { SKILLS_HREF, SkillChips } from '../shared/SkillChips';
 import styles from './QuestRewards.module.css';
-
-const SKILLS_HREF = '/competences';
 
 interface QuestRewardsProps {
   quest: Quest;
@@ -43,26 +42,7 @@ export function QuestRewards({ quest }: QuestRewardsProps) {
           ))}
         </ul>
       )}
-      {hasSkills && (
-        <ul className={styles.skills}>
-          {skills.map((skill) => {
-            const classNames = [styles.skill];
-            if (skill.isHub) {
-              classNames.push(styles.hub);
-            }
-            if (skill.state === 'progress') {
-              classNames.push(styles.inProgress);
-            }
-            return (
-              <li key={skill.id}>
-                <a className={classNames.join(' ')} href={SKILLS_HREF}>
-                  {skill.name}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      {hasSkills && <SkillChips skills={skills} />}
       <div className={styles.foot}>
         {hasSkills && <GameLink href={SKILLS_HREF} label="Ouvrir l'arbre" />}
         {quest.link !== undefined && (

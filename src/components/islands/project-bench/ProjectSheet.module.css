@@ -1,0 +1,162 @@
+/* Project sheet: plate on the left, blocks on the right. */
+
+.sheet {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+  padding: 22px 28px 32px;
+  animation: sheet-in 220ms ease-out;
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.main {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+
+.question {
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.5;
+  background: var(--color-paper-light);
+  border-left: 4px solid var(--color-accent);
+}
+
+.note {
+  padding: 16px 18px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+  border: 1px dashed var(--color-ink-soft);
+}
+
+.story p {
+  max-width: 66ch;
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.stages {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stages li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: start;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.check {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  font: 700 11px/1 var(--font-mono);
+  border: var(--line);
+}
+
+.stageDone .check {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.stageDone .stageText {
+  color: var(--color-ink-soft);
+}
+
+/* The next stage to make stands out. */
+.stageOpen .check {
+  background: var(--hatch-accent);
+  border-color: var(--color-accent);
+}
+
+.stageOpen .stageText {
+  font-weight: 700;
+}
+
+.measures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.measure {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 12px 12px 10px;
+  background: var(--color-paper-light);
+  border: var(--line);
+}
+
+.measure::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 6px;
+  background: var(--hatch-accent);
+}
+
+.measure b {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.measure span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--color-ink-soft);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 1100px) {
+  .sheet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .sheet {
+    gap: 18px;
+    padding: 16px 14px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
+}

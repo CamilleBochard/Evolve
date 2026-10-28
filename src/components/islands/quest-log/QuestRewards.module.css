@@ -1,4 +1,4 @@
-/* Rewards of the quest: loot, skill chips, links. */
+/* Rewards of the quest: loot and links. */
 
 .loot {
   display: grid;
@@ -46,61 +46,6 @@
   font-weight: 700;
 }
 
-.skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* A smaller chamfer than the shared one: --chamfer is resolved on :root, so
-   changing --chamfer-size here would not reach it. */
-.skill {
-  display: inline-block;
-  padding: 4px 10px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-paper);
-  background: var(--color-ink);
-  clip-path: polygon(
-    6px 0,
-    100% 0,
-    100% calc(100% - 6px),
-    calc(100% - 6px) 100%,
-    0 100%,
-    0 6px
-  );
-  transition: background-color 160ms ease;
-}
-
-.hub {
-  font-weight: 700;
-}
-
-.hub::before {
-  content: '◆ ';
-  color: var(--color-accent);
-}
-
-.inProgress {
-  color: var(--color-ink);
-  background: var(--color-paper-light);
-  box-shadow: inset 0 0 0 1.5px var(--color-accent);
-}
-
-.skill:hover,
-.skill:focus-visible {
-  color: var(--color-ink);
-  background: var(--color-accent);
-}
-
-.skill:focus-visible {
-  outline: 2px solid var(--color-ink);
-  outline-offset: 2px;
-}
-
 .foot {
   display: flex;
   flex-wrap: wrap;
@@ -108,10 +53,4 @@
   align-items: center;
   gap: 12px;
   margin-top: 14px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skill {
-    transition: none;
-  }
 }

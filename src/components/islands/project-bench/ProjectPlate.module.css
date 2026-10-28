@@ -1,0 +1,127 @@
+/* Plate of the project sheet: the print, its caption, the ingredients. */
+
+.plate {
+  position: sticky;
+  top: 0;
+  display: grid;
+  gap: 6px;
+}
+
+/* Print corners, in the bone color of the prints. */
+.print::before,
+.print::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: 12px;
+  height: 12px;
+  border: 0 solid var(--color-print-bone);
+  pointer-events: none;
+}
+
+.print::before {
+  top: 8px;
+  left: 8px;
+  border-width: 1px 0 0 1px;
+}
+
+.print::after {
+  right: 8px;
+  bottom: 8px;
+  border-width: 0 1px 1px 0;
+}
+
+.printLabel {
+  position: absolute;
+  z-index: 1;
+  bottom: 10px;
+  left: 10px;
+  padding: 2px 5px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-print-bone);
+  background: var(--color-print-paper);
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.ingredients {
+  margin-top: 10px;
+}
+
+.ingredientList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ingredientList li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 5px 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+  background: var(--color-paper-light);
+  border: var(--line);
+}
+
+.ingredientList li::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: var(--color-ink);
+  clip-path: var(--octagon);
+}
+
+/* The sheet is one column: the print beside its ingredients. */
+@media (max-width: 1100px) {
+  .plate {
+    position: static;
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+    align-items: start;
+    column-gap: 16px;
+  }
+
+  .print,
+  .caption {
+    grid-column: 1;
+  }
+
+  .ingredients {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .plate {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .print {
+    max-width: 300px;
+  }
+
+  .ingredients {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
