@@ -1,17 +1,35 @@
 ---
 // Top bar of the game pages: logo, graphic strip and the menu link.
 // The Escape key opens the menu too, like the pause key of a game.
+// Optional default slot: buttons of the page, placed before the menu link
+// (the journal puts its simple view and help buttons there).
+// Key hints such as "[Échap]" are marked .key-hint: hidden on small
+// screens, where there is no keyboard, and left out of the accessible names.
 import Brand from '../atoms/Brand.astro';
 import TopBarDeco from '../molecules/TopBarDeco.astro';
 
 const MENU_HREF = '/menu';
+const hasActions = Astro.slots.has('default');
 ---
 
-<header class="game-top-bar">
+<header class:list={['game-top-bar', { 'has-actions': hasActions }]}>
   <Brand href={MENU_HREF} version="92" />
   <TopBarDeco />
-  <a class="game-top-bar-menu" href={MENU_HREF} data-menu-link>
-    [Échap] Menu
+  {hasActions && (
+    <div class="game-top-bar-actions">
+      <slot />
+    </div>
+  )}
+  <a
+    class="game-top-bar-menu"
+    href={MENU_HREF}
+    aria-keyshortcuts="Escape"
+    data-menu-link
+  >
+    <span class="key-hint" aria-hidden="true">
+      [Échap]
+    </span>
+    Menu
   </a>
 </header>
 
@@ -48,6 +66,49 @@ const MENU_HREF = '/menu';
     margin-left: auto;
   }
 
+  .game-top-bar-menu {
+    white-space: nowrap;
+  }
+
+  .game-top-bar :global(.key-hint) {
+    margin-right: 1ch;
+  }
+
+  .game-top-bar-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .has-actions .game-top-bar-menu {
+    margin-left: 0;
+  }
+
+  /* Buttons of the page, whatever component renders them. */
+  .game-top-bar-actions :global(button) {
+    padding: 3px 8px;
+    font: inherit;
+    white-space: nowrap;
+    color: inherit;
+    background: transparent;
+    border: var(--line);
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .game-top-bar-actions :global(button:hover),
+  .game-top-bar-actions :global(button[aria-pressed='true']) {
+    color: var(--color-paper);
+    background: var(--color-ink);
+  }
+
+  .game-top-bar-actions :global(button:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
   .game-top-bar-menu:hover,
   .game-top-bar-menu:focus-visible {
     color: var(--color-accent);
@@ -58,6 +119,21 @@ const MENU_HREF = '/menu';
       gap: 14px;
       padding: 0 16px;
       font-size: 11px;
+    }
+
+    .game-top-bar :global(.key-hint) {
+      display: none;
+    }
+
+    /* The page buttons take the room of the graphic strip. */
+    .has-actions :global(.top-bar-deco) {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .game-top-bar-actions :global(button) {
+      transition: none;
     }
   }
 </style>

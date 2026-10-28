@@ -1,8 +1,10 @@
 ---
 // Journal: the career told as an RPG quest log, with a plain résumé view.
+import JournalTour from '../components/islands/journal-tour/JournalTour';
 import QuestLog from '../components/islands/quest-log/QuestLog';
 import CampaignSummary from '../components/organisms/CampaignSummary.astro';
 import JournalPrologue from '../components/organisms/JournalPrologue.astro';
+import JournalViewToggle from '../components/organisms/JournalViewToggle.astro';
 import LanguageList from '../components/organisms/LanguageList.astro';
 import SimpleJournal from '../components/organisms/SimpleJournal.astro';
 import JournalTemplate from '../components/templates/JournalTemplate.astro';
@@ -17,6 +19,9 @@ const pageDescription = `Parcours de ${PROFILE.firstName} ${PROFILE.lastName} ra
   description={pageDescription}
   heading="Journal"
 >
+  <JournalViewToggle slot="actions" />
+  <JournalTour slot="actions" client:idle />
+
   <JournalPrologue slot="sidebar" />
   <CampaignSummary slot="sidebar" />
   <LanguageList slot="sidebar" />

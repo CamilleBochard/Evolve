@@ -3,7 +3,9 @@
 // - "sidebar" slot: prologue and campaign, stacked sections on the left;
 // - default slot: the quest log (timeline, list and quest sheet);
 // - "simple" slot: the same career as a plain résumé, hidden until the
-//   visitor switches to the simple view (class is-simple on [data-journal]).
+//   visitor switches to the simple view (class is-simple on [data-journal]);
+// - "actions" slot: buttons of the top bar, before the menu link.
+// Areas the tutorial explains are marked data-tour.
 // Below 960 pixels the page scrolls: the side column goes on top.
 import SheetHeading from '../molecules/SheetHeading.astro';
 import GameTopBar from '../organisms/GameTopBar.astro';
@@ -27,7 +29,9 @@ const { title, description, heading, isIndexable = true } = Astro.props;
   footerLabel="Journal de quêtes"
   isIndexable={isIndexable}
 >
-  <GameTopBar slot="top-bar" />
+  <GameTopBar slot="top-bar">
+    <slot name="actions" />
+  </GameTopBar>
 
   <div class="journal" data-journal>
     <aside class="journal-sidebar" aria-label="Prologue et campagne">

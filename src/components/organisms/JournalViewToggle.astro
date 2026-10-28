@@ -1,0 +1,86 @@
+---
+// Switch between the game view of the journal and the simple view, a plain
+// résumé for visitors lost in the game interface. Also on the V key, and
+// on the "back" button of the simple view. The choice is remembered.
+// Hidden until its script runs: without JavaScript it would do nothing.
+---
+
+<button
+  type="button"
+  aria-pressed="false"
+  aria-keyshortcuts="V"
+  data-view-toggle
+  hidden
+>
+  <span class="key-hint" aria-hidden="true">
+    [V]
+  </span>
+  Vue simple
+</button>
+
+<script>
+  import { readStored, writeStored } from '../../lib/browser-storage';
+
+  const VIEW_KEY = 'journal-view';
+  const SIMPLE_VIEW = 'simple';
+  const GAME_VIEW = 'game';
+
+  const journal = document.querySelector<HTMLElement>('[data-journal]');
+  const toggle =
+    document.querySelector<HTMLButtonElement>('[data-view-toggle]');
+  const backButton =
+    document.querySelector<HTMLButtonElement>('[data-view-back]');
+
+  function setSimpleView(isSimple: boolean): void {
+    if (journal === null || toggle === null) {
+      return;
+    }
+    journal.classList.toggle('is-simple', isSimple);
+    toggle.setAttribute('aria-pressed', String(isSimple));
+    let storedView = GAME_VIEW;
+    if (isSimple) {
+      storedView = SIMPLE_VIEW;
+    }
+    writeStored(VIEW_KEY, storedView);
+    journal.scrollTop = 0;
+    window.scrollTo({ top: 0 });
+  }
+
+  function isSimpleView(): boolean {
+    const isSimple =
+      journal !== null && journal.classList.contains('is-simple');
+    return isSimple;
+  }
+
+  // Another key binding must not fire while typing or under an open dialog
+  // (the tutorial).
+  function isShortcutBlocked(event: KeyboardEvent): boolean {
+    const isTyping =
+      event.target instanceof HTMLElement &&
+      event.target.closest('input, textarea, select') !== null;
+    const hasModifier = event.ctrlKey || event.metaKey || event.altKey;
+    const isDialogOpen =
+      document.querySelector('[role="dialog"][aria-modal="true"]') !== null;
+    const isBlocked =
+      isTyping || hasModifier || isDialogOpen || event.defaultPrevented;
+    return isBlocked;
+  }
+
+  if (journal !== null && toggle !== null) {
+    toggle.hidden = false;
+    toggle.addEventListener('click', () => setSimpleView(!isSimpleView()));
+    backButton?.addEventListener('click', () => {
+      setSimpleView(false);
+      toggle.focus();
+    });
+    document.addEventListener('keydown', (event) => {
+      const isViewKey = event.key === 'v' || event.key === 'V';
+      if (isViewKey && !isShortcutBlocked(event)) {
+        setSimpleView(!isSimpleView());
+      }
+    });
+    if (readStored(VIEW_KEY) === SIMPLE_VIEW) {
+      setSimpleView(true);
+    }
+  }
+</script>

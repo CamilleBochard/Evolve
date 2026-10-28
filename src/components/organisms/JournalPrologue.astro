@@ -8,7 +8,7 @@ import PanelHeader from '../molecules/PanelHeader.astro';
 const signature = `${PROFILE.lastName} ${PROFILE.firstName}`;
 ---
 
-<section class="journal-prologue">
+<section class="journal-prologue" data-tour="prologue">
   <PanelHeader label="Prologue" reference={signature} />
   {PROLOGUE.map((paragraph) => (
     <p>{paragraph}</p>

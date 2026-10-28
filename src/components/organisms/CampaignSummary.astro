@@ -23,7 +23,7 @@ const lastChapter = QUEST_CHAPTERS[QUEST_CHAPTERS.length - 1];
 const lastChapterLabel = `Chapitre ${lastChapter.numeral}`;
 ---
 
-<section class="campaign-summary">
+<section class="campaign-summary" data-tour="campaign">
   <PanelHeader label="Campagne" reference="2011 → aujourd'hui" />
   <ul class="campaign-summary-stats">
     {cells.map((cell) => (
