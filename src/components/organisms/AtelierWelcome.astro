@@ -1,0 +1,43 @@
+---
+// Welcome of the Atelier: what the workshop is for.
+import { WELCOME, WELCOME_LEAD } from '../../data/atelier';
+import { splitEmphasis } from '../../lib/emphasis';
+import PanelHeader from '../molecules/PanelHeader.astro';
+
+const paragraphs = WELCOME.map((paragraph) =>
+  splitEmphasis(paragraph.text, paragraph.emphasis),
+);
+---
+
+<section class="atelier-welcome">
+  <PanelHeader label="Bienvenue" reference="LAB.01" />
+  <p class="atelier-welcome-lead">{WELCOME_LEAD}</p>
+  {paragraphs.map((parts) => (
+    <p>
+      {parts.before}
+      {parts.emphasis && <b>{parts.emphasis}</b>}
+      {parts.after}
+    </p>
+  ))}
+</section>
+
+<style>
+  .atelier-welcome {
+    display: grid;
+    gap: 10px;
+  }
+
+  .atelier-welcome-lead {
+    margin-top: 2px;
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 22px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .atelier-welcome p:not(.atelier-welcome-lead) {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+</style>

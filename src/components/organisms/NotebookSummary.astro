@@ -1,0 +1,44 @@
+---
+// Lab notebook of the Atelier: the hypotheses noted in every project, and
+// how many were confirmed or refuted.
+import { PROJECTS } from '../../data/projects';
+import { notebookStats } from '../../lib/atelier/projects';
+import PanelHeader from '../molecules/PanelHeader.astro';
+import StatTiles from '../molecules/StatTiles.astro';
+import type { StatTile } from '../molecules/StatTiles.astro';
+
+function plural(count: number, word: string): string {
+  let text = word;
+  if (count > 1) {
+    text = `${word}s`;
+  }
+  return text;
+}
+
+const stats = notebookStats(PROJECTS);
+const tiles: StatTile[] = [
+  { value: stats.experimentCount, label: 'expériences notées' },
+  {
+    value: stats.confirmedCount,
+    label: plural(stats.confirmedCount, 'confirmée'),
+  },
+  {
+    value: stats.refutedCount,
+    label: plural(stats.refutedCount, 'réfutée'),
+    isAccent: true,
+  },
+];
+const projectCount = `${PROJECTS.length} projets sur l'établi`;
+---
+
+<section class="notebook-summary">
+  <PanelHeader label="Carnet" reference={projectCount} />
+  <StatTiles tiles={tiles} />
+</section>
+
+<style>
+  .notebook-summary {
+    display: grid;
+    gap: 10px;
+  }
+</style>

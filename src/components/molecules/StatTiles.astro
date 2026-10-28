@@ -1,0 +1,59 @@
+---
+// Row of three key figures, each a large number over a short label.
+export interface StatTile {
+  value: number;
+  label: string;
+  // The number in the accent color.
+  isAccent?: boolean;
+}
+
+interface Props {
+  tiles: StatTile[];
+}
+
+const { tiles } = Astro.props;
+---
+
+<ul class="stat-tiles">
+  {tiles.map((tile) => (
+    <li>
+      <b class:list={{ 'is-accent': tile.isAccent }}>{tile.value}</b>
+      <span>{tile.label}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .stat-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stat-tiles li {
+    display: grid;
+    gap: 2px;
+    padding: 8px;
+    border: var(--line);
+  }
+
+  .stat-tiles b {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .stat-tiles b.is-accent {
+    color: var(--color-accent);
+  }
+
+  .stat-tiles span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-ink-soft);
+  }
+</style>

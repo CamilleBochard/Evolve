@@ -1,0 +1,110 @@
+---
+// Atelier template, inside the frame:
+// - "sidebar" slot: welcome, protocol and notebook, stacked on the left;
+// - default slot: the bench of projects and the sheet of the chosen one.
+// Below 960 pixels the page scrolls: the side column goes on top.
+import SheetHeading from '../molecules/SheetHeading.astro';
+import GameTopBar from '../organisms/GameTopBar.astro';
+import FrameTemplate from './FrameTemplate.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  isIndexable?: boolean;
+}
+
+const { title, description, heading, isIndexable = true } = Astro.props;
+---
+
+<FrameTemplate
+  title={title}
+  description={description}
+  leftGutterText="SECTOR 01 // ZONE ROBOTS"
+  rightGutterText="SECTOR 02 // ZONE ROBOTS"
+  footerLabel="Atelier d'expériences"
+  isIndexable={isIndexable}
+>
+  <GameTopBar slot="top-bar" />
+
+  <div class="atelier">
+    <aside class="atelier-sidebar" aria-label="Présentation de l'atelier">
+      <SheetHeading title={heading} number="03 / 06" />
+      <slot name="sidebar" />
+    </aside>
+    <div class="atelier-bench">
+      <slot />
+    </div>
+  </div>
+</FrameTemplate>
+
+<style>
+  .atelier {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    height: 100%;
+    min-height: 0;
+    background: var(--color-paper);
+  }
+
+  .atelier-sidebar {
+    min-height: 0;
+    overflow-y: auto;
+    border-right: var(--line);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink) transparent;
+  }
+
+  .atelier-sidebar > :global(*) {
+    min-width: 0;
+    padding: 14px 20px;
+    border-bottom: var(--line);
+  }
+
+  .atelier-sidebar > :global(*:last-child) {
+    border-bottom: 0;
+  }
+
+  .atelier-bench {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  /* The page scrolls: the side column above, in two columns. */
+  @media (max-width: 960px) {
+    .atelier {
+      grid-template-columns: minmax(0, 1fr);
+      height: auto;
+    }
+
+    .atelier-sidebar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      overflow: visible;
+      border-right: 0;
+      border-bottom: var(--line);
+    }
+
+    .atelier-sidebar > :global(.sheet-heading) {
+      grid-column: 1 / -1;
+    }
+
+    .atelier-sidebar > :global(.atelier-welcome) {
+      grid-row: span 2;
+      border-right: var(--line);
+      border-bottom: 0;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .atelier-sidebar {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .atelier-sidebar > :global(.atelier-welcome) {
+      grid-row: auto;
+      border-right: 0;
+      border-bottom: var(--line);
+    }
+  }
+</style>

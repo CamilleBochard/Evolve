@@ -1,0 +1,56 @@
+---
+// Method followed by every project of the Atelier, step by step.
+import { PROTOCOL, PROTOCOL_SOURCE } from '../../data/atelier';
+import PanelHeader from '../molecules/PanelHeader.astro';
+
+const stepCount = `${PROTOCOL.length} étapes`;
+---
+
+<section class="atelier-protocol">
+  <PanelHeader label="Protocole" reference={stepCount} />
+  <ol>
+    {PROTOCOL.map((step) => (
+      <li>{step}</li>
+    ))}
+  </ol>
+  <p class="atelier-protocol-source">{PROTOCOL_SOURCE}</p>
+</section>
+
+<style>
+  .atelier-protocol ol {
+    display: grid;
+    gap: 6px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .atelier-protocol li {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.45;
+    counter-increment: step;
+  }
+
+  .atelier-protocol li::before {
+    content: counter(step, decimal-leading-zero);
+    padding: 1px 0;
+    font-size: 10px;
+    text-align: center;
+    color: var(--color-paper);
+    background: var(--color-ink);
+  }
+
+  .atelier-protocol-source {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-soft);
+  }
+</style>
