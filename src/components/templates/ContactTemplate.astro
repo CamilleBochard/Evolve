@@ -1,0 +1,129 @@
+---
+// Contact template, inside the frame:
+// - "sidebar" slot: messenger and channels, stacked on the left;
+// - default slot: the quest board, its blocks stacked in a column.
+// Below 960 pixels the page scrolls: the side column goes on top.
+import SheetHeading from '../molecules/SheetHeading.astro';
+import GameTopBar from '../organisms/GameTopBar.astro';
+import FrameTemplate from './FrameTemplate.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  isIndexable?: boolean;
+}
+
+const { title, description, heading, isIndexable = true } = Astro.props;
+---
+
+<FrameTemplate
+  title={title}
+  description={description}
+  leftGutterText="SECTOR 01 // ZONE ROBOTS"
+  rightGutterText="SECTOR 02 // ZONE ROBOTS"
+  footerLabel="Tableau des quêtes"
+  isIndexable={isIndexable}
+>
+  <GameTopBar slot="top-bar" />
+
+  <div class="contact">
+    <aside class="contact-sidebar" aria-label="Canaux de contact">
+      <SheetHeading title={heading} number="05 / 06" />
+      <slot name="sidebar" />
+    </aside>
+    <div class="contact-board">
+      <div class="contact-board-inner">
+        <slot />
+      </div>
+    </div>
+  </div>
+</FrameTemplate>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    height: 100%;
+    min-height: 0;
+    background: var(--color-paper);
+  }
+
+  .contact-sidebar,
+  .contact-board {
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink) transparent;
+  }
+
+  .contact-sidebar {
+    border-right: var(--line);
+  }
+
+  .contact-sidebar > :global(*) {
+    min-width: 0;
+    padding: 14px 20px;
+    border-bottom: var(--line);
+  }
+
+  .contact-sidebar > :global(*:last-child) {
+    border-bottom: 0;
+  }
+
+  .contact-board {
+    min-width: 0;
+  }
+
+  .contact-board-inner {
+    display: grid;
+    gap: 22px;
+    max-width: 860px;
+    padding: 22px 28px 32px;
+  }
+
+  /* The page scrolls: the side column above, in two columns. */
+  @media (max-width: 960px) {
+    .contact {
+      grid-template-columns: minmax(0, 1fr);
+      height: auto;
+    }
+
+    .contact-sidebar,
+    .contact-board {
+      overflow: visible;
+    }
+
+    .contact-sidebar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      border-right: 0;
+      border-bottom: var(--line);
+    }
+
+    .contact-sidebar > :global(.sheet-heading) {
+      grid-column: 1 / -1;
+    }
+
+    .contact-sidebar > :global(.contact-messenger) {
+      border-right: var(--line);
+      border-bottom: 0;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .contact-sidebar {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .contact-sidebar > :global(.contact-messenger) {
+      border-right: 0;
+      border-bottom: var(--line);
+    }
+
+    .contact-board-inner {
+      gap: 18px;
+      padding: 16px 14px 24px;
+    }
+  }
+</style>

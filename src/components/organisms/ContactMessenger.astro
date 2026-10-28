@@ -1,0 +1,110 @@
+---
+// Messenger of the contact page: who to write for, and the sealed envelope
+// printed like the other figures of the site.
+import envelopePrint from '../../assets/prints/envelope.png';
+import { MESSENGER_TEXT } from '../../data/contact';
+import PrintImage from '../atoms/PrintImage.astro';
+import PanelHeader from '../molecules/PanelHeader.astro';
+---
+
+<section class="contact-messenger">
+  <PanelHeader label="Messager" reference="MSG.01" />
+  <p>{MESSENGER_TEXT}</p>
+  <figure class="contact-messenger-plate">
+    <span class="contact-messenger-print">
+      <PrintImage
+        image={envelopePrint}
+        alt="Enveloppe scellée en gravure tramée, devant un soleil à pointes."
+      />
+    </span>
+    <figcaption class="contact-messenger-caption" aria-hidden="true">
+      <span>Fig. 05 · Enveloppe</span>
+      <span>Scellée</span>
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .contact-messenger p {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .contact-messenger-plate {
+    display: grid;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .contact-messenger-print {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background-color: var(--color-print-paper);
+    background-image:
+      linear-gradient(var(--color-print-grid-minor) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-print-grid-minor) 1px, transparent 1px);
+    background-position: center;
+    background-size: 12px 12px;
+    border: var(--line);
+  }
+
+  /* Print corners, in the bone color of the prints. */
+  .contact-messenger-print::before,
+  .contact-messenger-print::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    width: 12px;
+    height: 12px;
+    border: 0 solid var(--color-print-bone);
+  }
+
+  .contact-messenger-print::before {
+    top: 8px;
+    left: 8px;
+    border-width: 1px 0 0 1px;
+  }
+
+  .contact-messenger-print::after {
+    right: 8px;
+    bottom: 8px;
+    border-width: 0 1px 1px 0;
+  }
+
+  .contact-messenger-print :global(.print-image) {
+    width: 100%;
+    height: auto;
+  }
+
+  .contact-messenger-caption {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+
+  @media (max-width: 960px) {
+    .contact-messenger-print {
+      max-width: 260px;
+    }
+  }
+
+  /* Phones: the print beside its caption. */
+  @media (max-width: 720px) {
+    .contact-messenger-plate {
+      grid-template-columns: 120px minmax(0, 1fr);
+      align-items: end;
+      gap: 12px;
+    }
+
+    .contact-messenger-caption {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+</style>

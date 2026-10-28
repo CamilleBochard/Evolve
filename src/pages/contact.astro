@@ -1,0 +1,27 @@
+---
+// Contact: the channels to reach me, and a quest board that prepares the
+// email in the visitor's own mail app.
+import QuestForm from '../components/islands/quest-form/QuestForm';
+import ContactChannels from '../components/organisms/ContactChannels.astro';
+import ContactMessenger from '../components/organisms/ContactMessenger.astro';
+import QuestBoardHead from '../components/organisms/QuestBoardHead.astro';
+import QuestTerms from '../components/organisms/QuestTerms.astro';
+import ContactTemplate from '../components/templates/ContactTemplate.astro';
+import { PROFILE } from '../data/profile';
+
+const pageTitle = `Contact · ${PROFILE.firstName} ${PROFILE.lastName}`;
+const pageDescription = `Écrire à ${PROFILE.firstName} ${PROFILE.lastName} : email, LinkedIn, GitHub, ou une quête à proposer, offre de poste, projet ou simple échange.`;
+---
+
+<ContactTemplate
+  title={pageTitle}
+  description={pageDescription}
+  heading="Contact"
+>
+  <ContactMessenger slot="sidebar" />
+  <ContactChannels slot="sidebar" />
+
+  <QuestBoardHead />
+  <QuestForm client:visible />
+  <QuestTerms />
+</ContactTemplate>

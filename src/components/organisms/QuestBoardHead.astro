@@ -1,0 +1,64 @@
+---
+// Head of the quest board: the visitor writes a quest, the page prepares
+// the email.
+import CornerMarks from '../atoms/CornerMarks.astro';
+---
+
+<header class="quest-board-head">
+  <CornerMarks />
+  <div class="quest-board-head-top">
+    <span>[Tableau des quêtes]</span>
+    <span class="quest-board-head-code">QST.NEW</span>
+  </div>
+  <h2>Proposer une quête</h2>
+  <p>
+    Décrivez votre quête : le message se prépare tout seul et s'ouvre dans votre
+    messagerie, prêt à partir.
+  </p>
+</header>
+
+<style>
+  .quest-board-head {
+    position: relative;
+    display: grid;
+    gap: 8px;
+    padding: 18px 20px 16px;
+    background: var(--color-paper-light);
+    border: var(--line);
+  }
+
+  .quest-board-head-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .quest-board-head-code {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--color-ink-soft);
+  }
+
+  .quest-board-head h2 {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: clamp(30px, 4vw, 48px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .quest-board-head p {
+    max-width: 62ch;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 720px) {
+    .quest-board-head {
+      padding: 14px;
+    }
+  }
+</style>

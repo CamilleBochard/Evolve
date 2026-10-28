@@ -1,0 +1,99 @@
+/* Kind of quest, as game choice cards. */
+
+.fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  width: 100%;
+  padding: 0;
+}
+
+.kinds {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.kind {
+  position: relative;
+}
+
+/* The radio button stays in the page for the keyboard and screen readers;
+   the card is what the eye sees. */
+.kind input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.kind label {
+  display: grid;
+  gap: 4px;
+  height: 100%;
+  padding: 12px;
+  background: var(--color-paper-light);
+  border: var(--line);
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.kind label:hover {
+  box-shadow: 3px 3px 0 var(--color-ink);
+}
+
+.mark {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.kind b {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--color-ink-soft);
+}
+
+.kind input:checked + label {
+  color: var(--color-paper);
+  background: var(--color-ink);
+  box-shadow: 4px 4px 0 var(--color-accent);
+}
+
+.kind input:checked + label .mark {
+  color: var(--color-accent);
+}
+
+.kind input:checked + label .hint {
+  color: rgba(228, 226, 220, 0.7);
+}
+
+.kind input:focus-visible + label {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .kinds {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kind label {
+    transition: none;
+  }
+}

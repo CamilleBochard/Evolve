@@ -1,0 +1,68 @@
+/* A field of the quest form. */
+
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.field label small {
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--color-ink-soft);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-ink);
+  background: var(--color-paper-light);
+  border: var(--line);
+  border-radius: 0;
+}
+
+.field textarea {
+  min-height: 170px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0;
+}
+
+.field [aria-invalid='true'] {
+  border-color: #b3260f;
+}
+
+.counter {
+  justify-self: end;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-ink-soft);
+}
+
+.error {
+  min-height: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #b3260f;
+}

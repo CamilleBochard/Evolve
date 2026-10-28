@@ -1,0 +1,70 @@
+---
+// Conditions of the quest: what the visitor can expect, stated plainly.
+import { QUEST_TERMS } from '../../data/contact';
+import PanelHeader from '../molecules/PanelHeader.astro';
+---
+
+<section class="quest-terms">
+  <PanelHeader label="Conditions de la quête" reference="À savoir" />
+  <ul>
+    {QUEST_TERMS.map((term) => (
+      <li>
+        <b>{term.title}</b>
+        <span>{term.text}</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .quest-terms > :global(.panel-header) {
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: var(--line);
+  }
+
+  .quest-terms ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .quest-terms li {
+    position: relative;
+    display: grid;
+    gap: 4px;
+    padding: 12px 12px 10px;
+    background: var(--color-paper-light);
+    border: var(--line);
+  }
+
+  .quest-terms li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 22px;
+    height: 6px;
+    background: var(--hatch-accent);
+  }
+
+  .quest-terms b {
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .quest-terms span {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--color-ink-soft);
+  }
+
+  @media (max-width: 720px) {
+    .quest-terms ul {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
